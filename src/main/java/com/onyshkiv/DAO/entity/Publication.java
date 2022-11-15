@@ -7,6 +7,11 @@ public class Publication extends Entity{
     private String name;
     public Publication() {}
 
+    public Publication(int publicationId, String name) {
+        this.publicationId=publicationId;
+        this.name = name;
+    }
+
     public Publication(String name) {
         this.publicationId=0;
         this.name = name;
