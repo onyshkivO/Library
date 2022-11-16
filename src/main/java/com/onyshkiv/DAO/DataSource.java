@@ -25,6 +25,7 @@ public class DataSource {
         config.setMinimumIdle(Integer.parseInt(prop.getProperty("dataSource.minimum-idle")));
         config.setMaximumPoolSize(Integer.parseInt(prop.getProperty("dataSource.maximum-poll-size")));
         config.setMaxLifetime(Long.parseLong(prop.getProperty("dataSource.max-lifetime")));
+        config.setAutoCommit(Boolean.parseBoolean(prop.getProperty("dataSource.isAutoCommit")));
             ds = new HikariDataSource(config);
         } catch (IOException e) {
             throw new RuntimeException(e);
