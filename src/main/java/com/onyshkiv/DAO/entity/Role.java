@@ -8,7 +8,7 @@ public class Role extends Entity{
     public Role(){}
 
     public Role(String name) {
-        this.roleId = 0;
+        insertID(name);
         this.name = name;
     }
 
@@ -21,7 +21,24 @@ public class Role extends Entity{
     }
 
     public void setName(String name) {
+        insertID(name);
         this.name = name;
+    }
+    private void  insertID(String name){
+        switch (name){
+            case "reader": {
+                roleId=1;
+                break;
+            }
+            case "librarian":{
+                roleId=2;
+                break;
+            }
+            case "administrator":{
+                roleId=3;
+                break;
+            }
+        }
     }
 
     @Override

@@ -3,16 +3,15 @@ package com.onyshkiv.DAO.entity;
 import java.util.Objects;
 
 public class SubscriptionStatus extends Entity{
-    private int publicationStatusId;
+    private int SubscriptionStatusID;
     private String name;
-    public SubscriptionStatus() {}
     public SubscriptionStatus(String name) {
-        publicationStatusId=0;
+        insertID(name);
         this.name = name;
     }
 
     public int getPublicationStatusId() {
-        return publicationStatusId;
+        return SubscriptionStatusID;
     }
 
     public String getName() {
@@ -20,6 +19,7 @@ public class SubscriptionStatus extends Entity{
     }
 
     public void setName(String name) {
+        insertID(name);
         this.name = name;
     }
 
@@ -39,8 +39,24 @@ public class SubscriptionStatus extends Entity{
     @Override
     public String toString() {
         return "SubscriptionStatus{" +
-                "publicationStatusId=" + publicationStatusId +
+                "subscriptionStatusID=" + SubscriptionStatusID +
                 ", name='" + name + '\'' +
                 '}';
+    }
+    private void  insertID(String name){
+        switch (name){
+            case "active": {
+                SubscriptionStatusID=1;
+                break;
+            }
+            case "returned": {
+                SubscriptionStatusID=2;
+                break;
+            }
+            case "fined": {
+                SubscriptionStatusID=3;
+                break;
+            }
+        }
     }
 }

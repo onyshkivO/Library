@@ -7,8 +7,21 @@ public class UserStatus extends Entity{
     private String name;
 
     public UserStatus(String name){
-        this.userStatusId=0;
+        insertID(name);
         this.name=name;
+    }
+
+    private void insertID(String name){
+        switch (name){
+            case "active": {
+                userStatusId=1;
+                break;
+            }
+            case "blocked":{
+                userStatusId=2;
+                break;
+            }
+        }
     }
     public int getUserStatusId() {
         return userStatusId;
@@ -19,6 +32,7 @@ public class UserStatus extends Entity{
     }
 
     public void setName(String name) {
+        insertID(name);
         this.name = name;
     }
 
@@ -33,5 +47,13 @@ public class UserStatus extends Entity{
     @Override
     public int hashCode() {
         return Objects.hash(name);
+    }
+
+    @Override
+    public String toString() {
+        return "UserStatus{" +
+                "userStatusId=" + userStatusId +
+                ", name='" + name + '\'' +
+                '}';
     }
 }
