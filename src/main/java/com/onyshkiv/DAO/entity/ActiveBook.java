@@ -11,11 +11,24 @@ public class ActiveBook extends Entity{
     private SubscriptionStatus subscriptionStatus;
     private Date startDate;
     private Date endDate;
-    private double fine;
+    private Double fine;
     private Set<User> users;
     public ActiveBook() {}
-    public ActiveBook( Book book, WayOfUsing wayOfUsing, SubscriptionStatus subscriptionStatus, Date startDate, Date endDate, double fine, Set<User> users) {
+    public ActiveBook(int activeBookId) {
+        this.activeBookId = activeBookId;
+    }
+    public ActiveBook( Book book, WayOfUsing wayOfUsing, SubscriptionStatus subscriptionStatus, Date startDate, Date endDate, Double fine, Set<User> users) {
         this.activeBookId = 0;
+        this.book = book;
+        this.wayOfUsing = wayOfUsing;
+        this.subscriptionStatus = subscriptionStatus;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.fine = fine;
+        this.users = users;
+    }
+    public ActiveBook( int activeBookId, Book book, WayOfUsing wayOfUsing, SubscriptionStatus subscriptionStatus, Date startDate, Date endDate, Double fine, Set<User> users) {
+        this.activeBookId = activeBookId;
         this.book = book;
         this.wayOfUsing = wayOfUsing;
         this.subscriptionStatus = subscriptionStatus;
@@ -69,7 +82,7 @@ public class ActiveBook extends Entity{
         this.endDate = endDate;
     }
 
-    public double getFine() {
+    public Double getFine() {
         return fine;
     }
 
@@ -90,12 +103,12 @@ public class ActiveBook extends Entity{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ActiveBook that = (ActiveBook) o;
-        return Objects.equals(book, that.book) && Objects.equals(wayOfUsing, that.wayOfUsing) && Objects.equals(subscriptionStatus, that.subscriptionStatus) && Objects.equals(startDate, that.startDate) && Objects.equals(endDate, that.endDate) && Objects.equals(users, that.users);
+        return this.activeBookId==that.activeBookId;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(book, wayOfUsing, subscriptionStatus, startDate, endDate, users);
+        return Objects.hash(activeBookId);
     }
 
     @Override

@@ -2,7 +2,6 @@ package com.onyshkiv.DAO;
 
 import com.onyshkiv.DAO.entity.Author;
 import com.onyshkiv.DAO.entity.Book;
-import com.onyshkiv.DAO.entity.Entity;
 import com.onyshkiv.DAO.entity.Publication;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,8 +11,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
 
 public class BookDAO implements AbstractDAO<Integer, Book>{
     Connection con;
@@ -98,12 +95,12 @@ public class BookDAO implements AbstractDAO<Integer, Book>{
             statement.setInt(++k,model.getIsbn());
             statement.setString(++k,model.getName());
             statement.setDate(++k, new Date(model.getDateOfPublication().getTime()));
+
             if(isExistPublication(model.getPublication())){
                 statement.setInt(++k,  getPublicationId(model.getPublication()));
             }else{
                 statement.setInt(++k,  addPublication(model));
             }
-
 
             statement.setInt(++k,  model.getQuantity());
             statement.setString(++k,  model.getDetails());
@@ -141,7 +138,6 @@ public class BookDAO implements AbstractDAO<Integer, Book>{
             for (Author a : model.getAuthors()){
                 statement.setInt(1, model.getIsbn());
                 if (isExist(a)) {
-                    System.out.println("das");
                     statement.setInt(2, getAuthorId(a));
                 }
                 else{
@@ -241,14 +237,54 @@ public class BookDAO implements AbstractDAO<Integer, Book>{
 
     @Override
     public Book update(Book model) throws DAOException {
-        return null;
+        try(PreparedStatement statement =con.prepareStatement( "UPDATE book SET name = ?,date_of_publication = ?, publication_id =?,quantity=?,details=? where isbn=?")){
+            deleteBookHasAuthors(model);
+            statement.setString(1,model.getName());
+            statement.setDate(2,new Date(model.getDateOfPublication().getTime()));
+            if (isExistPublication(model.getPublication())){
+                statement.setInt(3,getPublicationId(model.getPublication()));
+            }
+            else{
+                statement.setInt(3,  addPublication(model));
+            }
+            statement.setInt(4,model.getQuantity());
+            statement.setString(5,model.getDetails());
+            statement.setInt(6,model.getIsbn());
+            statement.executeUpdate();
+            insertAuthors(model);
+
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        }
+        return findEntityById(model.getIsbn());
     }
 
     @Override
     public boolean delete(Book model) throws DAOException {
-        return false;
+        try{
+            deleteBookHasAuthors(model);
+            deleteBook(model);
+        } catch (DAOException e) {
+            throw e;
+        }
+        return true;
     }
-
+    private void deleteBookHasAuthors(Book model) throws DAOException {
+        try(PreparedStatement statement = con.prepareStatement("DELETE FROM book_has_authors WHERE b_isbn=?")){
+            statement.setInt(1,model.getIsbn());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        }
+    }
+    private void deleteBook(Book model) throws DAOException {
+        try(PreparedStatement statement = con.prepareStatement("DELETE FROM book WHERE isbn=?")){
+            statement.setInt(1,model.getIsbn());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        }
+    }
     public void setConnection(Connection connection) {
         this.con = connection;
     }
@@ -260,24 +296,34 @@ public class BookDAO implements AbstractDAO<Integer, Book>{
             a =DataSource.getConnection();
             bookDAO.setConnection(a);
 
-            //List<Book> books = bookDAO.findAll();
-            //System.out.println(books.toString());
-            Publication publication=new Publication("publication test");
+//            Publication publication=new Publication("publication test");
+//            Set<Author> authors = new HashSet<>();
+//            java.util.Date date = new java.util.Date();
+//            authors.add(new Author("author test"));
+//            authors.add(new Author("author test2"));
+//            Book book = new Book(32,"testBook",date,publication,12,null,authors);
+//            bookDAO.create(book);
+
+
+            Publication publication=new Publication("publication test22");
             Set<Author> authors = new HashSet<>();
             java.util.Date date = new java.util.Date();
-            authors.add(new Author("author test"));
-            authors.add(new Author("author test2"));
-            Book book = new Book(32,"testBook",date,publication,12,null,authors);
+            authors.add(new Author("author1"));
+            Book book = new Book(32,"testBook",date,publication,3,null,authors);
             bookDAO.create(book);
-            System.out.println(bookDAO.findEntityById(1).toString());
+            //bookDAO.update(book);
+
+
+            //bookDAO.delete(book);
+
+
+
             a.commit();
         } catch (DAOException e) {
             a.rollback();
             e.printStackTrace();
             System.out.println("something went wrong");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }finally {
+        } finally {
             a.close();
         }
 
