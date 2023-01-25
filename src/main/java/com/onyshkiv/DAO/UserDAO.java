@@ -1,8 +1,10 @@
 package com.onyshkiv.DAO;
 
-import com.onyshkiv.DAO.entity.Role;
-import com.onyshkiv.DAO.entity.User;
-import com.onyshkiv.DAO.entity.UserStatus;
+import static com.onyshkiv.DAO.DAOUtil.*;
+
+import com.onyshkiv.entity.Role;
+import com.onyshkiv.entity.User;
+import com.onyshkiv.entity.UserStatus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,23 +32,16 @@ public class UserDAO implements AbstractDAO<String, User> {
     private UserDAO() {
     }
 
-
+    //++++++++++++++++++++++++++++++++++++++++++++++++++
     @Override
     public List<User> findAll() throws DAOException {
         List<User> users = new ArrayList<>();
-        try (PreparedStatement statement = con.prepareStatement(SQLQuery.UserQuery.SELECT_ALL_USERS);
-             ResultSet resultSet = statement.executeQuery()) {
+        try (
+                PreparedStatement statement = prepareStatement(con, SQLQuery.UserQuery.SELECT_ALL_USERS, false);
+                ResultSet resultSet = statement.executeQuery()
+        ) {
             while (resultSet.next()) {
-                User user = new User();
-                user.setLogin(resultSet.getString(1));
-                user.setEmail(resultSet.getString(2));
-                user.setPassword(resultSet.getString(3));
-                user.setRole(new Role(resultSet.getString(4)));
-                user.setUserStatus(new UserStatus(resultSet.getString(5)));
-                user.setFirstName(resultSet.getString(6));
-                user.setLastName(resultSet.getString(7));
-                user.setPhone(resultSet.getString(8));
-                users.add(user);
+                users.add(map(resultSet));
             }
         } catch (SQLException e) {
             //log
@@ -55,23 +50,16 @@ public class UserDAO implements AbstractDAO<String, User> {
         return users;
     }
 
+    //+++++++++++++++++++++++++++++++++++++++++++++
     public Set<User> findAllUsersByActiveBook(int activeBookId) throws DAOException {
         Set<User> users = new HashSet<>();
-        try (PreparedStatement statement = con.prepareStatement(SQLQuery.UserQuery.SELECT_ALL_USERS_BY_ACTIVE_BOOK)) {
-            statement.setInt(1, activeBookId);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    User user = new User();
-                    user.setLogin(resultSet.getString(1));
-                    user.setEmail(resultSet.getString(2));
-                    user.setPassword(resultSet.getString(3));
-                    user.setRole(new Role(resultSet.getString(4)));
-                    user.setUserStatus(new UserStatus(resultSet.getString(5)));
-                    user.setFirstName(resultSet.getString(6));
-                    user.setLastName(resultSet.getString(7));
-                    user.setPhone(resultSet.getString(8));
-                    users.add(user);
-                }
+
+        try (
+                PreparedStatement statement = prepareStatement(con, SQLQuery.UserQuery.SELECT_ALL_USERS_BY_ACTIVE_BOOK, false, activeBookId);
+                ResultSet resultSet = statement.executeQuery()
+        ) {
+            while (resultSet.next()) {
+                users.add(map(resultSet));
             }
         } catch (SQLException e) {
             //log
@@ -80,24 +68,16 @@ public class UserDAO implements AbstractDAO<String, User> {
         return users;
     }
 
+    //+++++++++++++++++++++++++++++++++++++
     @Override
     public User findEntityById(String login) throws DAOException {
         User user = null;
-        try (PreparedStatement statement = con.prepareStatement(SQLQuery.UserQuery.SELECT_USER_BY_LOGIN)) {
-            statement.setString(1, login);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    user = new User();
-                    int k = 0;
-                    user.setLogin(resultSet.getString(++k));
-                    user.setEmail(resultSet.getString(++k));
-                    user.setPassword(resultSet.getString(++k));
-                    user.setRole(new Role(resultSet.getString(++k)));
-                    user.setRole(new Role(resultSet.getString(++k)));
-                    user.setFirstName(resultSet.getString(++k));
-                    user.setLastName(resultSet.getString(++k));
-                    user.setPhone(resultSet.getString(++k));
-                }
+        try (
+                PreparedStatement statement = prepareStatement(con, SQLQuery.UserQuery.SELECT_USER_BY_LOGIN, false, login);
+                ResultSet resultSet = statement.executeQuery()
+        ) {
+            if (resultSet.next()) {
+                user = map(resultSet);
             }
         } catch (SQLException e) {
             throw new DAOException(e);
@@ -105,84 +85,126 @@ public class UserDAO implements AbstractDAO<String, User> {
         return user;
     }
 
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++
     @Override
     public boolean create(User model) throws DAOException {
-        try (PreparedStatement statement = con.prepareStatement(SQLQuery.UserQuery.INSERT_USER)) {
-            int k = 0;
-            statement.setString(++k, model.getLogin());
-            statement.setString(++k, model.getEmail());
-            statement.setString(++k, model.getPassword());
-            statement.setInt(++k, model.getRole().getRole_id());
-            statement.setInt(++k, model.getUserStatus().getUserStatusId());
-            statement.setString(++k, model.getFirstName());
-            statement.setString(++k, model.getLastName());
-            statement.setString(++k, model.getPhone());
-            statement.executeUpdate();
+        if (model.getLogin() != null) {
+            throw new IllegalArgumentException("User is already created, the user login is not null.");
+        }
+        Object[] values = {
+                model.getLogin(),
+                model.getEmail(),
+                model.getPassword(),
+                model.getRole().getRole_id(),
+                model.getUserStatus().getUserStatusId(),
+                model.getFirstName(),
+                model.getLastName(),
+                model.getPhone()
+        };
+
+        try (
+                PreparedStatement statement = prepareStatement(con, SQLQuery.UserQuery.INSERT_USER, false, values)
+        ) {
+            int affectedRows = statement.executeUpdate();
+            if (affectedRows == 0) {
+                throw new DAOException("Creating user failed, no rows affected.");
+            }
+
         } catch (SQLException e) {
+            //log
             throw new DAOException(e);
         }
         return true;
     }
 
+    //++++++++++++++++++++++++++++++++++++++++++++++++++
     @Override
     public User update(User model) throws DAOException {
-        try (PreparedStatement statement = con.prepareStatement(SQLQuery.UserQuery.UPDATE_USER)) {
-            int k = 0;
-            statement.setString(++k, model.getEmail());
-            statement.setString(++k, model.getPassword());
-            statement.setInt(++k, model.getRole().getRole_id());
-            statement.setInt(++k, model.getUserStatus().getUserStatusId());
-            statement.setString(++k, model.getFirstName());
-            statement.setString(++k, model.getLastName());
-            statement.setString(++k, model.getPhone());
-            statement.setString(++k, model.getLogin());
-            statement.executeUpdate();
+        if (model.getLogin() == null) {
+            throw new IllegalArgumentException("User is not created yet, the user login is null.");
+        }
+
+        Object[] values = {
+                model.getEmail(),
+                model.getRole().getRole_id(),
+                model.getUserStatus().getUserStatusId(),
+                model.getFirstName(),
+                model.getLastName(),
+                model.getPhone(),
+                model.getLogin()
+        };
+        try (
+                PreparedStatement statement = prepareStatement(con, SQLQuery.UserQuery.UPDATE_USER, false, values)
+        ) {
+            int affectedRows = statement.executeUpdate();
+            if (affectedRows == 0) {
+                throw new DAOException("Updating user failed, no rows affected.");
+            }
         } catch (SQLException e) {
+            //log
             throw new DAOException(e);
         }
         return findEntityById(model.getLogin());
     }
-
+//+++++++++++++++++++++++++++++++++
     @Override
     public boolean delete(User model) throws DAOException {
-        try (PreparedStatement statement = con.prepareStatement(SQLQuery.UserQuery.DELETE_USER)) {
-            statement.setString(1, model.getLogin());
-            if (statement.executeUpdate() == 0) {
+        if (model.getLogin() == null) {
+            throw new IllegalArgumentException("User is not created yet, the user login is null.");
+        }
+        try (
+                PreparedStatement statement = prepareStatement(con, SQLQuery.UserQuery.DELETE_USER, false, model.getLogin())
+        ) {
+            int affectedRows = statement.executeUpdate();
+            if (affectedRows == 0) {
                 throw new DAOException("Deleting user failed, no rows affected.");
             } else model.setLogin(null);
         } catch (SQLException e) {
+            //log
             throw new DAOException(e);
         }
         return true;
+    }
+    //+++++++++++++++++++++++++++++++++
+    public void changePassword(User user) throws DAOException {
+        if (user.getLogin() == null)
+            throw new IllegalArgumentException("User is not created yet, the user login is null.");
+
+        Object[] values = {
+                user.getPassword(),
+                user.getLogin()
+        };
+
+        try (
+                PreparedStatement statement = prepareStatement(con, SQLQuery.UserQuery.CHANGE_PASSWORD, false, values)
+        ) {
+            int affectedRows = statement.executeUpdate();
+            if (affectedRows == 0) {
+                throw new DAOException("Changing password failed, no rows affected.");
+            }
+        } catch (SQLException e) {
+            //log
+            throw new DAOException(e);
+        }
+
+    }
+
+    private static User map(ResultSet resultSet) throws SQLException {
+        User user = new User();
+        user.setLogin(resultSet.getString("login"));
+        user.setEmail(resultSet.getString("email"));
+        user.setFirstName(resultSet.getString("first_name"));
+        user.setLastName(resultSet.getString("last_name"));
+        user.setRole(new Role(resultSet.getString("role")));
+        user.setUserStatus(new UserStatus(resultSet.getString("status")));
+        user.setPhone(resultSet.getString("phone"));
+        return user;
     }
 
     public void setConnection(Connection connection) {
         this.con = connection;
     }
 
-    public static void main(String[] args) {
-        Connection a = null;
-        try {
-            UserDAO userDAO = new UserDAO();
-            a = DataSource.getConnection();
-            userDAO.setConnection(a);
-            User user = new User("login test", "tesm", "test", new Role("librarian"), new UserStatus("blocked"), "test", "test", "0988744456");
-            userDAO.delete(user);
-            a.commit();
-        } catch (SQLException | DAOException e) {
-            try {
-                a.rollback();
-            } catch (SQLException ex) {
-                throw new RuntimeException(ex);
-            }
-            throw new RuntimeException(e);
-        } finally {
-            try {
-                a.close();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
+
 
 }

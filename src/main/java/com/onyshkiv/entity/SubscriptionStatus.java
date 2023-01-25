@@ -1,4 +1,4 @@
-package com.onyshkiv.DAO.entity;
+package com.onyshkiv.entity;
 
 import java.util.Objects;
 
@@ -55,6 +55,10 @@ public class SubscriptionStatus extends Entity{
             }
             case "fined": {
                 SubscriptionStatusID=3;
+                break;
+            }
+            case "waiting": {
+                SubscriptionStatusID=4;
                 break;
             }
         }

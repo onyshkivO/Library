@@ -1,6 +1,7 @@
 package com.onyshkiv.DAO;
 
-import com.onyshkiv.DAO.entity.*;
+import com.onyshkiv.entity.*;
+import com.onyshkiv.entity.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
