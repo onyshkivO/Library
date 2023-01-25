@@ -1,6 +1,6 @@
 package com.onyshkiv.DAO;
 
-import com.onyshkiv.DAO.entity.Entity;
+import com.onyshkiv.entity.Entity;
 
 import java.util.List;
 

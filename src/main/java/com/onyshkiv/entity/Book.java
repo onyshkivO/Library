@@ -1,4 +1,4 @@
-package com.onyshkiv.DAO.entity;
+package com.onyshkiv.entity;
 
 import java.util.Date;
 import java.util.Objects;

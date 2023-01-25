@@ -1,4 +1,4 @@
-package com.onyshkiv.DAO.entity;
+package com.onyshkiv.entity;
 
 import java.util.Objects;
 
@@ -20,6 +20,9 @@ public class Publication extends Entity{
     public int getPublicationId() {
         return publicationId;
     }
+    public void setPublicationId(int publicationId) {
+        this.publicationId = publicationId;
+    }
 
     public String getName() {
         return name;
@@ -28,6 +31,7 @@ public class Publication extends Entity{
     public void setName(String name) {
         this.name = name;
     }
+
 
     @Override
     public boolean equals(Object o) {

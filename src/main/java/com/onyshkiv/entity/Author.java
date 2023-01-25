@@ -1,18 +1,25 @@
-package com.onyshkiv.DAO.entity;
+package com.onyshkiv.entity;
 
 import java.util.Objects;
 
-public class WayOfUsing extends Entity{
-    private int wayOfUsingId;
+public class Author extends Entity{
+    private int authorId;
     private String name;
-    public WayOfUsing() {}
-    public WayOfUsing(String name) {
-        this.wayOfUsingId = 0;
+
+    public Author() {}
+    public Author(int authorId, String name) {
+        this.authorId=authorId;
         this.name = name;
     }
 
-    public int getWayOfUsingId() {
-        return wayOfUsingId;
+
+    public Author(String name) {
+        this.authorId=0;
+        this.name = name;
+    }
+
+    public int getAuthorId() {
+        return authorId;
     }
 
     public String getName() {
@@ -23,12 +30,13 @@ public class WayOfUsing extends Entity{
         this.name = name;
     }
 
+    public void setAuthorId(int authorId){this.authorId=authorId;}
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        WayOfUsing that = (WayOfUsing) o;
-        return Objects.equals(name, that.name);
+        Author author = (Author) o;
+        return name.equals(author.name);
     }
 
     @Override
@@ -38,8 +46,8 @@ public class WayOfUsing extends Entity{
 
     @Override
     public String toString() {
-        return "WayOfUsing{" +
-                "wayOfUsingId=" + wayOfUsingId +
+        return "Author{" +
+                "authorId=" + authorId +
                 ", name='" + name + '\'' +
                 '}';
     }

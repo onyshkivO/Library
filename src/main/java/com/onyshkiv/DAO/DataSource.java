@@ -9,13 +9,12 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
-
 public class DataSource {
     private static HikariConfig config = new HikariConfig();
     private static HikariDataSource ds;
 
     static {
-        try (InputStream input = new FileInputStream("datasource.properties")) {
+        try (InputStream input = new FileInputStream("src/main/resources/datasource.properties")) {
             Properties prop = new Properties();
             prop.load(input);
         config.setJdbcUrl( prop.getProperty("jdbcUrl") );
