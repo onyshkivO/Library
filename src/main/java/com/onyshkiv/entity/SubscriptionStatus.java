@@ -3,15 +3,20 @@ package com.onyshkiv.entity;
 import java.util.Objects;
 
 public class SubscriptionStatus extends Entity{
-    private int SubscriptionStatusID;
+    private int subscriptionStatusID;
     private String name;
     public SubscriptionStatus(String name) {
         insertID(name);
         this.name = name;
     }
 
+    public SubscriptionStatus(Integer id) {
+        insertName(id);
+        this.subscriptionStatusID = id;
+    }
+
     public int getPublicationStatusId() {
-        return SubscriptionStatusID;
+        return subscriptionStatusID;
     }
 
     public String getName() {
@@ -39,26 +44,48 @@ public class SubscriptionStatus extends Entity{
     @Override
     public String toString() {
         return "SubscriptionStatus{" +
-                "subscriptionStatusID=" + SubscriptionStatusID +
+                "subscriptionStatusID=" + subscriptionStatusID +
                 ", name='" + name + '\'' +
                 '}';
     }
     private void  insertID(String name){
         switch (name){
             case "active": {
-                SubscriptionStatusID=1;
+                subscriptionStatusID =1;
                 break;
             }
             case "returned": {
-                SubscriptionStatusID=2;
+                subscriptionStatusID =2;
                 break;
             }
             case "fined": {
-                SubscriptionStatusID=3;
+                subscriptionStatusID =3;
                 break;
             }
             case "waiting": {
-                SubscriptionStatusID=4;
+                subscriptionStatusID =4;
+                break;
+            }
+        }
+    }
+
+
+    private void  insertName(Integer id){
+        switch (id){
+            case 1: {
+                name="active";
+                break;
+            }
+            case 2: {
+                name="returned";
+                break;
+            }
+            case 3: {
+                name="fined";
+                break;
+            }
+            case 4: {
+                name="waiting";
                 break;
             }
         }

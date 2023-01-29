@@ -10,7 +10,10 @@ public class WayOfUsing extends Entity{
         insertID(name);
         this.name = name;
     }
-
+    public WayOfUsing(Integer id){
+        insertName(id);
+        this.wayOfUsingId=id;
+    }
     public int getWayOfUsingId() {
         return wayOfUsingId;
     }
@@ -53,6 +56,19 @@ public class WayOfUsing extends Entity{
             }
             case "reading room":{
                 wayOfUsingId=2;
+                break;
+            }
+        }
+    }
+
+    private void  insertName(Integer id){
+        switch (id){
+            case 1: {
+                name="subscription";
+                break;
+            }
+            case 2:{
+                name= "reading room";
                 break;
             }
         }

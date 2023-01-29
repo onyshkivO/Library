@@ -91,7 +91,8 @@ public class PublicationDAO implements AbstractDAO<Integer, Publication> {
         }
         return true;
     }
-//++++++++++++++++++++++++++++++++++++++++++++++
+
+    //++++++++++++++++++++++++++++++++++++++++++++++
     @Override
     public Publication update(Publication model) throws DAOException {
         if (model.getPublicationId() == 0) {
@@ -110,27 +111,43 @@ public class PublicationDAO implements AbstractDAO<Integer, Publication> {
         return findEntityById(model.getPublicationId());
     }
 
-//+++++++++++++++++++++++++++++++++++
+    //+++++++++++++++++++++++++++++++++++
     @Override
     public boolean delete(Publication model) throws DAOException {
         if (model.getPublicationId() == 0) {
             throw new IllegalArgumentException("Publication is not created yet, the publication ID is 0.");
         }
 
-        try(
-                PreparedStatement statement = prepareStatement(con,SQLQuery.PublicationQuery.DELETE_PUBLICATION,false,model.getPublicationId())
-        ){
+        try (
+                PreparedStatement statement = prepareStatement(con, SQLQuery.PublicationQuery.DELETE_PUBLICATION, false, model.getPublicationId())
+        ) {
             int affectedRows = statement.executeUpdate();
             if (affectedRows == 0) {
                 throw new DAOException("Deleting publication failed, no rows affected.");
             } else {
                 model.setPublicationId(0);
             }
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             //log
             throw new DAOException(e);
         }
         return true;
+    }
+
+    public boolean contains(Integer id) throws DAOException {
+        if (id == 0) {
+            throw new IllegalArgumentException("Publication is not created yet, the publication ID is 0.");
+        }
+        try (PreparedStatement statement = prepareStatement(con, SQLQuery.PublicationQuery.IS_CONTAINS_PUBLICATION, false, id);
+             ResultSet resultSet = statement.executeQuery();
+        ) {
+            if (resultSet.next() && resultSet.getInt(1) == 1) return true;
+            return false;
+        } catch (SQLException e) {
+            //log
+            throw new DAOException(e);
+        }
+
     }
 
     private static Publication map(ResultSet resultSet) throws SQLException {
