@@ -41,6 +41,7 @@ public class ActiveBook extends Entity{
     public int getActiveBookId() {
         return activeBookId;
     }
+    public void setActiveBookId(int activeBookId){this.activeBookId=activeBookId;}
 
     public Book getBook() {
         return book;

@@ -139,7 +139,7 @@ public class AuthorDAO implements AbstractDAO<Integer, Author> {
         Set<Author> result = new HashSet<>();
         try (
                 PreparedStatement statement = prepareStatement(con, SQLQuery.AuthorQuery.M2M_BOOKS_AUTHORS, false, isbn);
-                ResultSet resultSet = statement.executeQuery();
+                ResultSet resultSet = statement.executeQuery()
         ) {
             while (resultSet.next()) {
                 result.add(findEntityById(resultSet.getInt(1)));
@@ -149,6 +149,30 @@ public class AuthorDAO implements AbstractDAO<Integer, Author> {
             throw new DAOException(e);
         }
         return result;
+
+    }
+
+    public void setAuthorBookTableConnection(Integer bookIsbn, Integer authorId) throws DAOException {
+        try (PreparedStatement statement = prepareStatement(con, SQLQuery.AuthorQuery.M2M_INSERT_BOOK_AND_AUTHOR, false, bookIsbn, authorId)) {
+            int affectedRows = statement.executeUpdate();
+            if (affectedRows == 0) {
+                throw new DAOException("Creating m2m_book_author failed, no rows affected.");
+            }
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        }
+    }
+
+    public void removeAuthorBookTableConnection(Integer bookIsbn) throws DAOException {
+        try (PreparedStatement statement = prepareStatement(con, SQLQuery.AuthorQuery.M2M_REMOVE_BOOK_AND_AUTHOR, false, bookIsbn)) {
+            int affectedRows = statement.executeUpdate();
+            if (affectedRows == 0) {
+                throw new DAOException("Deleting m2m_book_author failed, no rows affected.");
+            }
+        } catch (SQLException e) {
+            //log
+            throw new DAOException(e);
+        }
 
     }
 

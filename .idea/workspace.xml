@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="756a0517-dfd0-4343-b3fc-9f728f823efc" name="Changes" comment="finished UserDAO, AuthorDAO, PublicationDao">
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/resources/datasource.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/datasource.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/datasource.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/onyshkiv/DAO/ActiveBookDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/onyshkiv/DAO/ActiveBookDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/onyshkiv/DAO/AuthorDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/onyshkiv/DAO/AuthorDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/onyshkiv/DAO/BookDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/onyshkiv/DAO/BookDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/onyshkiv/DAO/DataSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/onyshkiv/DAO/DataSource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/onyshkiv/DAO/PublicationDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/onyshkiv/DAO/PublicationDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/onyshkiv/DAO/SQLQuery.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/onyshkiv/DAO/SQLQuery.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/onyshkiv/DAO/UserDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/onyshkiv/DAO/UserDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/onyshkiv/entity/ActiveBook.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/onyshkiv/entity/ActiveBook.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/onyshkiv/entity/SubscriptionStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/onyshkiv/entity/SubscriptionStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/onyshkiv/entity/WayOfUsing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/onyshkiv/entity/WayOfUsing.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="package-info" />
+        <option value="JUnit5 Test Class" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/main/java/com/onyshkiv/DAO/ActiveBookDAO.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/com/onyshkiv/DAO/AuthorDAO.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/com/onyshkiv/DAO/BookDAO.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/com/onyshkiv/DAO/DAOUtil.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/com/onyshkiv/DAO/PublicationDAO.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/com/onyshkiv/DAO/SQLQuery.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/com/onyshkiv/DAO/UserDAO.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/com/onyshkiv/entity/ActiveBook.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/com/onyshkiv/entity/Author.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/test/java/com/onyshkiv/DAO/UserDAOTest.java" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectId" id="2HOf6WQ0FhqNA0azxDBcsFtZriI" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/Final_project_EPAM/Library&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.42424244&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\Final_project_EPAM\Library\src\main\resources" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="com.onyshkiv.DAO" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.BookDAO">
+    <configuration name="ActiveBookDAO" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.onyshkiv.DAO.ActiveBookDAO" />
+      <module name="Library" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.onyshkiv.DAO.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="BookDAO" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.onyshkiv.DAO.BookDAO" />
+      <module name="Library" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.onyshkiv.DAO.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PublicationDAO" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.onyshkiv.DAO.PublicationDAO" />
+      <module name="Library" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.onyshkiv.DAO.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserDAO" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.onyshkiv.DAO.UserDAO" />
+      <module name="Library" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.onyshkiv.DAO.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserDAOTest.findAll" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Library" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.onyshkiv.DAO.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.onyshkiv.DAO" />
+      <option name="MAIN_CLASS_NAME" value="com.onyshkiv.DAO.UserDAOTest" />
+      <option name="METHOD_NAME" value="findAll" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.BookDAO" />
+        <item itemvalue="JUnit.UserDAOTest.findAll" />
+        <item itemvalue="Application.UserDAO" />
+        <item itemvalue="Application.ActiveBookDAO" />
+        <item itemvalue="Application.PublicationDAO" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="756a0517-dfd0-4343-b3fc-9f728f823efc" name="Changes" comment="" />
+      <created>1668160879190</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1668160879190</updated>
+    </task>
+    <task id="LOCAL-00001" summary="Added entities, AbstractDAO and DAOException">
+      <created>1668352805863</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1668352805863</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Added logger, BookDao, Mokito connection pool">
+      <created>1668542640175</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1668542640175</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Added create method in BookDao, autoCommitFalse into datasource.properties">
+      <created>1668628566464</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1668628566464</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Added minimal necessary DAO implementation (without refactoring)">
+      <created>1668959460015</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1668959460015</updated>
+    </task>
+    <task id="LOCAL-00005" summary="finished UserDAO, AuthorDAO, PublicationDao">
+      <created>1674652305662</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1674652305662</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added entities, AbstractDAO and DAOException" />
+    <MESSAGE value="Added logger, BookDao, Mokito connection pool" />
+    <MESSAGE value="Added create method in BookDao, autoCommitFalse into datasource.properties" />
+    <MESSAGE value="Added minimal necessary DAO implementation (without refactoring)" />
+    <MESSAGE value="finished UserDAO, AuthorDAO, PublicationDao" />
+    <option name="LAST_COMMIT_MESSAGE" value="finished UserDAO, AuthorDAO, PublicationDao" />
+  </component>
+</project>
