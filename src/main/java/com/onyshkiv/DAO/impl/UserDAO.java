@@ -1,7 +1,10 @@
-package com.onyshkiv.DAO;
+package com.onyshkiv.DAO.impl;
 
 import static com.onyshkiv.DAO.DAOUtil.*;
 
+import com.onyshkiv.DAO.AbstractDAO;
+import com.onyshkiv.DAO.DAOException;
+import com.onyshkiv.DAO.SQLQuery;
 import com.onyshkiv.entity.Role;
 import com.onyshkiv.entity.User;
 import com.onyshkiv.entity.UserStatus;
@@ -17,8 +20,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class UserDAO implements AbstractDAO<String, User> {
-    Connection con;
+public class UserDAO extends AbstractDAO<String, User> {
     private static final Logger logger = LogManager.getLogger(UserDAO.class);
     private static UserDAO instance;
 
@@ -50,23 +52,6 @@ public class UserDAO implements AbstractDAO<String, User> {
         return users;
     }
 
-//    //+++++++++++++++++++++++++++++++++++++++++++++
-//    public Set<User> findAllUsersByActiveBook(int activeBookId) throws DAOException {
-//        Set<User> users = new HashSet<>();
-//
-//        try (
-//                PreparedStatement statement = prepareStatement(con, SQLQuery.UserQuery.SELECT_ALL_USERS_BY_ACTIVE_BOOK, false, activeBookId);
-//                ResultSet resultSet = statement.executeQuery()
-//        ) {
-//            while (resultSet.next()) {
-//                users.add(map(resultSet));
-//            }
-//        } catch (SQLException e) {
-//            //log
-//            throw new DAOException(e);
-//        }
-//        return users;
-//    }
 
     //+++++++++++++++++++++++++++++++++++++
     @Override
@@ -88,9 +73,6 @@ public class UserDAO implements AbstractDAO<String, User> {
     //++++++++++++++++++++++++++++++++++++++++++++++++++++
     @Override
     public boolean create(User model) throws DAOException {
-        if (model.getLogin() != null) {
-            throw new IllegalArgumentException("User is already created, the user login is not null.");
-        }
         Object[] values = {
                 model.getLogin(),
                 model.getEmail(),
@@ -112,7 +94,7 @@ public class UserDAO implements AbstractDAO<String, User> {
 
         } catch (SQLException e) {
             //log
-            throw new DAOException(e);
+            throw new DAOException("Can't get user from database because of: " + e.getMessage(), e);
         }
         return true;
     }
@@ -235,15 +217,13 @@ public class UserDAO implements AbstractDAO<String, User> {
         user.setEmail(resultSet.getString("email"));
         user.setFirstName(resultSet.getString("first_name"));
         user.setLastName(resultSet.getString("last_name"));
-        user.setRole(new Role(resultSet.getString("role")));
-        user.setUserStatus(new UserStatus(resultSet.getString("status")));
+        user.setRole(new Role(resultSet.getInt("role_id")));
+        user.setUserStatus(new UserStatus(resultSet.getInt("status_id")));
         user.setPhone(resultSet.getString("phone"));
         return user;
     }
 
-    public void setConnection(Connection connection) {
-        this.con = connection;
-    }
+
 
 
 }

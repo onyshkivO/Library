@@ -1,7 +1,10 @@
-package com.onyshkiv.DAO;
+package com.onyshkiv.DAO.impl;
 
 import static com.onyshkiv.DAO.DAOUtil.*;
 
+import com.onyshkiv.DAO.AbstractDAO;
+import com.onyshkiv.DAO.DAOException;
+import com.onyshkiv.DAO.SQLQuery;
 import com.onyshkiv.entity.Author;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,7 +15,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class AuthorDAO implements AbstractDAO<Integer, Author> {
+public class AuthorDAO extends AbstractDAO<Integer, Author> {
     Connection con;
     private static final Logger logger = LogManager.getLogger(AuthorDAO.class);
     private static AuthorDAO instance;
@@ -181,7 +184,5 @@ public class AuthorDAO implements AbstractDAO<Integer, Author> {
         return author;
     }
 
-    public void setConnection(Connection connection) {
-        this.con = connection;
-    }
+
 }
