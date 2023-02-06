@@ -1,7 +1,11 @@
-package com.onyshkiv.DAO;
+package com.onyshkiv.DAO.impl;
 
 import static com.onyshkiv.DAO.DAOUtil.*;
 
+import com.onyshkiv.DAO.AbstractDAO;
+import com.onyshkiv.DAO.DAOException;
+import com.onyshkiv.DAO.DataSource;
+import com.onyshkiv.DAO.SQLQuery;
 import com.onyshkiv.entity.Author;
 import com.onyshkiv.entity.Book;
 import com.onyshkiv.entity.Publication;
@@ -12,7 +16,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookDAO implements AbstractDAO<Integer, Book> {
+public class BookDAO extends AbstractDAO<Integer, Book> {
     private Connection con;
     private static final Logger logger = LogManager.getLogger(BookDAO.class);
     private static BookDAO instance;
@@ -30,15 +34,16 @@ public class BookDAO implements AbstractDAO<Integer, Book> {
     //++++++++++++++++++++++
     @Override
     public List<Book> findAll() throws DAOException {
+        logger.info("start getting books");
         List<Book> books = new ArrayList<>();
         try (
                 PreparedStatement statement = prepareStatement(con, SQLQuery.BookQuery.FIND_ALL_BOOKS, false);
                 ResultSet resultSet = statement.executeQuery()
         ) {
-
+            logger.debug("after try");
             while (resultSet.next()) {
                 Book result = map(resultSet);
-
+                logger.error("inside while");
                 PublicationDAO publicationDAO = PublicationDAO.getInstance();
                 publicationDAO.setConnection(con);
                 result.setPublication(publicationDAO.findEntityById(result.getPublication().getPublicationId()));
@@ -50,8 +55,10 @@ public class BookDAO implements AbstractDAO<Integer, Book> {
             }
         } catch (SQLException e) {
             //log
+            logger.error(e.getMessage());
             throw new DAOException(e);
         }
+        logger.fatal("after all, at the end");
         return books;
     }
 
@@ -196,7 +203,6 @@ public class BookDAO implements AbstractDAO<Integer, Book> {
     }
 
 
-    public void setConnection(Connection connection) {
-        this.con = connection;
+
     }
-}
+

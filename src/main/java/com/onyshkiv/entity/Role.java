@@ -2,6 +2,7 @@ package com.onyshkiv.entity;
 
 import java.util.Objects;
 
+
 public class Role extends Entity{
     private int roleId;
     private String name;
@@ -11,6 +12,11 @@ public class Role extends Entity{
         insertID(name);
         this.name = name;
     }
+    public Role(Integer id) {
+        insertName(id);
+        this.roleId = id;
+    }
+
 
     public int getRole_id() {
         return roleId;
@@ -36,6 +42,23 @@ public class Role extends Entity{
             }
             case "administrator":{
                 roleId=3;
+                break;
+            }
+        }
+    }
+
+    private void  insertName(Integer id){
+        switch (id){
+            case 1: {
+                name =  "reader";
+                break;
+            }
+            case 2:{
+                name= "librarian";
+                break;
+            }
+            case 3:{
+                name = "administrator";
                 break;
             }
         }

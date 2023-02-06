@@ -1,7 +1,10 @@
-package com.onyshkiv.DAO;
+package com.onyshkiv.DAO.impl;
 
 import static com.onyshkiv.DAO.DAOUtil.*;
 
+import com.onyshkiv.DAO.AbstractDAO;
+import com.onyshkiv.DAO.DAOException;
+import com.onyshkiv.DAO.SQLQuery;
 import com.onyshkiv.entity.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,7 +13,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActiveBookDAO implements AbstractDAO<Integer, ActiveBook> {
+public class ActiveBookDAO extends AbstractDAO<Integer, ActiveBook> {
 
     Connection con;
     private static final Logger logger = LogManager.getLogger(ActiveBookDAO.class);
@@ -186,8 +189,6 @@ public class ActiveBookDAO implements AbstractDAO<Integer, ActiveBook> {
         return result;
     }
 
-    public void setConnection(Connection connection) {
-        this.con = connection;
-    }
+
 
 }

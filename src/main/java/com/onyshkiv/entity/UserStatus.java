@@ -2,27 +2,46 @@ package com.onyshkiv.entity;
 
 import java.util.Objects;
 
-public class UserStatus extends Entity{
+public class UserStatus extends Entity {
     private int userStatusId;
     private String name;
 
-    public UserStatus(String name){
+    public UserStatus(String name) {
         insertID(name);
-        this.name=name;
+        this.name = name;
     }
 
-    private void insertID(String name){
-        switch (name){
+    public UserStatus(Integer id) {
+        insertName(id);
+        this.userStatusId = id;
+    }
+
+    private void insertID(String name) {
+        switch (name) {
             case "active": {
-                userStatusId=1;
+                userStatusId = 1;
                 break;
             }
-            case "blocked":{
-                userStatusId=2;
+            case "blocked": {
+                userStatusId = 2;
                 break;
             }
         }
     }
+
+    private void insertName(Integer id) {
+        switch (id) {
+            case 1: {
+                name = "active";
+                break;
+            }
+            case 2: {
+                name = "blocked";
+                break;
+            }
+        }
+    }
+
     public int getUserStatusId() {
         return userStatusId;
     }
