@@ -49,11 +49,11 @@ public abstract class SQLQuery {
                 "from active_book_has_user \n" +
                 "where active_book_id =?";
         public static final String INSERT_USER = "INSERT INTO user values\n" +
-                "(?,?,md5(?),?,?,?,?,?);";
+                "(?,?,?,?,?,?,?,?);";
         public static final String UPDATE_USER = "UPDATE user SET email=?,role_id=?,status_id=?,first_name=?,last_name=?,phone=? \n" +
                 "WHERE login = ?";
         public static final String DELETE_USER = "DELETE FROM user WHERE login = ?";
-        public static final String CHANGE_PASSWORD = "UPDATE User SET password = md5(?) WHERE login = ?";
+        public static final String CHANGE_PASSWORD = "UPDATE User SET password = ? WHERE login = ?";
 
         public static final String M2M_USERS_ACTIVE_BOOK_ID = "SELECT user_login FROM active_book_has_user WHERE active_book_id =?";
         public static final String M2M_INSERT_BOOK_AND_AUTHOR = "INSERT INTO active_book_has_user VALUES (?,?)";
