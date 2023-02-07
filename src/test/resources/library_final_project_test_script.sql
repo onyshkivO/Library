@@ -46,7 +46,7 @@ DROP TABLE IF EXISTS `library_final_project_test`.`user` ;
 CREATE TABLE IF NOT EXISTS `library_final_project_test`.`user` (
   `login` VARCHAR(45) NOT NULL,
   `email` VARCHAR(255) NOT NULL,
-  `password` VARCHAR(32) NOT NULL,
+  `password` VARCHAR(255) NOT NULL,
   `role_id` INT NOT NULL,
   `status_id` INT NOT NULL,
   `first_name` VARCHAR(45) NOT NULL,
@@ -241,8 +241,9 @@ values('reader'),
 
 INSERT INTO user_status(name)
 VALUES
-('blocked'),
-('active');
+('active'),
+('blocked');
+
 
 INSERT INTO way_of_using(name)
 VALUES
@@ -274,13 +275,13 @@ insert into book_has_authors values
 (2,2);
 
 Insert into user values
-('user1', 'asd','asdwe',1,1,'Ostap','Patso',default);
+('user1', 'asd','$argon2id$v=19$m=15360,t=2,p=1$vAgNIdLCePlvli1xUckGgnEc0phIdIca/7J55Szl8DE$JmHKkv2NpJgw7mhNwwcYWoICa0BANR7tUIZvk8b7YmpHkX1MQxNvVcwPOLRy5hLFLC28DagGAF8zJRIljmZyqQ',1,1,'Ostap','Patso',default);
 
 Insert into user values
-('userLibr1', 'asd','asdwe',2,1,'lib','miy',default);
+('userLibr1', 'asd','$argon2id$v=19$m=15360,t=2,p=1$vAgNIdLCePlvli1xUckGgnEc0phIdIca/7J55Szl8DE$JmHKkv2NpJgw7mhNwwcYWoICa0BANR7tUIZvk8b7YmpHkX1MQxNvVcwPOLRy5hLFLC28DagGAF8zJRIljmZyqQ',2,1,'lib','miy',default);
 
 Insert into user values
-('userLibr2', 'asd','asdwe',2,1,'lib','nemiy',default);
+('userLibr2', 'asd','$argon2id$v=19$m=15360,t=2,p=1$vAgNIdLCePlvli1xUckGgnEc0phIdIca/7J55Szl8DE$JmHKkv2NpJgw7mhNwwcYWoICa0BANR7tUIZvk8b7YmpHkX1MQxNvVcwPOLRy5hLFLC28DagGAF8zJRIljmZyqQ',2,1,'lib','nemiy',default);
 
 Insert Into active_book values
 (default,1,1,1,'2022-11-20','2022-12-15',null);
@@ -296,10 +297,10 @@ insert into active_book_has_user values
 (1,'user1'),
 (1,'userLibr1'),
 (2,'user1');
-
 Insert into user values
-('userLib21', 'asd',md5('asdwe'),2,1,'lib','miy',default);
-
+('userLib21', 'asd','$argon2id$v=19$m=15360,t=2,p=1$vAgNIdLCePlvli1xUckGgnEc0phIdIca/7J55Szl8DE$JmHKkv2NpJgw7mhNwwcYWoICa0BANR7tUIZvk8b7YmpHkX1MQxNvVcwPOLRy5hLFLC28DagGAF8zJRIljmZyqQ',2,1,'lib','miy',default),
+('userfordeleting','delete@gmail.com','$argon2id$v=19$m=15360,t=2,p=1$vAgNIdLCePlvli1xUckGgnEc0phIdIca/7J55Szl8DE$JmHKkv2NpJgw7mhNwwcYWoICa0BANR7tUIZvk8b7YmpHkX1MQxNvVcwPOLRy5hLFLC28DagGAF8zJRIljmZyqQ',1,2,'name','secondname',default),
+('userforupdating','update@gmail.com','$argon2id$v=19$m=15360,t=2,p=1$vAgNIdLCePlvli1xUckGgnEc0phIdIca/7J55Szl8DE$JmHKkv2NpJgw7mhNwwcYWoICa0BANR7tUIZvk8b7YmpHkX1MQxNvVcwPOLRy5hLFLC28DagGAF8zJRIljmZyqQ',1,2,'name','secondname',default);
 SET FOREIGN_KEY_CHECKS=1;
 
 

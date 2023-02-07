@@ -5,9 +5,12 @@ import static com.onyshkiv.DAO.DAOUtil.*;
 import com.onyshkiv.DAO.AbstractDAO;
 import com.onyshkiv.DAO.DAOException;
 import com.onyshkiv.DAO.SQLQuery;
+import com.onyshkiv.PasswordHashGenerator;
 import com.onyshkiv.entity.Role;
 import com.onyshkiv.entity.User;
 import com.onyshkiv.entity.UserStatus;
+import de.mkammerer.argon2.Argon2;
+import de.mkammerer.argon2.Argon2Factory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -76,7 +79,7 @@ public class UserDAO extends AbstractDAO<String, User> {
         Object[] values = {
                 model.getLogin(),
                 model.getEmail(),
-                model.getPassword(),
+                PasswordHashGenerator.hash(model.getPassword()),
                 model.getRole().getRole_id(),
                 model.getUserStatus().getUserStatusId(),
                 model.getFirstName(),
@@ -222,6 +225,7 @@ public class UserDAO extends AbstractDAO<String, User> {
         user.setPhone(resultSet.getString("phone"));
         return user;
     }
+
 
 
 
