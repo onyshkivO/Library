@@ -15,7 +15,6 @@ import java.util.List;
 
 public class ActiveBookDAO extends AbstractDAO<Integer, ActiveBook> {
 
-    Connection con;
     private static final Logger logger = LogManager.getLogger(ActiveBookDAO.class);
     private static ActiveBookDAO instance;
 

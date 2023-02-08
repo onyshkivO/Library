@@ -16,8 +16,8 @@ public abstract class SQLQuery {
         public static final String SELECT_AUTHOR_BY_ID = "SELECT * FROM authors WHERE authors_id=?";
         public static final String INSERT_AUTHOR = "INSERT INTO authors VALUES(default,?)";
         public static final String UPDATE_AUTHOR = "UPDATE authors SET name=? \n" +
-                "WHERE author_id = ?";
-        public static final String DELETE_AUTHOR = "DELETE FROM authors WHERE author_id = ?";
+                "WHERE authors_id = ?";
+        public static final String DELETE_AUTHOR = "DELETE FROM authors WHERE authors_id = ?";
 
         public static final String M2M_BOOKS_AUTHORS = "SELECT a_id\n" +
                 "FROM  book_has_authors\n" +

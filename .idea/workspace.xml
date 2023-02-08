@@ -4,26 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="756a0517-dfd0-4343-b3fc-9f728f823efc" name="Changes" comment="added ResourceBundle for different db for test, added EntityTransaction class,added sql script for db, added UserDao Tests without mock with Order">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/onyshkiv/DAO/ApplicationResourceBundle.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/onyshkiv/DAO/EntityTransaction.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/library_final_project_script.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/datasource_test.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/library_final_project_test_script.sql" afterDir="false" />
+    <list default="true" id="756a0517-dfd0-4343-b3fc-9f728f823efc" name="Changes" comment="added Password hash Generator, updated sql script , userDAo test">
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/onyshkiv/DAO/AuthorDAOTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/onyshkiv/DAO/BookDAOTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/onyshkiv/DAO/PublicationDAOTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/datasource.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/datasource.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/onyshkiv/DAO/AbstractDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/onyshkiv/DAO/AbstractDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/onyshkiv/DAO/ActiveBookDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/onyshkiv/DAO/impl/ActiveBookDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/onyshkiv/DAO/AuthorDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/onyshkiv/DAO/impl/AuthorDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/onyshkiv/DAO/BookDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/onyshkiv/DAO/impl/BookDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/onyshkiv/DAO/DataSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/onyshkiv/DAO/DataSource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/onyshkiv/DAO/PublicationDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/onyshkiv/DAO/impl/PublicationDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/onyshkiv/DAO/SQLQuery.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/onyshkiv/DAO/SQLQuery.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/onyshkiv/DAO/UserDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/onyshkiv/DAO/impl/UserDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/onyshkiv/entity/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/onyshkiv/entity/Role.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/onyshkiv/entity/UserStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/onyshkiv/entity/UserStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/onyshkiv/DAO/impl/ActiveBookDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/onyshkiv/DAO/impl/ActiveBookDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/onyshkiv/DAO/impl/AuthorDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/onyshkiv/DAO/impl/AuthorDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/onyshkiv/DAO/impl/BookDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/onyshkiv/DAO/impl/BookDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/onyshkiv/DAO/impl/PublicationDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/onyshkiv/DAO/impl/PublicationDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/onyshkiv/DAO/UserDAOTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/onyshkiv/DAO/UserDAOTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/library_final_project_test_script.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/library_final_project_test_script.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,8 +26,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="package-info" />
-        <option value="JUnit5 Test Class" />
         <option value="Class" />
+        <option value="JUnit5 Test Class" />
       </list>
     </option>
   </component>
@@ -70,19 +62,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/Проекти/FoodTrackerServletProject-master&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.42424244&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
+    "last_opened_file_path": "E:/Final_project_EPAM/Library",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.42424244"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
@@ -90,12 +82,16 @@
     <key name="MoveFile.RECENT_KEYS">
       <recent name="E:\Final_project_EPAM\Library\src\main\resources" />
     </key>
-    <key name="CreateTestDialog.RecentsKey">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="com.onyshkiv.DAO" />
     </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="com.onyshkiv.DAO" />
+      <recent name="com.onyshkiv.DAO.impl" />
+    </key>
   </component>
-  <component name="RunManager" selected="JUnit.UserDAOTest">
-    <configuration name="UserDAOTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.com.onyshkiv.DAO in Library">
+    <configuration name="BookDAOTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Library" />
       <extension name="coverage">
         <pattern>
@@ -104,13 +100,13 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.onyshkiv.DAO" />
-      <option name="MAIN_CLASS_NAME" value="com.onyshkiv.DAO.UserDAOTest" />
+      <option name="MAIN_CLASS_NAME" value="com.onyshkiv.DAO.BookDAOTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UserDAOTest.changePasswordWithCorrectData" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="BookDAOTest.findAllTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Library" />
       <extension name="coverage">
         <pattern>
@@ -119,14 +115,14 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.onyshkiv.DAO" />
-      <option name="MAIN_CLASS_NAME" value="com.onyshkiv.DAO.UserDAOTest" />
-      <option name="METHOD_NAME" value="changePasswordWithCorrectData(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String)" />
+      <option name="MAIN_CLASS_NAME" value="com.onyshkiv.DAO.BookDAOTest" />
+      <option name="METHOD_NAME" value="findAllTest" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UserDAOTest.findAllUsersByActiveBook" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="BookDAOTest.findEntityById" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Library" />
       <extension name="coverage">
         <pattern>
@@ -135,14 +131,14 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.onyshkiv.DAO" />
-      <option name="MAIN_CLASS_NAME" value="com.onyshkiv.DAO.UserDAOTest" />
-      <option name="METHOD_NAME" value="findAllUsersByActiveBook" />
+      <option name="MAIN_CLASS_NAME" value="com.onyshkiv.DAO.BookDAOTest" />
+      <option name="METHOD_NAME" value="findEntityById(com.onyshkiv.entity.Book)" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UserDAOTest.findAllUsersByActiveBookNoEntries" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="BookDAOTest.updateBookWithCorrectData" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Library" />
       <extension name="coverage">
         <pattern>
@@ -151,14 +147,14 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.onyshkiv.DAO" />
-      <option name="MAIN_CLASS_NAME" value="com.onyshkiv.DAO.UserDAOTest" />
-      <option name="METHOD_NAME" value="findAllUsersByActiveBookNoEntries" />
+      <option name="MAIN_CLASS_NAME" value="com.onyshkiv.DAO.BookDAOTest" />
+      <option name="METHOD_NAME" value="updateBookWithCorrectData(com.onyshkiv.entity.Book)" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UserDAOTest.findEntityByIdNoEntries" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="com.onyshkiv.DAO in Library" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Library" />
       <extension name="coverage">
         <pattern>
@@ -167,20 +163,18 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.onyshkiv.DAO" />
-      <option name="MAIN_CLASS_NAME" value="com.onyshkiv.DAO.UserDAOTest" />
-      <option name="METHOD_NAME" value="findEntityByIdNoEntries" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="TEST_OBJECT" value="package" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.UserDAOTest" />
-        <item itemvalue="JUnit.UserDAOTest.findAllUsersByActiveBook" />
-        <item itemvalue="JUnit.UserDAOTest.findEntityByIdNoEntries" />
-        <item itemvalue="JUnit.UserDAOTest.findAllUsersByActiveBookNoEntries" />
-        <item itemvalue="JUnit.UserDAOTest.changePasswordWithCorrectData" />
+        <item itemvalue="JUnit.com.onyshkiv.DAO in Library" />
+        <item itemvalue="JUnit.BookDAOTest" />
+        <item itemvalue="JUnit.BookDAOTest.findEntityById" />
+        <item itemvalue="JUnit.BookDAOTest.updateBookWithCorrectData" />
+        <item itemvalue="JUnit.BookDAOTest.findAllTest" />
       </list>
     </recent_temporary>
   </component>
@@ -235,7 +229,21 @@
       <option name="project" value="LOCAL" />
       <updated>1674988931809</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="added ResourceBundle for different db for test, added EntityTransaction class,added sql script for db, added UserDao Tests without mock with Order">
+      <created>1675716983641</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1675716983641</updated>
+    </task>
+    <task id="LOCAL-00008" summary="added Password hash Generator, updated sql script , userDAo test">
+      <created>1675795005222</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1675795005222</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -257,6 +265,7 @@
     <MESSAGE value="finished UserDAO, AuthorDAO, PublicationDao" />
     <MESSAGE value="finished DAO" />
     <MESSAGE value="added ResourceBundle for different db for test, added EntityTransaction class,added sql script for db, added UserDao Tests without mock with Order" />
-    <option name="LAST_COMMIT_MESSAGE" value="added ResourceBundle for different db for test, added EntityTransaction class,added sql script for db, added UserDao Tests without mock with Order" />
+    <MESSAGE value="added Password hash Generator, updated sql script , userDAo test" />
+    <option name="LAST_COMMIT_MESSAGE" value="added Password hash Generator, updated sql script , userDAo test" />
   </component>
 </project>

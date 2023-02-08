@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookDAO extends AbstractDAO<Integer, Book> {
-    private Connection con;
     private static final Logger logger = LogManager.getLogger(BookDAO.class);
     private static BookDAO instance;
 
@@ -65,7 +64,7 @@ public class BookDAO extends AbstractDAO<Integer, Book> {
     //++++++++++++++++++++++
     @Override
     public Book findEntityById(Integer id) throws DAOException {
-        Book result = new Book();
+        Book result =null;
         try (
                 PreparedStatement statement = prepareStatement(con, SQLQuery.BookQuery.FIND_BOOK_BY_ISBN, false, id);
                 ResultSet resultSet = statement.executeQuery()
