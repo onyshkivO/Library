@@ -1,6 +1,8 @@
 package com.onyshkiv.DAO;
 
+
 import com.onyshkiv.DAO.impl.UserDAO;
+import com.onyshkiv.PasswordHashGenerator;
 import com.onyshkiv.entity.Role;
 import com.onyshkiv.entity.User;
 import com.onyshkiv.entity.UserStatus;
@@ -19,7 +21,6 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class UserDAOTest {
     static Connection con;
     static UserDAO userDAO;
@@ -41,16 +42,15 @@ class UserDAOTest {
     @AfterAll
     static void closeConnection() {
         try {
-//            ScriptRunner scriptRunner = new ScriptRunner(con);
-//            scriptRunner.runScript(new BufferedReader(new FileReader("E:\\Final_project_EPAM\\Library\\src\\test\\resources\\library_final_project_test_script.sql")));
+            ScriptRunner scriptRunner = new ScriptRunner(con);
+            scriptRunner.runScript(new BufferedReader(new FileReader("E:\\Final_project_EPAM\\Library\\src\\test\\resources\\library_final_project_test_script.sql")));
             con.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found");
+            throw new RuntimeException(e);
         }
-//        catch (FileNotFoundException e) {
-//            System.out.println("File not found");
-//            throw new RuntimeException(e);
-//        }
     }
 
     //test for findAll, must run only one
@@ -58,11 +58,11 @@ class UserDAOTest {
 //    void findAllTest() throws DAOException {
 //        List<User> users = userDAO.findAll();
 //        List<User> actual = new ArrayList<>();
-//        actual.add(new User("user1", "das", "dsa", new Role("reader"), new UserStatus("active"), "Ostap", "Patso", null));
-//        actual.add(new User("userfordeleting", "delete@gmail.com", "password", new Role(1), new UserStatus(2), "name", "secondname", null));
-//        actual.add(new User("userLib21", "das", "dsa", new Role("librarian"), new UserStatus("active"), "lib", "miy", null));
-//        actual.add(new User("userLibr1", "das", "dsa", new Role("librarian"), new UserStatus("active"), "lib", "miy", null));
-//        actual.add(new User("userLibr2", "das", "dsa", new Role("librarian"), new UserStatus("active"), "lib", "nemiy", null));
+//        actual.add(new User("user1", "das", PasswordHashGenerator.hash("password"), new Role("reader"), new UserStatus("active"), "Ostap", "Patso", null));
+//        actual.add(new User("userfordeleting", "delete@gmail.com", PasswordHashGenerator.hash("password"), new Role(1), new UserStatus(2), "name", "secondname", null));
+//        actual.add(new User("userLib21", "das", PasswordHashGenerator.hash("password"), new Role("librarian"), new UserStatus("active"), "lib", "miy", null));
+//        actual.add(new User("userLibr1", "das", PasswordHashGenerator.hash("password"), new Role("librarian"), new UserStatus("active"), "lib", "miy", null));
+//        actual.add(new User("userLibr2", "das", PasswordHashGenerator.hash("password"), new Role("librarian"), new UserStatus("active"), "lib", "nemiy", null));
 //        assertArrayEquals(users.toArray(), actual.toArray());
 //    }
 
@@ -70,8 +70,8 @@ class UserDAOTest {
     void findAllUsersByActiveBook() throws DAOException {
         Set<User> users = userDAO.getAllUsersByActiveBookId(1);
         Set<User> actual = new HashSet<>();
-        actual.add(new User("user1", "das", "dsa", new Role("reader"), new UserStatus("active"), "Ostap", "Patso", null));
-        actual.add(new User("userLibr1", "das", "dsa", new Role("librarian"), new UserStatus("active"), "lib", "miy", null));
+        actual.add(new User("user1", "das", PasswordHashGenerator.hash("password"), new Role("reader"), new UserStatus("active"), "Ostap", "Patso", null));
+        actual.add(new User("userLibr1", "das", PasswordHashGenerator.hash("password"), new Role("librarian"), new UserStatus("active"), "lib", "miy", null));
         assertArrayEquals(users.toArray(), actual.toArray());
     }
 
@@ -136,16 +136,8 @@ class UserDAOTest {
                                    String firstName, String lastName) {
         User user = new User(login, email, password, new Role(role), new UserStatus(status), firstName, lastName, null);
         assertDoesNotThrow(() -> userDAO.update(user));
-        assertAll(
-                () -> assertEquals(user.getLogin(), login),
-                () -> assertEquals(user.getUserStatus(), new UserStatus(status)),
-                () -> assertEquals(user.getEmail(), email),
-                () -> assertEquals(user.getRole(), new Role(role)),
-                () -> assertEquals(user.getFirstName(), firstName),
-                () -> assertEquals(user.getLastName(), lastName),
-                () -> assertNull(user.getPhone()));
     }
-
+//to do null user login
     @ParameterizedTest
     @CsvSource(
             "incorrectLogin,asd@gmail.com,password, reader, blocked, Ostap, Patso")
@@ -156,7 +148,6 @@ class UserDAOTest {
 
 
     }
-//('userfordeleting','delete@gmail.com','password',1,2,'name','secondname',default);
     @ParameterizedTest
     @CsvSource(
             "userfordeleting,delete@gmail.com,password, reader, active, name, secondname")

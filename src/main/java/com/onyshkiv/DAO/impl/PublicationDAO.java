@@ -18,7 +18,6 @@ import java.util.List;
 
 public class PublicationDAO extends AbstractDAO<Integer, Publication> {
 
-    Connection con;
     private static final Logger logger = LogManager.getLogger(PublicationDAO.class);
     private static PublicationDAO instance;
 
@@ -102,7 +101,7 @@ public class PublicationDAO extends AbstractDAO<Integer, Publication> {
             throw new IllegalArgumentException("Publication is not created yet, the publication ID is 0.");
         }
         try (
-                PreparedStatement statement = prepareStatement(con, SQLQuery.PublicationQuery.UPDATE_PUBLICATION, false, model.getName())
+                PreparedStatement statement = prepareStatement(con, SQLQuery.PublicationQuery.UPDATE_PUBLICATION, false, model.getName(),model.getPublicationId())
         ) {
             int affectedRows = statement.executeUpdate();
             if (affectedRows == 0) {
@@ -115,6 +114,10 @@ public class PublicationDAO extends AbstractDAO<Integer, Publication> {
     }
 
     //+++++++++++++++++++++++++++++++++++
+    //to do remove
+//    if (model.getPublicationId() == 0) {
+//        throw new IllegalArgumentException("Publication is not created yet, the publication ID is 0.");
+//    }
     @Override
     public boolean delete(Publication model) throws DAOException {
         if (model.getPublicationId() == 0) {
@@ -142,10 +145,9 @@ public class PublicationDAO extends AbstractDAO<Integer, Publication> {
             throw new IllegalArgumentException("Publication is not created yet, the publication ID is 0.");
         }
         try (PreparedStatement statement = prepareStatement(con, SQLQuery.PublicationQuery.IS_CONTAINS_PUBLICATION, false, id);
-             ResultSet resultSet = statement.executeQuery();
+             ResultSet resultSet = statement.executeQuery()
         ) {
-            if (resultSet.next() && resultSet.getInt(1) == 1) return true;
-            return false;
+            return resultSet.next() && resultSet.getInt(1) == 1;
         } catch (SQLException e) {
             //log
             throw new DAOException(e);
