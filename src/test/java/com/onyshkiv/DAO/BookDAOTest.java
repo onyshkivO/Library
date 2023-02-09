@@ -172,7 +172,6 @@ class BookDAOTest {
                 () -> assertEquals(book1.getDetails(),book.getDetails()),
                 () -> assertEquals(book1.getAuthors(),book.getAuthors()));
     }
-@Test
     private static Stream<Arguments> updatedBookData() throws ParseException {
         Set<Author> authors1 = new HashSet<>();
         authors1.add(new Author(1,"author1"));

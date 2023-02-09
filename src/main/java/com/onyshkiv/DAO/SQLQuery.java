@@ -62,11 +62,11 @@ public abstract class SQLQuery {
 
     public static class ActiveBookQuery {
 
-        public static final String SELECT_ALL_ACTIVE_BOOKS = "SELECT active_book_id,book_isbn,way_of_using_id, subscription_status_id,start_date,end_date,fine FROM active_book";
-        public static final String SELECT_ACTIVE_BOOK_BY_ID = "SELECT active_book_id,book_isbn,way_of_using_id, subscription_status_id,start_date,end_date,fine FROM active_book WHERE  active_book_id=?";
+        public static final String SELECT_ALL_ACTIVE_BOOKS = "SELECT active_book_id,book_isbn,user_login,way_of_using_id, subscription_status_id,start_date,end_date,quantity,fine FROM active_book";
+        public static final String SELECT_ACTIVE_BOOK_BY_ID = "SELECT active_book_id,book_isbn,user_login,way_of_using_id, subscription_status_id,start_date,end_date,quantity,fine FROM active_book WHERE  active_book_id=?";
         public static final String INSERT_ACTIVE_BOOK = "Insert Into active_book values\n" +
-                "(default,?,?,?,?,?,?);";
-        public static final String UPDATE_ACTIVE_BOOK = "UPDATE active_book SET book_isbn=?,way_of_using_id=?,subscription_status_id=?,start_date=?,end_date=?,fine=? " +
+                "(default,?,?,?,?,?,?,?,?);";
+        public static final String UPDATE_ACTIVE_BOOK = "UPDATE active_book SET book_isbn=?,user_login=?,way_of_using_id=?,subscription_status_id=?,start_date=?,end_date=?,quantity=?,fine=? " +
                 "WHERE active_book_id=?";
         public static final String DELETE_ACTIVE_BOOK = "DELETE FROM active_book WHERE active_book_id =?";
     }
