@@ -176,43 +176,43 @@ public class UserDAO extends AbstractDAO<String, User> {
 
     }
 
-    public Set<User> getAllUsersByActiveBookId(Integer activeBookId) throws DAOException {
-        Set<User> users = new HashSet<>();
-        try (PreparedStatement statement = prepareStatement(con, SQLQuery.UserQuery.M2M_USERS_ACTIVE_BOOK_ID, false, activeBookId);
-             ResultSet resultSet = statement.executeQuery()
-        ) {
-            while (resultSet.next()) {
-                users.add(findEntityById(resultSet.getString(1)));
-            }
-        } catch (SQLException e) {
-            throw new DAOException(e);
-        }
-        return users;
-    }
-
-    public void setActiveBookUserConnection(Integer activeBookID, String login) throws DAOException {
-        try (PreparedStatement statement = prepareStatement(con, SQLQuery.UserQuery.M2M_INSERT_BOOK_AND_AUTHOR, false, activeBookID, login)) {
-            int affectedRows = statement.executeUpdate();
-            if (affectedRows == 0) {
-                throw new DAOException("Creating m2m_active_book_users failed, no rows affected.");
-            }
-        } catch (SQLException e) {
-            throw new DAOException(e);
-        }
-    }
-
-    public void removeActiveBookUserConnection(Integer activeBookID) throws DAOException {
-        try (PreparedStatement statement = prepareStatement(con, SQLQuery.UserQuery.M2M_REMOVE_BOOK_AND_AUTHOR, false, activeBookID)) {
-            int affectedRows = statement.executeUpdate();
-            if (affectedRows == 0) {
-                throw new DAOException("Deleting m2m_active_book_users failed, no rows affected.");
-            }
-        } catch (SQLException e) {
-            //log
-            throw new DAOException(e);
-        }
-
-    }
+//    public Set<User> getAllUsersByActiveBookId(Integer activeBookId) throws DAOException {
+//        Set<User> users = new HashSet<>();
+//        try (PreparedStatement statement = prepareStatement(con, SQLQuery.UserQuery.M2M_USERS_ACTIVE_BOOK_ID, false, activeBookId);
+//             ResultSet resultSet = statement.executeQuery()
+//        ) {
+//            while (resultSet.next()) {
+//                users.add(findEntityById(resultSet.getString(1)));
+//            }
+//        } catch (SQLException e) {
+//            throw new DAOException(e);
+//        }
+//        return users;
+//    }
+//
+//    public void setActiveBookUserConnection(Integer activeBookID, String login) throws DAOException {
+//        try (PreparedStatement statement = prepareStatement(con, SQLQuery.UserQuery.M2M_INSERT_BOOK_AND_AUTHOR, false, activeBookID, login)) {
+//            int affectedRows = statement.executeUpdate();
+//            if (affectedRows == 0) {
+//                throw new DAOException("Creating m2m_active_book_users failed, no rows affected.");
+//            }
+//        } catch (SQLException e) {
+//            throw new DAOException(e);
+//        }
+//    }
+//
+//    public void removeActiveBookUserConnection(Integer activeBookID) throws DAOException {
+//        try (PreparedStatement statement = prepareStatement(con, SQLQuery.UserQuery.M2M_REMOVE_BOOK_AND_AUTHOR, false, activeBookID)) {
+//            int affectedRows = statement.executeUpdate();
+////            if (affectedRows == 0) {
+////                throw new DAOException("Deleting m2m_active_book_users failed, no rows affected.");
+////            }
+//        } catch (SQLException e) {
+//            //log
+//            throw new DAOException(e);
+//        }
+//
+//    }
 
     private static User map(ResultSet resultSet) throws SQLException {
         User user = new User();

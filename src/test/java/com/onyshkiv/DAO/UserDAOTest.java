@@ -66,21 +66,21 @@ class UserDAOTest {
 //        assertArrayEquals(users.toArray(), actual.toArray());
 //    }
 
-    @Test
-    void findAllUsersByActiveBook() throws DAOException {
-        Set<User> users = userDAO.getAllUsersByActiveBookId(1);
-        Set<User> actual = new HashSet<>();
-        actual.add(new User("user1", "das", PasswordHashGenerator.hash("password"), new Role("reader"), new UserStatus("active"), "Ostap", "Patso", null));
-        actual.add(new User("userLibr1", "das", PasswordHashGenerator.hash("password"), new Role("librarian"), new UserStatus("active"), "lib", "miy", null));
-        assertArrayEquals(users.toArray(), actual.toArray());
-    }
+//    @Test
+//    void findAllUsersByActiveBook() throws DAOException {
+//        Set<User> users = userDAO.getAllUsersByActiveBookId(1);
+//        Set<User> actual = new HashSet<>();
+//        actual.add(new User("user1", "das", PasswordHashGenerator.hash("password"), new Role("reader"), new UserStatus("active"), "Ostap", "Patso", null));
+//        actual.add(new User("userLibr1", "das", PasswordHashGenerator.hash("password"), new Role("librarian"), new UserStatus("active"), "lib", "miy", null));
+//        assertArrayEquals(users.toArray(), actual.toArray());
+//    }
 
-    @Test
-    void findAllUsersByActiveBookNoEntries() throws DAOException {
-        Set<User> users = userDAO.getAllUsersByActiveBookId(15);
-        Set<User> actual = new HashSet<>();
-        assertArrayEquals(users.toArray(), actual.toArray());
-    }
+//    @Test
+//    void findAllUsersByActiveBookNoEntries() throws DAOException {
+//        Set<User> users = userDAO.getAllUsersByActiveBookId(15);
+//        Set<User> actual = new HashSet<>();
+//        assertArrayEquals(users.toArray(), actual.toArray());
+//    }
 
 
     @ParameterizedTest

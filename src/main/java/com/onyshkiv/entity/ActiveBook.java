@@ -12,12 +12,13 @@ public class ActiveBook extends Entity{
     private Date startDate;
     private Date endDate;
     private Double fine;
-    private Set<User> users;
+    private User user;
+    private Integer quantity;
     public ActiveBook() {}
     public ActiveBook(int activeBookId) {
         this.activeBookId = activeBookId;
     }
-    public ActiveBook( Book book, WayOfUsing wayOfUsing, SubscriptionStatus subscriptionStatus, Date startDate, Date endDate, Double fine, Set<User> users) {
+    public ActiveBook( Book book, User user,WayOfUsing wayOfUsing, SubscriptionStatus subscriptionStatus, Date startDate, Date endDate,Integer quantity, Double fine) {
         this.activeBookId = 0;
         this.book = book;
         this.wayOfUsing = wayOfUsing;
@@ -25,9 +26,10 @@ public class ActiveBook extends Entity{
         this.startDate = startDate;
         this.endDate = endDate;
         this.fine = fine;
-        this.users = users;
+        this.user = user;
+        this.quantity=quantity;
     }
-    public ActiveBook( int activeBookId, Book book, WayOfUsing wayOfUsing, SubscriptionStatus subscriptionStatus, Date startDate, Date endDate, Double fine, Set<User> users) {
+    public ActiveBook( int activeBookId, Book book,User user, WayOfUsing wayOfUsing, SubscriptionStatus subscriptionStatus, Date startDate, Date endDate,Integer quantity, Double fine) {
         this.activeBookId = activeBookId;
         this.book = book;
         this.wayOfUsing = wayOfUsing;
@@ -35,7 +37,8 @@ public class ActiveBook extends Entity{
         this.startDate = startDate;
         this.endDate = endDate;
         this.fine = fine;
-        this.users = users;
+        this.user = user;
+        this.quantity=quantity;
     }
 
     public int getActiveBookId() {
@@ -91,12 +94,24 @@ public class ActiveBook extends Entity{
         this.fine = fine;
     }
 
-    public Set<User> getUsers() {
-        return users;
+    public User getUser() {
+        return user;
     }
 
-    public void setUsers(Set<User> users) {
-        this.users = users;
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setFine(Double fine) {
+        this.fine = fine;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 
     @Override
@@ -122,7 +137,8 @@ public class ActiveBook extends Entity{
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 ", fine=" + fine +
-                ", users=" + users +
+                ", user=" + user +
+                ", quantity=" + quantity +
                 '}';
     }
 }
