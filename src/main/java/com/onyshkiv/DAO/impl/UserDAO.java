@@ -9,8 +9,6 @@ import com.onyshkiv.PasswordHashGenerator;
 import com.onyshkiv.entity.Role;
 import com.onyshkiv.entity.User;
 import com.onyshkiv.entity.UserStatus;
-import de.mkammerer.argon2.Argon2;
-import de.mkammerer.argon2.Argon2Factory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,10 +16,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class UserDAO extends AbstractDAO<String, User> {
     private static final Logger logger = LogManager.getLogger(UserDAO.class);
@@ -58,8 +53,9 @@ public class UserDAO extends AbstractDAO<String, User> {
 
     //+++++++++++++++++++++++++++++++++++++
     @Override
-    public User findEntityById(String login) throws DAOException {
+    public Optional<User> findEntityById(String login) throws DAOException {
         User user = null;
+        Optional<User> optionalUser;
         try (
                 PreparedStatement statement = prepareStatement(con, SQLQuery.UserQuery.SELECT_USER_BY_LOGIN, false, login);
                 ResultSet resultSet = statement.executeQuery()
@@ -67,15 +63,16 @@ public class UserDAO extends AbstractDAO<String, User> {
             if (resultSet.next()) {
                 user = map(resultSet);
             }
+            optionalUser = Optional.ofNullable(user);
         } catch (SQLException e) {
             throw new DAOException(e);
         }
-        return user;
+        return optionalUser;
     }
 
     //++++++++++++++++++++++++++++++++++++++++++++++++++++
     @Override
-    public boolean create(User model) throws DAOException {
+    public void create(User model) throws DAOException {
         Object[] values = {
                 model.getLogin(),
                 model.getEmail(),
@@ -99,12 +96,11 @@ public class UserDAO extends AbstractDAO<String, User> {
             //log
             throw new DAOException("Can't get user from database because of: " + e.getMessage(), e);
         }
-        return true;
     }
 
     //++++++++++++++++++++++++++++++++++++++++++++++++++
     @Override
-    public User update(User model) throws DAOException {
+    public void update(User model) throws DAOException {
         if (model.getLogin() == null) {
             throw new IllegalArgumentException("User is not created yet, the user login is null.");
         }
@@ -129,12 +125,11 @@ public class UserDAO extends AbstractDAO<String, User> {
             //log
             throw new DAOException(e);
         }
-        return findEntityById(model.getLogin());
     }
 
     //+++++++++++++++++++++++++++++++++
     @Override
-    public boolean delete(User model) throws DAOException {
+    public void delete(User model) throws DAOException {
         if (model.getLogin() == null) {
             throw new IllegalArgumentException("User is not created yet, the user login is null.");
         }
@@ -149,7 +144,6 @@ public class UserDAO extends AbstractDAO<String, User> {
             //log
             throw new DAOException(e);
         }
-        return true;
     }
 
     //+++++++++++++++++++++++++++++++++
@@ -225,9 +219,6 @@ public class UserDAO extends AbstractDAO<String, User> {
         user.setPhone(resultSet.getString("phone"));
         return user;
     }
-
-
-
 
 
 }

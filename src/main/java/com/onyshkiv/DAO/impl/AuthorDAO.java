@@ -9,6 +9,7 @@ import com.onyshkiv.entity.Author;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Optional;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -49,8 +50,9 @@ public class AuthorDAO extends AbstractDAO<Integer, Author> {
 
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     @Override
-    public Author findEntityById(Integer id) throws DAOException {
+    public Optional<Author> findEntityById(Integer id) throws DAOException {
         Author author = null;
+        Optional<Author> authorOptional;
         try (
                 PreparedStatement statement = prepareStatement(con, SQLQuery.AuthorQuery.SELECT_AUTHOR_BY_ID, false, id);
                 ResultSet resultSet = statement.executeQuery()
@@ -58,16 +60,17 @@ public class AuthorDAO extends AbstractDAO<Integer, Author> {
             if (resultSet.next()) {
                 author = map(resultSet);
             }
+            authorOptional = Optional.ofNullable(author);
         } catch (SQLException e) {
             //log
             throw new DAOException(e);
         }
-        return author;
+        return authorOptional;
     }
 
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     @Override
-    public boolean create(Author model) throws DAOException {
+    public void create(Author model) throws DAOException {
         if (model.getAuthorId() != 0) {
             throw new IllegalArgumentException("Author is already created, the author ID is not 0.");
         }
@@ -88,12 +91,11 @@ public class AuthorDAO extends AbstractDAO<Integer, Author> {
         } catch (SQLException e) {
             throw new DAOException(e);
         }
-        return true;
     }
 
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     @Override
-    public Author update(Author model) throws DAOException {
+    public void update(Author model) throws DAOException {
         if (model.getAuthorId() == 0) {
             throw new IllegalArgumentException("Author is not created yet, the author id is 0.");
         }
@@ -112,12 +114,11 @@ public class AuthorDAO extends AbstractDAO<Integer, Author> {
             //log
             throw new DAOException(e);
         }
-        return findEntityById(model.getAuthorId());
     }
 
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     @Override
-    public boolean delete(Author model) throws DAOException {
+    public void delete(Author model) throws DAOException {
         if (model.getAuthorId() == 0) {
             throw new IllegalArgumentException("Author is not created yet, the author id is 0.");
         }
@@ -134,7 +135,6 @@ public class AuthorDAO extends AbstractDAO<Integer, Author> {
             //log
             throw new DAOException(e);
         }
-        return true;
     }
 
     public Set<Author> getAllAuthorByBookISBN(Integer isbn) throws DAOException {
@@ -144,7 +144,8 @@ public class AuthorDAO extends AbstractDAO<Integer, Author> {
                 ResultSet resultSet = statement.executeQuery()
         ) {
             while (resultSet.next()) {
-                result.add(findEntityById(resultSet.getInt(1)));
+                Optional<Author> author=findEntityById(resultSet.getInt(1));
+                author.ifPresent(result::add);
             }
         } catch (SQLException e) {
             //log
