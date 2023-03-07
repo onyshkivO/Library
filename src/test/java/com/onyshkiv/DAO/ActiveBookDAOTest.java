@@ -66,7 +66,7 @@ class ActiveBookDAOTest {
     @ParameterizedTest
     @MethodSource("findEntityData")
     void findEntityById(ActiveBook expected) throws DAOException {
-        ActiveBook actual = activeBookDAO.findEntityById(expected.getActiveBookId());
+        ActiveBook actual = activeBookDAO.findEntityById(expected.getActiveBookId()).get();
         assertAll(
                 () -> assertEquals(expected.getActiveBookId(),actual.getActiveBookId()),
                 () -> assertEquals(expected.getBook(),actual.getBook()),
@@ -94,7 +94,7 @@ class ActiveBookDAOTest {
 
     @Test
     void findEntityById_NoEntries() throws DAOException {
-        ActiveBook activeBook = activeBookDAO.findEntityById(13);
+        ActiveBook activeBook = activeBookDAO.findEntityById(13).orElse(null);
         assertNull(activeBook);
     }
 // to do як показував міщеряков як з null в int
@@ -102,7 +102,7 @@ class ActiveBookDAOTest {
     @MethodSource("createdActiveBookData")
     void createBookWithCorrectData(ActiveBook activeBook) throws DAOException {
         assertDoesNotThrow(() -> activeBookDAO.create(activeBook));
-        ActiveBook created = activeBookDAO.findEntityById(activeBook.getActiveBookId());
+        ActiveBook created = activeBookDAO.findEntityById(activeBook.getActiveBookId()).get();
         assertAll(
                 () -> assertEquals(created.getActiveBookId(),activeBook.getActiveBookId()),
                 () -> assertEquals(created.getBook(),activeBook.getBook()),
@@ -153,7 +153,7 @@ class ActiveBookDAOTest {
     @MethodSource("updatedActiveBookData")
     void updateBookWithCorrectData(ActiveBook activeBook) throws DAOException {
         assertDoesNotThrow(() -> activeBookDAO.update(activeBook));
-        ActiveBook actual=  activeBookDAO.findEntityById(activeBook.getActiveBookId());
+        ActiveBook actual=  activeBookDAO.findEntityById(activeBook.getActiveBookId()).get();
         assertAll(
                 () -> assertEquals(actual.getActiveBookId(),activeBook.getActiveBookId()),
                 () -> assertEquals(actual.getBook(),activeBook.getBook()),
@@ -221,7 +221,7 @@ class ActiveBookDAOTest {
     @MethodSource("deletedActiveBookData")
     void deleteUserWithCorrectData(ActiveBook activeBook) throws DAOException {
         assertDoesNotThrow(() -> activeBookDAO.delete(activeBook));
-        ActiveBook activeBook1 = activeBookDAO.findEntityById(activeBook.getActiveBookId());
+        ActiveBook activeBook1 = activeBookDAO.findEntityById(activeBook.getActiveBookId()).orElse(null);
         assertNull(activeBook1);
     }
 

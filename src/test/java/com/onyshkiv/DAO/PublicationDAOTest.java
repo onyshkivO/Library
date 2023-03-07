@@ -78,7 +78,7 @@ class PublicationDAOTest {
             "2, publication2"
     })
     void findEntityById(Integer id, String name) throws DAOException {
-        Publication publication = publicationDAO.findEntityById(id);
+        Publication publication = publicationDAO.findEntityById(id).get();
         assertAll(
                 () -> assertEquals(id,publication.getPublicationId()),
                 () -> assertEquals(name,publication.getName()));
@@ -86,7 +86,7 @@ class PublicationDAOTest {
 
     @Test
     void findEntityById_NoEntries() throws DAOException {
-        Publication publication = publicationDAO.findEntityById(12);
+        Publication publication = publicationDAO.findEntityById(12).orElse(null);
         assertNull(publication);
     }
 
@@ -117,7 +117,7 @@ class PublicationDAOTest {
     void updatePublicationWithCorrectData(Integer id, String name) throws DAOException {
         Publication publication = new Publication(id,name);
         assertDoesNotThrow(() -> publicationDAO.update(publication));
-        Publication updated=  publicationDAO.findEntityById(id);
+        Publication updated=  publicationDAO.findEntityById(id).get();
         assertAll(
                 () -> assertEquals(id,updated.getPublicationId()),
                 ()-> assertEquals(name,updated.getName()));
@@ -141,7 +141,7 @@ class PublicationDAOTest {
     void deleteUserWithCorrectData(Integer id, String name) throws DAOException {
         Publication publication = new Publication(id,name);
         assertDoesNotThrow(() -> publicationDAO.delete(publication));
-        Publication publication2 = publicationDAO.findEntityById(id);
+        Publication publication2 = publicationDAO.findEntityById(id).orElse(null);
         assertNull(publication2);
     }
 
@@ -159,25 +159,5 @@ class PublicationDAOTest {
         assertThrows(IllegalArgumentException.class, () -> publicationDAO.delete(publication));
     }
 
-    @ParameterizedTest
-    @CsvSource("1, publication1")
-    void containsWithCorrectData_TrueAnswer(Integer id, String name) throws DAOException {
-        Publication publication = new Publication(id,name  );
-        assertDoesNotThrow(()->publicationDAO.contains(publication.getPublicationId()));
-        assertTrue(publicationDAO.contains(publication.getPublicationId()));
-    }
 
-    @ParameterizedTest
-    @CsvSource("12, unreal_publication")
-    void containsWithCorrectData_FalseAnswer(Integer id, String name) throws DAOException {
-        Publication publication = new Publication(id,name  );
-        assertDoesNotThrow(()->publicationDAO.contains(publication.getPublicationId()));
-        assertFalse(publicationDAO.contains(publication.getPublicationId()));
-    }
-
-    @Test
-    void containsWithIncorrectData() {
-        Publication publication = new Publication("newPublication");
-        assertThrows(IllegalArgumentException.class, ()->publicationDAO.contains(publication.getPublicationId()));
-    }
 }

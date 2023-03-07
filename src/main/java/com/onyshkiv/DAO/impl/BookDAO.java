@@ -15,6 +15,7 @@ import org.apache.logging.log4j.Logger;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class BookDAO extends AbstractDAO<Integer, Book> {
     private static final Logger logger = LogManager.getLogger(BookDAO.class);
@@ -33,19 +34,16 @@ public class BookDAO extends AbstractDAO<Integer, Book> {
     //++++++++++++++++++++++
     @Override
     public List<Book> findAll() throws DAOException {
-        logger.info("start getting books");
         List<Book> books = new ArrayList<>();
         try (
                 PreparedStatement statement = prepareStatement(con, SQLQuery.BookQuery.FIND_ALL_BOOKS, false);
                 ResultSet resultSet = statement.executeQuery()
         ) {
-            logger.debug("after try");
             while (resultSet.next()) {
                 Book result = map(resultSet);
-                logger.error("inside while");
                 PublicationDAO publicationDAO = PublicationDAO.getInstance();
                 publicationDAO.setConnection(con);
-                result.setPublication(publicationDAO.findEntityById(result.getPublication().getPublicationId()));
+                result.setPublication(publicationDAO.findEntityById(result.getPublication().getPublicationId()).orElse(null));
 
                 AuthorDAO authorDAO = AuthorDAO.getInstance();
                 authorDAO.setConnection(con);
@@ -57,14 +55,14 @@ public class BookDAO extends AbstractDAO<Integer, Book> {
             logger.error(e.getMessage());
             throw new DAOException(e);
         }
-        logger.fatal("after all, at the end");
         return books;
     }
 
     //++++++++++++++++++++++
     @Override
-    public Book findEntityById(Integer id) throws DAOException {
-        Book result =null;
+    public Optional<Book> findEntityById(Integer id) throws DAOException {
+        Book result = null;
+        Optional<Book> bookOptional;
         try (
                 PreparedStatement statement = prepareStatement(con, SQLQuery.BookQuery.FIND_BOOK_BY_ISBN, false, id);
                 ResultSet resultSet = statement.executeQuery()
@@ -74,22 +72,23 @@ public class BookDAO extends AbstractDAO<Integer, Book> {
 
                 PublicationDAO publicationDAO = PublicationDAO.getInstance();
                 publicationDAO.setConnection(con);
-                result.setPublication(publicationDAO.findEntityById(result.getPublication().getPublicationId()));
+                result.setPublication(publicationDAO.findEntityById(result.getPublication().getPublicationId()).orElse(null));
 
                 AuthorDAO authorDAO = AuthorDAO.getInstance();
                 authorDAO.setConnection(con);
                 result.setAuthors(authorDAO.getAllAuthorByBookISBN(id));
             }
+            bookOptional = Optional.ofNullable(result);
         } catch (SQLException e) {
             //log
             throw new DAOException(e);
         }
-        return result;
+        return bookOptional;
     }
 
     //++++++++++++++++++++++
     @Override
-    public boolean create(Book model) throws DAOException {
+    public void create(Book model) throws DAOException {
 
         Object[] values = {
                 model.getIsbn(),
@@ -106,21 +105,20 @@ public class BookDAO extends AbstractDAO<Integer, Book> {
             if (affectedRows == 0) {
                 throw new DAOException("Creating book failed, no rows affected.");
             }
-            AuthorDAO authorDAO = AuthorDAO.getInstance();
-            authorDAO.setConnection(con);
-            for (Author a : model.getAuthors()) {
-                authorDAO.setAuthorBookTableConnection(model.getIsbn(), a.getAuthorId());
-            }
+            // AuthorDAO authorDAO = AuthorDAO.getInstance();
+            // authorDAO.setConnection(con);
+            // for (Author a : model.getAuthors()) {
+            //      authorDAO.setAuthorBookTableConnection(model.getIsbn(), a.getAuthorId());
+            //  }
         } catch (SQLException e) {
             throw new DAOException(e);
         }
 
-        return true;
     }
 
     //++++++++++++++++++++++
     @Override
-    public Book update(Book model) throws DAOException {
+    public void update(Book model) throws DAOException {
         if (model.getIsbn() == 0) {
             throw new IllegalArgumentException("Book is not created yet, the Book isbn is 0.");
         }
@@ -140,26 +138,25 @@ public class BookDAO extends AbstractDAO<Integer, Book> {
                 throw new DAOException("Updating book failed, no rows affected.");
             }
 
-            AuthorDAO authorDAO = AuthorDAO.getInstance();
-            authorDAO.setConnection(con);
-            authorDAO.removeAuthorBookTableConnection(model.getIsbn());
-            for (Author a : model.getAuthors()) {
-                authorDAO.setAuthorBookTableConnection(model.getIsbn(), a.getAuthorId());
-            }
+            // AuthorDAO authorDAO = AuthorDAO.getInstance();
+            //  authorDAO.setConnection(con);
+            // authorDAO.removeAuthorBookTableConnection(model.getIsbn());
+            // for (Author a : model.getAuthors()) {
+            //     authorDAO.setAuthorBookTableConnection(model.getIsbn(), a.getAuthorId());
+            // }
 
         } catch (SQLException e) {
             throw new DAOException(e);
         }
-        return findEntityById(model.getIsbn());
     }
 
     //++++++++++++++++++++++
     @Override
-    public boolean delete(Book model) throws DAOException {
+    public void delete(Book model) throws DAOException {
         try (PreparedStatement statement = prepareStatement(con, SQLQuery.BookQuery.DELETE_BOOK, false, model.getIsbn())) {
-            AuthorDAO authorDAO = AuthorDAO.getInstance();
-            authorDAO.setConnection(con);
-            authorDAO.removeAuthorBookTableConnection(model.getIsbn());
+            // AuthorDAO authorDAO = AuthorDAO.getInstance();
+            //authorDAO.setConnection(con);
+            // authorDAO.removeAuthorBookTableConnection(model.getIsbn());
             int affectedRows = statement.executeUpdate();
             if (affectedRows == 0) {
                 throw new DAOException("Deleting book failed, no rows affected.");
@@ -169,19 +166,18 @@ public class BookDAO extends AbstractDAO<Integer, Book> {
         } catch (SQLException e) {
             throw new DAOException(e);
         }
-        return true;
     }
 
-    public boolean chechIsHaveAvaliableBook(Integer isbn) throws DAOException {
-        try (PreparedStatement statement = prepareStatement(con, SQLQuery.BookQuery.IS_AVALIABLE_BOOK, false, isbn);
-             ResultSet resultSet = statement.executeQuery()
-        ) {
-            return resultSet.next();
-        } catch (SQLException e) {
-            throw new DAOException(e);
-        }
-
-    }
+//    public boolean chechIsHaveAvaliableBook(Integer isbn) throws DAOException {
+//        try (PreparedStatement statement = prepareStatement(con, SQLQuery.BookQuery.IS_AVALIABLE_BOOK, false, isbn);
+//             ResultSet resultSet = statement.executeQuery()
+//        ) {
+//            return resultSet.next();
+//        } catch (SQLException e) {
+//            throw new DAOException(e);
+//        }
+//
+//    }
 
 
     private static Book map(ResultSet resultSet) throws SQLException {
@@ -192,7 +188,6 @@ public class BookDAO extends AbstractDAO<Integer, Book> {
         result.setName(resultSet.getString(2));
         publication.setPublicationId(resultSet.getInt(4));
 
-
         result.setDateOfPublication(resultSet.getDate(3));
         result.setPublication(publication);
         result.setQuantity(resultSet.getInt(5));
@@ -202,6 +197,5 @@ public class BookDAO extends AbstractDAO<Integer, Book> {
     }
 
 
-
-    }
+}
 

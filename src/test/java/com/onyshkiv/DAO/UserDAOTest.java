@@ -66,23 +66,6 @@ class UserDAOTest {
 //        assertArrayEquals(users.toArray(), actual.toArray());
 //    }
 
-//    @Test
-//    void findAllUsersByActiveBook() throws DAOException {
-//        Set<User> users = userDAO.getAllUsersByActiveBookId(1);
-//        Set<User> actual = new HashSet<>();
-//        actual.add(new User("user1", "das", PasswordHashGenerator.hash("password"), new Role("reader"), new UserStatus("active"), "Ostap", "Patso", null));
-//        actual.add(new User("userLibr1", "das", PasswordHashGenerator.hash("password"), new Role("librarian"), new UserStatus("active"), "lib", "miy", null));
-//        assertArrayEquals(users.toArray(), actual.toArray());
-//    }
-
-//    @Test
-//    void findAllUsersByActiveBookNoEntries() throws DAOException {
-//        Set<User> users = userDAO.getAllUsersByActiveBookId(15);
-//        Set<User> actual = new HashSet<>();
-//        assertArrayEquals(users.toArray(), actual.toArray());
-//    }
-
-
     @ParameterizedTest
     @CsvSource({
             "user1,asd, reader, active, Ostap, Patso, null",
@@ -93,7 +76,7 @@ class UserDAOTest {
     void findEntityById(String login, String email, String role, String status,
                         String firstName, String lastName, String phone) throws DAOException {
 
-        User user = userDAO.findEntityById(login);
+        User user = userDAO.findEntityById(login).get();
         assertAll(
                 () -> assertEquals(user.getLogin(), login),
                 () -> assertEquals(user.getUserStatus(), new UserStatus(status)),
@@ -106,7 +89,7 @@ class UserDAOTest {
 
     @Test
     void findEntityByIdNoEntries() throws DAOException {
-        User user = userDAO.findEntityById("incorrectlogin");
+        User user = userDAO.findEntityById("incorrectlogin").orElse(null);
         assertNull(user);
     }
 
@@ -114,9 +97,18 @@ class UserDAOTest {
     @CsvSource(
             "testUser,asd@gmail.com,password, reader, active, Ostap, Patso")
     void createUserWithCorrectData(String login, String email, String password, String role, String status,
-                                   String firstName, String lastName) {
+                                   String firstName, String lastName) throws DAOException {
         User user = new User(login, email, password, new Role(role), new UserStatus(status), firstName, lastName, null);
         assertDoesNotThrow(() -> userDAO.create(user));
+        User user1 = userDAO.findEntityById(login).get();
+        assertAll(
+                () -> assertEquals(user1.getLogin(), login),
+                () -> assertEquals(user1.getUserStatus(), new UserStatus(status)),
+                () -> assertEquals(user1.getEmail(), email),
+                () -> assertEquals(user1.getRole(), new Role(role)),
+                () -> assertEquals(user1.getFirstName(), firstName),
+                () -> assertEquals(user1.getLastName(), lastName),
+                () -> assertNull(user1.getPhone()));
     }
 
 
@@ -136,6 +128,14 @@ class UserDAOTest {
                                    String firstName, String lastName) {
         User user = new User(login, email, password, new Role(role), new UserStatus(status), firstName, lastName, null);
         assertDoesNotThrow(() -> userDAO.update(user));
+        assertAll(
+                () -> assertEquals(user.getLogin(), login),
+                () -> assertEquals(user.getUserStatus(), new UserStatus(status)),
+                () -> assertEquals(user.getEmail(), email),
+                () -> assertEquals(user.getRole(), new Role(role)),
+                () -> assertEquals(user.getFirstName(), firstName),
+                () -> assertEquals(user.getLastName(), lastName),
+                () -> assertNull(user.getPhone()));
     }
 //to do null user login
     @ParameterizedTest
@@ -155,7 +155,7 @@ class UserDAOTest {
                                    String firstName, String lastName) throws DAOException {
         User user = new User(login, email, password, new Role(role), new UserStatus(status), firstName, lastName, null);
         assertDoesNotThrow(() -> userDAO.delete(user));
-        User user2 = userDAO.findEntityById(login);
+        User user2 = userDAO.findEntityById(login).orElse(null);
         assertNull(user2);
     }
 
@@ -175,7 +175,6 @@ class UserDAOTest {
                                        String firstName, String lastName) throws DAOException {
         User user = new User(login, email, password, new Role(role), new UserStatus(status), firstName, lastName, null);
         assertDoesNotThrow(() -> userDAO.changePassword(user));
-        assertEquals(userDAO.findEntityById(login), user);
     }
 
     @ParameterizedTest

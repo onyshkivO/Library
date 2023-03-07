@@ -77,7 +77,7 @@ class AuthorDAOTest {
             "2, author2"
     })
     void findEntityById(Integer id, String name) throws DAOException {
-        Author author = authorDAO.findEntityById(id);
+        Author author = authorDAO.findEntityById(id).get();
         assertAll(
                 () -> assertEquals(id,author.getAuthorId()),
                 () -> assertEquals(name,author.getName()));
@@ -85,7 +85,7 @@ class AuthorDAOTest {
 
     @Test
     void findEntityById_NoEntries() throws DAOException {
-        Author author = authorDAO.findEntityById(12);
+        Author author = authorDAO.findEntityById(12).orElse(null);
         assertNull(author);
     }
 
@@ -114,7 +114,7 @@ class AuthorDAOTest {
     void updatePublicationWithCorrectData(Integer id, String name) throws DAOException {
         Author author = new Author(id,name);
         assertDoesNotThrow(() -> authorDAO.update(author));
-        Author author1=  authorDAO.findEntityById(id);
+        Author author1=  authorDAO.findEntityById(id).get();
         assertAll(
                 () -> assertEquals(id,author1.getAuthorId()),
                 ()-> assertEquals(name,author1.getName()));
@@ -139,7 +139,7 @@ class AuthorDAOTest {
     void deleteUserWithCorrectData(Integer id, String name) throws DAOException {
         Author author = new Author(id,name);
         assertDoesNotThrow(() -> authorDAO.delete(author));
-        Author author1 = authorDAO.findEntityById(id);
+        Author author1 = authorDAO.findEntityById(id).orElse(null);
         assertNull(author1);
     }
 
@@ -193,8 +193,4 @@ class AuthorDAOTest {
         assertArrayEquals(authors.toArray(),new Object[]{});
     }
 
-//    @Test
-//    void removeAuthorBookTableConnection_IncorrectData() {
-//        assertThrows(DAOException.class,()->authorDAO.removeAuthorBookTableConnection(12));
-//    }
 }

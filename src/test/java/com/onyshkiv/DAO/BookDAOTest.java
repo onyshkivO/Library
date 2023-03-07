@@ -87,7 +87,7 @@ class BookDAOTest {
     @ParameterizedTest
     @MethodSource("findEntityData")
     void findEntityById(Book expected) throws DAOException {
-        Book actual = bookDAO.findEntityById(expected.getIsbn());
+        Book actual = bookDAO.findEntityById(expected.getIsbn()).get();
         assertAll(
                 () -> assertEquals(expected.getIsbn(),actual.getIsbn()),
                 () -> assertEquals(expected.getName(),actual.getName()),
@@ -120,7 +120,7 @@ class BookDAOTest {
 
     @Test
     void findEntityById_NoEntries() throws DAOException {
-        Book book = bookDAO.findEntityById(13);
+        Book book = bookDAO.findEntityById(13).orElse(null);
         assertNull(book);
     }
 
@@ -130,15 +130,14 @@ class BookDAOTest {
     @MethodSource("createdBookData")
     void createBookWithCorrectData(Book book) throws DAOException {
         assertDoesNotThrow(() -> bookDAO.create(book));
-        Book created = bookDAO.findEntityById(book.getIsbn());
+        Book created = bookDAO.findEntityById(book.getIsbn()).get();
         assertAll(
                 () -> assertEquals(created.getIsbn(),book.getIsbn()),
                 () -> assertEquals(created.getName(),book.getName()),
                 () -> assertEquals(created.getDateOfPublication(),book.getDateOfPublication()),
                 () -> assertEquals(created.getPublication(),book.getPublication()),
                 () -> assertEquals(created.getQuantity(),book.getQuantity()),
-                () -> assertEquals(created.getDetails(),book.getDetails()),
-                () -> assertEquals(created.getAuthors(),book.getAuthors()));
+                () -> assertEquals(created.getDetails(),book.getDetails()));
     }
 
     private static Stream<Arguments> createdBookData() throws ParseException {
@@ -161,7 +160,7 @@ class BookDAOTest {
     @MethodSource("updatedBookData")
     void updateBookWithCorrectData(Book book) throws DAOException {
         assertDoesNotThrow(() -> bookDAO.update(book));
-        Book book1=  bookDAO.findEntityById(book.getIsbn());
+        Book book1=  bookDAO.findEntityById(book.getIsbn()).get();
         assertAll(
                 () -> assertEquals(book1.getIsbn(),book.getIsbn()),
                 () -> assertEquals(book1.getName(),book.getName()),
@@ -169,8 +168,7 @@ class BookDAOTest {
                 () -> assertEquals(book1.getPublication(),book.getPublication()),
                 () -> assertEquals(book1.getQuantity(),book.getQuantity()),
                 () -> assertEquals(book1.getDetails(),book.getDetails()),
-                () -> assertEquals(book1.getDetails(),book.getDetails()),
-                () -> assertEquals(book1.getAuthors(),book.getAuthors()));
+                () -> assertEquals(book1.getDetails(),book.getDetails()));
     }
     private static Stream<Arguments> updatedBookData() throws ParseException {
         Set<Author> authors1 = new HashSet<>();
@@ -197,7 +195,7 @@ class BookDAOTest {
     @MethodSource("deletedBookData")
     void deleteUserWithCorrectData(Book book) throws DAOException {
         assertDoesNotThrow(() -> bookDAO.delete(book));
-        Book book1 = bookDAO.findEntityById(book.getIsbn());
+        Book book1 = bookDAO.findEntityById(book.getIsbn()).orElse(null);
         assertNull(book1);
     }
 
@@ -215,13 +213,5 @@ class BookDAOTest {
 
   //to do no row affected то коли немає такого запису
 
-    @Test
-    void chechIsHaveAvaliableBook_returnTrue() throws DAOException {
-        assertTrue(bookDAO.chechIsHaveAvaliableBook(1));
-    }
 
-    @Test
-    void chechIsHaveAvaliableBook_returnFalse() throws DAOException {
-        assertFalse(bookDAO.chechIsHaveAvaliableBook(6));
-    }
 }

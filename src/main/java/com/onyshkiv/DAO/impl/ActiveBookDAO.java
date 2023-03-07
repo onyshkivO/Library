@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ActiveBookDAO extends AbstractDAO<Integer, ActiveBook> {
 
@@ -39,12 +40,12 @@ public class ActiveBookDAO extends AbstractDAO<Integer, ActiveBook> {
                 ActiveBook activeBook = map(resultSet);
                 BookDAO bookDAO = BookDAO.getInstance();
                 bookDAO.setConnection(con);
-                activeBook.setBook(bookDAO.findEntityById(activeBook.getBook().getIsbn()));
+                activeBook.setBook(bookDAO.findEntityById(activeBook.getBook().getIsbn()).orElse(null));
 
                 UserDAO userDAO = UserDAO.getInstance();
                 userDAO.setConnection(con);
 
-                activeBook.setUser(userDAO.findEntityById(activeBook.getUser().getLogin()));
+                activeBook.setUser(userDAO.findEntityById(activeBook.getUser().getLogin()).orElse(null));
                 activeBooks.add(activeBook);
             }
         } catch (SQLException e) {
@@ -55,8 +56,9 @@ public class ActiveBookDAO extends AbstractDAO<Integer, ActiveBook> {
 
     //++++++++++++++++++++++++
     @Override
-    public ActiveBook findEntityById(Integer id) throws DAOException {
+    public Optional<ActiveBook> findEntityById(Integer id) throws DAOException {
         ActiveBook activeBook = null;
+        Optional<ActiveBook> activeBookOptional;
         try (
                 PreparedStatement statement = prepareStatement(con, SQLQuery.ActiveBookQuery.SELECT_ACTIVE_BOOK_BY_ID, false, id);
                 ResultSet resultSet = statement.executeQuery()
@@ -66,25 +68,26 @@ public class ActiveBookDAO extends AbstractDAO<Integer, ActiveBook> {
 
                 BookDAO bookDAO = BookDAO.getInstance();
                 bookDAO.setConnection(con);
-                activeBook.setBook(bookDAO.findEntityById(activeBook.getBook().getIsbn()));
+                activeBook.setBook(bookDAO.findEntityById(activeBook.getBook().getIsbn()).orElse(null));
 
                 UserDAO userDAO = UserDAO.getInstance();
                 userDAO.setConnection(con);
-                activeBook.setUser(userDAO.findEntityById(activeBook.getUser().getLogin()));
+                activeBook.setUser(userDAO.findEntityById(activeBook.getUser().getLogin()).orElse(null));
             }
+            activeBookOptional = Optional.ofNullable(activeBook);
         } catch (SQLException e) {
             throw new DAOException(e);
         }
-        return activeBook;
+        return activeBookOptional;
     }
 
     //+++++++++++++++
     @Override
-    public boolean create(ActiveBook model) throws DAOException {
+    public void create(ActiveBook model) throws DAOException {
         if (model.getActiveBookId() != 0) {
             throw new IllegalArgumentException("ActiveBook is already created, the activeBook ID is not 0.");
         }
-        if (model.getUser() == null||model.getUser().getLogin()==null||model.getUser().getLogin().isBlank()) {
+        if (model.getUser() == null || model.getUser().getLogin() == null || model.getUser().getLogin().isBlank()) {
             throw new IllegalArgumentException("Cannot create new active book relation without user");
         }
         Object[] values = {
@@ -118,18 +121,16 @@ public class ActiveBookDAO extends AbstractDAO<Integer, ActiveBook> {
         } catch (SQLException e) {
             throw new DAOException(e);
         }
-
-        return true;
     }
 
 
     @Override
-    public ActiveBook update(ActiveBook model) throws DAOException {
+    public void update(ActiveBook model) throws DAOException {
         if (model.getActiveBookId() == 0) {
             throw new IllegalArgumentException("ActiveBook is not created yet, the ActiveBook ID is 0.");
         }
 
-        if (model.getUser() == null||model.getUser().getLogin()==null||model.getUser().getLogin().isBlank()) {
+        if (model.getUser() == null || model.getUser().getLogin() == null || model.getUser().getLogin().isBlank()) {
             throw new IllegalArgumentException("Cannot update  active book relation without users");
         }
         Object[] values = {
@@ -152,12 +153,11 @@ public class ActiveBookDAO extends AbstractDAO<Integer, ActiveBook> {
         } catch (SQLException e) {
             throw new DAOException(e);
         }
-        return findEntityById(model.getActiveBookId());
     }
 
 
     @Override
-    public boolean delete(ActiveBook model) throws DAOException {
+    public void delete(ActiveBook model) throws DAOException {
         try (PreparedStatement statement = prepareStatement(con, SQLQuery.ActiveBookQuery.DELETE_ACTIVE_BOOK, false, model.getActiveBookId())) {
             int affectedRows = statement.executeUpdate();
             if (affectedRows == 0) {
@@ -167,7 +167,6 @@ public class ActiveBookDAO extends AbstractDAO<Integer, ActiveBook> {
             throw new DAOException(e);
         }
 
-        return true;
     }
 
     private ActiveBook map(ResultSet resultSet) throws SQLException {
@@ -188,7 +187,6 @@ public class ActiveBookDAO extends AbstractDAO<Integer, ActiveBook> {
 
         return result;
     }
-
 
 
 }
