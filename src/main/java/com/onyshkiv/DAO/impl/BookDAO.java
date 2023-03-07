@@ -168,16 +168,16 @@ public class BookDAO extends AbstractDAO<Integer, Book> {
         }
     }
 
-    public boolean chechIsHaveAvaliableBook(Integer isbn) throws DAOException {
-        try (PreparedStatement statement = prepareStatement(con, SQLQuery.BookQuery.IS_AVALIABLE_BOOK, false, isbn);
-             ResultSet resultSet = statement.executeQuery()
-        ) {
-            return resultSet.next();
-        } catch (SQLException e) {
-            throw new DAOException(e);
-        }
-
-    }
+//    public boolean chechIsHaveAvaliableBook(Integer isbn) throws DAOException {
+//        try (PreparedStatement statement = prepareStatement(con, SQLQuery.BookQuery.IS_AVALIABLE_BOOK, false, isbn);
+//             ResultSet resultSet = statement.executeQuery()
+//        ) {
+//            return resultSet.next();
+//        } catch (SQLException e) {
+//            throw new DAOException(e);
+//        }
+//
+//    }
 
 
     private static Book map(ResultSet resultSet) throws SQLException {

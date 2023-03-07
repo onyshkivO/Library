@@ -168,10 +168,7 @@ public class AuthorDAO extends AbstractDAO<Integer, Author> {
 
     public void removeAuthorBookTableConnection(Integer bookIsbn) throws DAOException {
         try (PreparedStatement statement = prepareStatement(con, SQLQuery.AuthorQuery.M2M_REMOVE_BOOK_AND_AUTHOR, false, bookIsbn)) {
-            int affectedRows = statement.executeUpdate();
-//            if (affectedRows == 0) {
-//                throw new DAOException("Deleting m2m_book_author failed, no rows affected.");
-//            }
+            statement.executeUpdate();
         } catch (SQLException e) {
             //log
             throw new DAOException(e);
