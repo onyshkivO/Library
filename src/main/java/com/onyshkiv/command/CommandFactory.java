@@ -26,7 +26,6 @@ public class CommandFactory {
             command = CommandType.getCurrentCommand(action.toUpperCase());
         }catch (IllegalArgumentException e){
             //log
-
         }
         return command;
     }
