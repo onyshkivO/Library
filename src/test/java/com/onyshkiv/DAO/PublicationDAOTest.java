@@ -1,15 +1,7 @@
 package com.onyshkiv.DAO;
 
-import com.onyshkiv.DAO.ApplicationResourceBundle;
-import com.onyshkiv.DAO.DAOException;
-import com.onyshkiv.DAO.DataSource;
 import com.onyshkiv.DAO.impl.PublicationDAO;
-import com.onyshkiv.DAO.impl.UserDAO;
-import com.onyshkiv.PasswordHashGenerator;
 import com.onyshkiv.entity.Publication;
-import com.onyshkiv.entity.Role;
-import com.onyshkiv.entity.User;
-import com.onyshkiv.entity.UserStatus;
 import org.apache.ibatis.jdbc.ScriptRunner;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -20,10 +12,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 class PublicationDAOTest {

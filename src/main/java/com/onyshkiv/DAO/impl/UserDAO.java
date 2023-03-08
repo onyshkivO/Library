@@ -5,14 +5,13 @@ import static com.onyshkiv.DAO.DAOUtil.*;
 import com.onyshkiv.DAO.AbstractDAO;
 import com.onyshkiv.DAO.DAOException;
 import com.onyshkiv.DAO.SQLQuery;
-import com.onyshkiv.PasswordHashGenerator;
+import com.onyshkiv.util.password.PasswordHashGenerator;
 import com.onyshkiv.entity.Role;
 import com.onyshkiv.entity.User;
 import com.onyshkiv.entity.UserStatus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

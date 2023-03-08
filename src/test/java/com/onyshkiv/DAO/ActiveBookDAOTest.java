@@ -1,8 +1,7 @@
 package com.onyshkiv.DAO;
 
 import com.onyshkiv.DAO.impl.ActiveBookDAO;
-import com.onyshkiv.DAO.impl.AuthorDAO;
-import com.onyshkiv.PasswordHashGenerator;
+import com.onyshkiv.util.password.PasswordHashGenerator;
 import com.onyshkiv.entity.*;
 import org.apache.ibatis.jdbc.ScriptRunner;
 import org.junit.jupiter.api.AfterAll;

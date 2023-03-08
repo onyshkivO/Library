@@ -1,4 +1,4 @@
-package com.onyshkiv;
+package com.onyshkiv.util.password;
 
 import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Factory;

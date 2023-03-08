@@ -2,7 +2,6 @@ package com.onyshkiv.DAO;
 
 
 import com.onyshkiv.DAO.impl.UserDAO;
-import com.onyshkiv.PasswordHashGenerator;
 import com.onyshkiv.entity.Role;
 import com.onyshkiv.entity.User;
 import com.onyshkiv.entity.UserStatus;
@@ -16,8 +15,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.HashSet;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
