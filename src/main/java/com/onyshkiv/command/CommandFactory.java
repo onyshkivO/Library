@@ -19,7 +19,7 @@ public class CommandFactory {
     }
     public Command defineCommand(HttpServletRequest request) {
         Command command = new EmptyCommand();
-        String action = request.getRequestURI().replace("/", "").substring(7);
+        String action = request.getParameter("action");
         System.out.println(action);
         action += request.getContentType() == null ? "get" : "post";
         try {

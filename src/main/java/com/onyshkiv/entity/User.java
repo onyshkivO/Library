@@ -5,7 +5,7 @@ import java.util.Objects;
 public class User extends Entity{
     private String login;
     private String email;
-    private String password;
+    private transient String password;
     private Role role;
     private UserStatus userStatus;
     private String firstName;

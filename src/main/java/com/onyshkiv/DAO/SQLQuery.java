@@ -41,7 +41,7 @@ public abstract class SQLQuery {
     public static class UserQuery {
         public static final String SELECT_ALL_USERS = "select login, email, password,role_id,status_id, first_name,last_name, phone\n" +
                 "from user";
-        public static final String SELECT_USER_BY_LOGIN = "select login, email,role_id,status_id, first_name,last_name, phone\n" +
+        public static final String SELECT_USER_BY_LOGIN = "select login, email,password,role_id,status_id, first_name,last_name, phone\n" +
                 "from user\n" +
                 "WHERE login = ?";
 
