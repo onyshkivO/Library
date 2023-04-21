@@ -171,7 +171,7 @@ class UserDAOTest {
     void changePasswordWithCorrectData(String login, String email, String password, String role, String status,
                                        String firstName, String lastName) throws DAOException {
         User user = new User(login, email, password, new Role(role), new UserStatus(status), firstName, lastName, null);
-        assertDoesNotThrow(() -> userDAO.changePassword(user));
+        assertDoesNotThrow(() -> userDAO.changePassword(password,login));
     }
 
     @ParameterizedTest
@@ -179,6 +179,6 @@ class UserDAOTest {
     void changePasswordWithIncorrectData(String login, String email, String password, String role, String status,
                                          String firstName, String lastName) {
         User user = new User(login, email, password, new Role(role), new UserStatus(status), firstName, lastName, null);
-        assertThrows(DAOException.class, () -> userDAO.changePassword(user));
+        assertThrows(DAOException.class, () -> userDAO.changePassword(password,login));
     }
 }

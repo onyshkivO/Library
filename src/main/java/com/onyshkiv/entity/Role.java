@@ -18,7 +18,7 @@ public class Role extends Entity{
     }
 
 
-    public int getRole_id() {
+    public int getRoleId() {
         return roleId;
     }
 

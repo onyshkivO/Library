@@ -20,8 +20,8 @@ public class CommandFactory {
     public Command defineCommand(HttpServletRequest request) {
         Command command = new EmptyCommand();
         String action = request.getParameter("action");
-        System.out.println(action);
         action += request.getContentType() == null ? "get" : "post";
+        System.out.println(action);
         try {
             command = CommandType.getCurrentCommand(action.toUpperCase());
         }catch (IllegalArgumentException e){

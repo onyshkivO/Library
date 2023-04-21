@@ -1,12 +1,21 @@
 package com.onyshkiv.command;
 
 
-import com.onyshkiv.command.impl.LoginCommand;
-import com.onyshkiv.command.impl.RegistrationCommand;
+import com.onyshkiv.command.impl.*;
 
 public enum CommandType {
     SIGNUPPOST(new RegistrationCommand()),
-    SIGNINPOST(new LoginCommand());
+    SIGNINPOST(new LoginCommand()),
+    SIGNOUTGET(new SignOutCommand()),
+    USERBOOKSGET(new GetUserBookCommand()),
+    BOOKPAGEGET(new BooksPageCommand()),
+    ADDBOOKGET(new AddBookCommand()),
+    EDITPROFILEPOST(new EditProfileCommand()),
+    CHANGEPASSWORDPOST(new ChangePasswordCommand()),
+    GETORDERSGET(new OrdersPageCommand()),
+    //GIVEBOOKPOST(new GiveBookCommand());
+    GIVEBOOKGET(new GiveBookCommand()),
+    GETUSERSBOOKGET(new GetUsersBooksCommand());
 
     private Command command;
 

@@ -47,6 +47,21 @@ public class UserService implements IUserService {
         }
         return optional;
     }
+    @Override
+    public Optional<String> findUsePasswordByLogin(String login) throws ServiceExcpetion {
+        Optional<String> optional;
+        entityTransaction.init(userDAO);
+
+        try {
+            optional = userDAO.findUserPasswordById(login);
+        } catch (DAOException e) {
+            //log
+            throw new ServiceExcpetion(e);
+        } finally {
+            entityTransaction.end(userDAO);
+        }
+        return optional;
+    }
 
     @Override
     public List<User> findAllUsers() throws ServiceExcpetion {
@@ -104,10 +119,23 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void changeUserPassword(User user) throws ServiceExcpetion {
+    public void changeUserPassword(String password,String login) throws ServiceExcpetion {
         entityTransaction.init(userDAO);
         try {
-            userDAO.changePassword(user);
+            userDAO.changePassword(password,login);
+        } catch (DAOException e) {
+            //log
+            throw new ServiceExcpetion(e);
+        } finally {
+            entityTransaction.end(userDAO);
+        }
+    }
+
+    @Override
+    public void changeUserLogin(String newLogin, String oldLogin) throws ServiceExcpetion {
+        entityTransaction.init(userDAO);
+        try {
+            userDAO.changeLogin(newLogin, oldLogin);
         } catch (DAOException e) {
             //log
             throw new ServiceExcpetion(e);

@@ -93,6 +93,21 @@ public class BookService implements IBookService {
     }
 
     @Override
+    public List<Book> findAllAvailableBooks() throws ServiceExcpetion {
+        List<Book> list;
+        entityTransaction.init(bookDAO);
+        try {
+            list = bookDAO.findAllVailableBooks();
+        } catch (DAOException e) {
+            //log
+            throw new ServiceExcpetion(e);
+        } finally {
+            entityTransaction.end(bookDAO);
+        }
+        return list;
+    }
+
+    @Override
     public void createBook(Book book) throws ServiceExcpetion {
         entityTransaction.initTransaction(bookDAO, authorDAO);
         try {

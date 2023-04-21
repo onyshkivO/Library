@@ -149,16 +149,6 @@ CREATE TABLE IF NOT EXISTS `library_final_project_test`.`subscription_status` (
   CONSTRAINT UC_Name UNIQUE (name));
 
 
--- -----------------------------------------------------
--- Table `library_final_project_test`.`way_of_using`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `library_final_project_test`.`way_of_using` ;
-
-CREATE TABLE IF NOT EXISTS `library_final_project_test`.`way_of_using` (
-  `way_of_using_id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`way_of_using_id`),
-  CONSTRAINT UC_Name UNIQUE (name));
 
 
 -- -----------------------------------------------------
@@ -170,26 +160,18 @@ CREATE TABLE IF NOT EXISTS `library_final_project_test`.`active_book` (
   `active_book_id` INT NOT NULL AUTO_INCREMENT,
   `book_isbn` INT NOT NULL,
   `user_login` VARCHAR(45) NOT NULL,
-  `way_of_using_id` INT NOT NULL,
   `subscription_status_id` INT NOT NULL,
-  `start_date` DATETIME NOT NULL DEFAULT now(),
-  `end_date` DATETIME NOT NULL DEFAULT (date_format(`start_date`,'%y-%m-%d 18-00-00')),
-  `quantity` int NOT NULL DEFAULT 1,
+  `start_date` DATE NOT NULL DEFAULT (date_format(now(),'%y-%m-%d')),
+  `end_date` DATE NOT NULL DEFAULT (PERIOD_ADD(date_format(`start_date`,'%y%m'),1)),
   `fine` DECIMAL(9,2) NULL,
   PRIMARY KEY (`active_book_id`),
   UNIQUE INDEX `active_book_id_UNIQUE` (`active_book_id` ASC) VISIBLE,
   INDEX `fk_active_book_subscription_status1_idx` (`subscription_status_id` ASC) VISIBLE,
-  INDEX `fk_active_book_way_of_using1_idx` (`way_of_using_id` ASC) VISIBLE,
   INDEX `fk_active_book_book1_idx` (`book_isbn` ASC) VISIBLE,
-  INDEX `fk_active_book_user_idx` (`book_isbn` ASC) VISIBLE,
+  INDEX `fk_active_book_user_idx` (`user_login` ASC) VISIBLE,
   CONSTRAINT `fk_active_book_subscription_status1`
     FOREIGN KEY (`subscription_status_id`)
     REFERENCES `library_final_project_test`.`subscription_status` (`subscription_status_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_active_book_way_of_using1`
-    FOREIGN KEY (`way_of_using_id`)
-    REFERENCES `library_final_project_test`.`way_of_using` (`way_of_using_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_active_book_book1`
@@ -200,45 +182,8 @@ CREATE TABLE IF NOT EXISTS `library_final_project_test`.`active_book` (
   CONSTRAINT `fk_active_book_user`
     FOREIGN KEY (`user_login`)
     REFERENCES `library_final_project_test`.`user` (`login`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
--- -----------------------------------------------------
--- Table `library_final_project_test`.`active_book_has_user`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `library_final_project_test`.`active_book_has_user` ;
-
--- CREATE TABLE IF NOT EXISTS `library_final_project_test`.`active_book_has_user` (
---   `active_book_id` INT NOT NULL,
---   `user_login` VARCHAR(45) NOT NULL,
---   PRIMARY KEY (`active_book_id`, `user_login`),
---   INDEX `fk_active_book_has_user_user1_idx` (`user_login` ASC) VISIBLE,
---   INDEX `fk_active_book_has_user_active_book1_idx` (`active_book_id` ASC) VISIBLE,
---   CONSTRAINT `fk_active_book_has_user_active_book1`
---     FOREIGN KEY (`active_book_id`)
---     REFERENCES `library_final_project_test`.`active_book` (`active_book_id`) ON DELETE CASCADE ON UPDATE CASCADE,
---   CONSTRAINT `fk_active_book_has_user_user1`
---     FOREIGN KEY (`user_login`)
---     REFERENCES `library_final_project_test`.`user` (`login`) ON DELETE CASCADE ON UPDATE CASCADE);
---     
-    
--- alter table publication
--- ADD CONSTRAINT UC_Name UNIQUE (name);
-
--- alter table authors
--- ADD CONSTRAINT UC_Name UNIQUE (name);
-
--- alter table role
--- ADD CONSTRAINT UC_Name UNIQUE (name);
-
--- alter table subscription_status
--- ADD CONSTRAINT UC_Name UNIQUE (name);
-
--- alter table user_status
--- ADD CONSTRAINT UC_Name UNIQUE (name);
-
--- alter table way_of_using
--- ADD CONSTRAINT UC_Name UNIQUE (name);
-
+    ON DELETE cascade
+    ON UPDATE cascade);
 
 INSERT INTO `role` (`name`)
 values('reader'),
@@ -251,11 +196,6 @@ VALUES
 ('blocked');
 
 
-INSERT INTO way_of_using(name)
-VALUES
-('subscription'),
-('reading room');
-
 INSERT INTO subscription_status(name)
 VALUES
 ('active'),
@@ -264,12 +204,12 @@ VALUES
 ('waiting');
 
 Insert into book values
-(1,'book1','11-11-11',1,1,null),
-(2,'book2','11-11-11',1,2,null),
-(3,'book_for_m2m','11-11-11',2,1,null),
-(4,'book_for_updating','11-11-11',2,1,null),
-(5,'book_for_deleting','11-11-11',2,1,null),
-(6,'book_for_deleting2','11-11-11',2,0,null);
+(1,'book1','11-11-11',1,5,null),
+(2,'book2','11-11-11',1,5,null),
+(3,'book_for_m2m','11-11-11',2,5,null),
+(4,'book_for_updating','11-11-11',2,5,null),
+(5,'book_for_deleting','11-11-11',2,5,null),
+(6,'book_for_deleting2','11-11-11',2,5,null);
 
 
 insert into publication values
@@ -297,26 +237,16 @@ Insert into user values
 ('userLibr2', 'asd','$argon2id$v=19$m=15360,t=2,p=1$vAgNIdLCePlvli1xUckGgnEc0phIdIca/7J55Szl8DE$JmHKkv2NpJgw7mhNwwcYWoICa0BANR7tUIZvk8b7YmpHkX1MQxNvVcwPOLRy5hLFLC28DagGAF8zJRIljmZyqQ',2,1,'lib','nemiy',default),
 ('userLib21', 'asd','$argon2id$v=19$m=15360,t=2,p=1$vAgNIdLCePlvli1xUckGgnEc0phIdIca/7J55Szl8DE$JmHKkv2NpJgw7mhNwwcYWoICa0BANR7tUIZvk8b7YmpHkX1MQxNvVcwPOLRy5hLFLC28DagGAF8zJRIljmZyqQ',2,1,'lib','miy',default),
 ('userfordeleting','delete@gmail.com','$argon2id$v=19$m=15360,t=2,p=1$vAgNIdLCePlvli1xUckGgnEc0phIdIca/7J55Szl8DE$JmHKkv2NpJgw7mhNwwcYWoICa0BANR7tUIZvk8b7YmpHkX1MQxNvVcwPOLRy5hLFLC28DagGAF8zJRIljmZyqQ',1,2,'name','secondname',default),
-('userforupdating','update@gmail.com','$argon2id$v=19$m=15360,t=2,p=1$vAgNIdLCePlvli1xUckGgnEc0phIdIca/7J55Szl8DE$JmHKkv2NpJgw7mhNwwcYWoICa0BANR7tUIZvk8b7YmpHkX1MQxNvVcwPOLRy5hLFLC28DagGAF8zJRIljmZyqQ',1,2,'name','secondname',default);
+('userforupdating','update@gmail.com','$argon2id$v=19$m=15360,t=2,p=1$vAgNIdLCePlvli1xUckGgnEc0phIdIca/7J55Szl8DE$JmHKkv2NpJgw7mhNwwcYWoICa0BANR7tUIZvk8b7YmpHkX1MQxNvVcwPOLRy5hLFLC28DagGAF8zJRIljmZyqQ',1,2,'name','secondname',default),
+('librarian1', '123@gmail.com', '$argon2id$v=19$m=15360,t=2,p=1$vAgNIdLCePlvli1xUckGgnEc0phIdIca/7J55Szl8DE$JmHKkv2NpJgw7mhNwwcYWoICa0BANR7tUIZvk8b7YmpHkX1MQxNvVcwPOLRy5hLFLC28DagGAF8zJRIljmZyqQ', '2', '1', 'Librarian', 'Librarian', '+380988544456');
 
 Insert Into active_book values
-(default,1,'user1',1,1,'2022-11-20','2022-12-15',1,null),
-(default,2,'user1',1,1,'2022-11-20','2022-12-15',2,null),
-(default,1,'userLibr1',1,1,'2022-11-20','2022-12-15',2,null),
-(default,3,'user1',1,1,'11-11-11','12-11-11',1,null),
-(default,2,'userLibr2',2,1,'11-11-11','12-11-11',3,null);
+(default,1,'user1',1,'2022-11-20','2022-12-15',null),
+(default,2,'user1',1,'2022-11-20','2022-12-15',null),
+(default,1,'userLibr1',1,'2022-11-20','2022-12-15',null),
+(default,3,'user1',1,'11-11-11','12-11-11',null),
+(default,2,'userLibr2',1,'11-11-11','12-11-11',null);
 
--- insert into active_book_has_user
--- values
--- (2,'userLibr2'),
--- (1,'user1'),
--- (1,'userLibr1'),
--- (2,'user1'),
--- (3,'user1'),
--- (3,'userLibr2'),
--- (3,'userLibr21'),
--- (4,'userLibr21'),
--- (4,'user1');
 SET FOREIGN_KEY_CHECKS=1;
 
 

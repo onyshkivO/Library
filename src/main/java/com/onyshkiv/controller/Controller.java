@@ -24,10 +24,12 @@ public class Controller extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("das");
+
         CommandFactory commandFactory = CommandFactory.getInstance();
         Command comand = commandFactory.defineCommand(request);
-        CommandResult commandResult = comand.execute(request, response);
 
+        CommandResult commandResult = comand.execute(request, response);
+        System.out.println(commandResult.getPage());
         if (commandResult.isRedirect()){
             response.sendRedirect(request.getContextPath()+commandResult.getPage());
         }

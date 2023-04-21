@@ -9,6 +9,7 @@ import java.util.Optional;
 public interface IBookService {
     Optional<Book> findBookById(Integer id) throws ServiceExcpetion;
     List<Book> findAllBooks() throws ServiceExcpetion;
+    List<Book> findAllAvailableBooks() throws ServiceExcpetion;
     void createBook(Book book) throws ServiceExcpetion;
     void updateBook(Book book) throws ServiceExcpetion;
     void deleteBook(Book book) throws ServiceExcpetion;

@@ -1,0 +1,32 @@
+/*.more{*/
+/*    margin-left: 300px;*/
+/*}*/
+/*.t{*/
+/*    max-width: 140px;*/
+/*}*/
+/*p{*/
+/*    max-width: 140px;*/
+/*}*/
+/*.order{*/
+/*    max-width: 900px;*/
+/*}*/
+
+.order {
+    justify-content: center;
+}
+#popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 300px;
+    background-color: #ffffff;
+    color: #000000;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    display: none;
+    opacity: 0;
+    transition: all 0.3s ease;
+}

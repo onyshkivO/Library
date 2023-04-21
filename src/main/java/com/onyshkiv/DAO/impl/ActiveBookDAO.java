@@ -13,6 +13,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Date;
 
 public class ActiveBookDAO extends AbstractDAO<Integer, ActiveBook> {
 
@@ -81,6 +82,101 @@ public class ActiveBookDAO extends AbstractDAO<Integer, ActiveBook> {
         return activeBookOptional;
     }
 
+    public List<ActiveBook> findActiveBooksByUserLogin(String login) throws DAOException {
+        List<ActiveBook> activeBooks = new ArrayList<>();
+        try (PreparedStatement statement = prepareStatement(con, SQLQuery.ActiveBookQuery.SELECT_ACTIVE_BOOKS_BY_USER_LOGIN, false,login);
+             ResultSet resultSet = statement.executeQuery()
+        ) {
+            while (resultSet.next()) {
+                ActiveBook activeBook = map(resultSet);
+                BookDAO bookDAO = BookDAO.getInstance();
+                bookDAO.setConnection(con);
+                activeBook.setBook(bookDAO.findEntityById(activeBook.getBook().getIsbn()).orElse(null));
+
+                UserDAO userDAO = UserDAO.getInstance();
+                userDAO.setConnection(con);
+
+                activeBook.setUser(userDAO.findEntityById(activeBook.getUser().getLogin()).orElse(null));
+                activeBooks.add(activeBook);
+            }
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        }
+        return activeBooks;
+    }
+    public List<ActiveBook> findActiveBooksOrders() throws DAOException {
+        List<ActiveBook> activeBooks = new ArrayList<>();
+        try (PreparedStatement statement = prepareStatement(con, SQLQuery.ActiveBookQuery.SELECT_ACTIVE_BOOKS_ORDERS, false);
+             ResultSet resultSet = statement.executeQuery()
+        ) {
+            while (resultSet.next()) {
+                ActiveBook activeBook = map(resultSet);
+                BookDAO bookDAO = BookDAO.getInstance();
+                bookDAO.setConnection(con);
+                activeBook.setBook(bookDAO.findEntityById(activeBook.getBook().getIsbn()).orElse(null));
+
+                UserDAO userDAO = UserDAO.getInstance();
+                userDAO.setConnection(con);
+
+                activeBook.setUser(userDAO.findEntityById(activeBook.getUser().getLogin()).orElse(null));
+                activeBooks.add(activeBook);
+            }
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        }
+        return activeBooks;
+    }
+
+    public List<ActiveBook> findAllUsersActiveBooks() throws DAOException {
+        List<ActiveBook> activeBooks = new ArrayList<>();
+        try (PreparedStatement statement = prepareStatement(con, SQLQuery.ActiveBookQuery.SELECT_ALL_USERS_ACTIVE_BOOKS, false);
+             ResultSet resultSet = statement.executeQuery()
+        ) {
+            while (resultSet.next()) {
+                ActiveBook activeBook = map(resultSet);
+                BookDAO bookDAO = BookDAO.getInstance();
+                bookDAO.setConnection(con);
+                activeBook.setBook(bookDAO.findEntityById(activeBook.getBook().getIsbn()).orElse(null));
+
+                UserDAO userDAO = UserDAO.getInstance();
+                userDAO.setConnection(con);
+
+                activeBook.setUser(userDAO.findEntityById(activeBook.getUser().getLogin()).orElse(null));
+                activeBooks.add(activeBook);
+            }
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        }
+        return activeBooks;
+    }
+
+    //todo можливо спростити, щоб не виводилося все
+    public Optional<ActiveBook> findActiveBookByUserAndBook(String login,Integer isbn) throws DAOException {
+        ActiveBook activeBook = null;
+        Optional<ActiveBook> activeBookOptional;
+        try (
+                PreparedStatement statement = prepareStatement(con, SQLQuery.ActiveBookQuery.SELECT_ACTIVE_BOOK_BY_USER_LOGIN_AND_BOOK_ISBN, false, login,isbn);
+                ResultSet resultSet = statement.executeQuery()
+        ) {
+            if (resultSet.next()) {
+                activeBook = map(resultSet);
+
+                BookDAO bookDAO = BookDAO.getInstance();
+                bookDAO.setConnection(con);
+                activeBook.setBook(bookDAO.findEntityById(activeBook.getBook().getIsbn()).orElse(null));
+
+                UserDAO userDAO = UserDAO.getInstance();
+                userDAO.setConnection(con);
+                activeBook.setUser(userDAO.findEntityById(activeBook.getUser().getLogin()).orElse(null));
+            }
+            activeBookOptional = Optional.ofNullable(activeBook);
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        }
+        return activeBookOptional;
+    }
+
+
     //+++++++++++++++
     @Override
     public void create(ActiveBook model) throws DAOException {
@@ -94,7 +190,7 @@ public class ActiveBookDAO extends AbstractDAO<Integer, ActiveBook> {
                 model.getBook().getIsbn(),
                 model.getUser().getLogin(),
                 model.getWayOfUsing().getWayOfUsingId(),
-                model.getSubscriptionStatus().getPublicationStatusId(),
+                model.getSubscriptionStatus().getSubscriptionStatusID(),
                 toSqlDate(model.getStartDate()),
                 toSqlDate(model.getEndDate()),
                 model.getQuantity(),
@@ -103,11 +199,6 @@ public class ActiveBookDAO extends AbstractDAO<Integer, ActiveBook> {
         };
 
         try (PreparedStatement statement = prepareStatement(con, SQLQuery.ActiveBookQuery.INSERT_ACTIVE_BOOK, true, values)) {
-            // ?????? можливо краще просто в сервісі викликати в bookDao findbyid
-//            BookDAO bookDAO = BookDAO.getInstance();
-//            bookDAO.setConnection(con);
-//            if (!bookDAO.chechIsHaveAvaliableBook(model.getBook().getIsbn()))
-//                throw new DAOException("Not avaliable book.");
             int affectedRows = statement.executeUpdate();
             if (affectedRows == 0) {
                 throw new DAOException("Creating activeBook failed, no rows affected.");
@@ -137,7 +228,7 @@ public class ActiveBookDAO extends AbstractDAO<Integer, ActiveBook> {
                 model.getBook().getIsbn(),
                 model.getUser().getLogin(),
                 model.getWayOfUsing().getWayOfUsingId(),
-                model.getSubscriptionStatus().getPublicationStatusId(),
+                model.getSubscriptionStatus().getSubscriptionStatusID(),
                 toSqlDate(model.getStartDate()),
                 toSqlDate(model.getEndDate()),
                 model.getQuantity(),
@@ -151,6 +242,29 @@ public class ActiveBookDAO extends AbstractDAO<Integer, ActiveBook> {
                 throw new DAOException("Updating active_book failed, no rows affected.");
             }
         } catch (SQLException e) {
+            throw new DAOException(e);
+        }
+    }
+
+    public void updateActiveBookForGive(Integer id, Date endDate, Double fine) throws DAOException {
+        if (id == 0) {
+            throw new IllegalArgumentException("ActiveBook is not created yet, the ActiveBook ID is 0.");
+        }
+        Object[] values = {
+                1,
+                toSqlDate(new Date()),
+                toSqlDate(endDate),
+                fine,
+                id
+        };
+
+        try (PreparedStatement statement = prepareStatement(con, SQLQuery.ActiveBookQuery.UPDATE_BOOK_BEFORE_GIVE, false, values)) {
+            int affectedRows = statement.executeUpdate();
+            if (affectedRows == 0) {
+                throw new DAOException("Updating active_book failed, no rows affected.");
+            }
+        } catch (SQLException e) {
+
             throw new DAOException(e);
         }
     }

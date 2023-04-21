@@ -10,8 +10,11 @@ import com.onyshkiv.service.ServiceExcpetion;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Date;
 
 public class ActiveBookService implements IActiveBookService {
     final static Logger logger = LogManager.getLogger(ActiveBookService.class);
@@ -52,11 +55,69 @@ public class ActiveBookService implements IActiveBookService {
     }
 
     @Override
+    public Optional<ActiveBook> findActiveBookByUserAndBook(String login, Integer isbn) throws ServiceExcpetion {
+        Optional<ActiveBook> optional;
+        entityTransaction.init(activeBookDAO);
+        try {
+            optional = activeBookDAO.findActiveBookByUserAndBook(login,isbn);
+        } catch (DAOException e) {
+            //log
+            throw new ServiceExcpetion(e);
+        } finally {
+            entityTransaction.end(activeBookDAO);
+        }
+        return optional;
+    }
+
+    @Override
     public List<ActiveBook> findAllActiveBooks() throws ServiceExcpetion {
         List<ActiveBook> list;
         entityTransaction.init(activeBookDAO);
         try {
             list = activeBookDAO.findAll();
+        } catch (DAOException e) {
+            //log
+            throw new ServiceExcpetion(e);
+        } finally {
+            entityTransaction.end(activeBookDAO);
+        }
+        return list;
+    }
+    @Override
+    public List<ActiveBook> findActiveBooksOrders()throws ServiceExcpetion{
+        List<ActiveBook> list;
+        entityTransaction.init(activeBookDAO);
+        try {
+            list = activeBookDAO.findActiveBooksOrders();
+        } catch (DAOException e) {
+            //log
+            throw new ServiceExcpetion(e);
+        } finally {
+            entityTransaction.end(activeBookDAO);
+        }
+        return list;
+    };
+    @Override
+    public List<ActiveBook> findBooksByUserLogin(String login) throws ServiceExcpetion {
+        List<ActiveBook> list;
+        entityTransaction.init(activeBookDAO);
+        try {
+            list = activeBookDAO.findActiveBooksByUserLogin(login);
+        } catch (DAOException e) {
+            //log
+            throw new ServiceExcpetion(e);
+        } finally {
+            entityTransaction.end(activeBookDAO);
+        }
+        return list;
+    }
+
+    @Override
+    public List<ActiveBook> findAllUsersActiveBooks() throws ServiceExcpetion {
+        List<ActiveBook> list;
+        entityTransaction.init(activeBookDAO);
+        try {
+            list = activeBookDAO.findAllUsersActiveBooks();
         } catch (DAOException e) {
             //log
             throw new ServiceExcpetion(e);
@@ -89,6 +150,19 @@ public class ActiveBookService implements IActiveBookService {
         entityTransaction.init(activeBookDAO);
         try {
             activeBookDAO.update(activeBook);
+        } catch (DAOException e) {
+            //log
+            throw new ServiceExcpetion(e);
+        } finally {
+            entityTransaction.end(activeBookDAO);
+        }
+    }
+
+    @Override
+    public void updateActiveBookForGive(Integer id, Date endDate, Double fine) throws ServiceExcpetion {
+        entityTransaction.init(activeBookDAO);
+        try {
+            activeBookDAO.updateActiveBookForGive(id,endDate,fine);
         } catch (DAOException e) {
             //log
             throw new ServiceExcpetion(e);

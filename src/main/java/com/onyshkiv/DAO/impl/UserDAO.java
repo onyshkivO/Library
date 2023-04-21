@@ -68,6 +68,23 @@ public class UserDAO extends AbstractDAO<String, User> {
         }
         return optionalUser;
     }
+    public Optional<String> findUserPasswordById(String login) throws DAOException {
+        Optional<String> result;
+        String password =null;
+        try (
+                PreparedStatement statement = prepareStatement(con, SQLQuery.UserQuery.SELECT_PASSWORD_BY_LOGIN, false, login);
+                ResultSet resultSet = statement.executeQuery()
+        ) {
+            if (resultSet.next()) {
+                 password = resultSet.getString("password");
+
+            }
+            result = Optional.ofNullable(password);
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        }
+        return result;
+    }
 
     //++++++++++++++++++++++++++++++++++++++++++++++++++++
     @Override
@@ -76,7 +93,7 @@ public class UserDAO extends AbstractDAO<String, User> {
                 model.getLogin(),
                 model.getEmail(),
                 PasswordHashGenerator.hash(model.getPassword()),
-                model.getRole().getRole_id(),
+                model.getRole().getRoleId(),
                 model.getUserStatus().getUserStatusId(),
                 model.getFirstName(),
                 model.getLastName(),
@@ -106,7 +123,7 @@ public class UserDAO extends AbstractDAO<String, User> {
 
         Object[] values = {
                 model.getEmail(),
-                model.getRole().getRole_id(),
+                model.getRole().getRoleId(),
                 model.getUserStatus().getUserStatusId(),
                 model.getFirstName(),
                 model.getLastName(),
@@ -146,20 +163,57 @@ public class UserDAO extends AbstractDAO<String, User> {
     }
 
     //+++++++++++++++++++++++++++++++++
-    public void changePassword(User user) throws DAOException {
-        if (user.getLogin() == null)
+//    public void changePassword(User user) throws DAOException {
+//        if (user.getLogin() == null)
+//            throw new IllegalArgumentException("User is not created yet, the user login is null.");
+//
+//        Object[] values = {
+//                user.getPassword(),
+//                user.getLogin()
+//        };
+//
+//        try (
+//                PreparedStatement statement = prepareStatement(con, SQLQuery.UserQuery.CHANGE_PASSWORD, false, values)
+//        ) {
+//            int affectedRows = statement.executeUpdate();
+//            if (affectedRows == 0) {
+//                throw new DAOException("Changing password failed, no rows affected.");
+//            }
+//        } catch (SQLException e) {
+//            //log
+//            throw new DAOException(e);
+//        }
+//
+//    }
+
+
+
+    public void changePassword(String password,String login) throws DAOException {
+        if (login == null)
             throw new IllegalArgumentException("User is not created yet, the user login is null.");
 
-        Object[] values = {
-                user.getPassword(),
-                user.getLogin()
-        };
 
         try (
-                PreparedStatement statement = prepareStatement(con, SQLQuery.UserQuery.CHANGE_PASSWORD, false, values)
+                PreparedStatement statement = prepareStatement(con, SQLQuery.UserQuery.CHANGE_PASSWORD, false,password, login)
         ) {
             int affectedRows = statement.executeUpdate();
             if (affectedRows == 0) {
+                throw new DAOException("Changing password failed, no rows affected.");
+            }
+        } catch (SQLException e) {
+            //log
+            throw new DAOException(e);
+        }
+
+    }
+    public void changeLogin(String newLogin,String oldLogin) throws DAOException {
+
+        try (
+                PreparedStatement statement = prepareStatement(con, SQLQuery.UserQuery.CHANGE_LOGIN, false, newLogin,oldLogin)
+        ) {
+            int affectedRows = statement.executeUpdate();
+            if (affectedRows == 0) {
+                System.out.println("problem there");
                 throw new DAOException("Changing password failed, no rows affected.");
             }
         } catch (SQLException e) {
@@ -211,7 +265,6 @@ public class UserDAO extends AbstractDAO<String, User> {
         User user = new User();
         user.setLogin(resultSet.getString("login"));
         user.setEmail(resultSet.getString("email"));
-        user.setPassword(resultSet.getString("password"));
         user.setFirstName(resultSet.getString("first_name"));
         user.setLastName(resultSet.getString("last_name"));
         user.setRole(new Role(resultSet.getInt("role_id")));

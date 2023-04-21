@@ -15,7 +15,7 @@ public class SubscriptionStatus extends Entity{
         this.subscriptionStatusID = id;
     }
 
-    public int getPublicationStatusId() {
+    public int getSubscriptionStatusID() {
         return subscriptionStatusID;
     }
 

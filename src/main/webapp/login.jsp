@@ -10,30 +10,46 @@
 </head>
 <body>
 <%@ include file="header.jsp" %>
-<c:if test="${isWrong ==true}">
-    <div>
-        <h3 style="color: red"> Something wend wronge</h3>
-    </div>
-</c:if>
 
 <div id="signin">
     <h3 class="text-center text-white pt-5">Login form</h3>
     <div class="container">
-        <div id="login-row" class="row justify-content-center align-items-center">
+        <div id="login-row" class="row justify-content-center align-items-center ">
             <div id="login-column" class="col-md-6">
                 <div id="login-box" class="col-md-12">
                     <form id="login-form" class="form" action="controller?action=signin" method="post">
-                        <h3 class="text-center text-info">Login:</h3>
-                        <div class="form-group">
-                            <label for="login" class="text-info" >Login:</label><br>
-                            <input type="text" name="login" id="login" class="form-control" required>
+                        <h3 class="text-center text-info  text-black">Login</h3>
+                        <c:if test="${incorrect_user == true}">
+                        <p class="text-danger lh-2 ms-1">Incorrect user login</p>
+                        </c:if>
+
+
+                        <c:if test="${password_does_not_match == true}">
+                            <p class="text-danger lh-2 ms-1">Wronge password</p>
+                        </c:if>
+
+
+                        <c:if test="${bad_input == true}">
+                            <p class="text-danger lh-2 ms-1">Wrong data</p>
+                        </c:if>
+
+                        <div class="form-group ">
+                            <label for="login" class="text-info text-black" >Login:</label><br>
+                            <input type="text" name="login" id="login" class="form-control" value="${login}" required>
+                            <c:if test="${incorrect_login == true}">
+                                <p class="text-danger lh-1 ms-1">Incorrect login</p>
+                            </c:if>
                         </div>
                         <div class="form-group">
-                            <label for="password" class="text-info">Password:</label><br>
+                            <label for="password" class="text-info text-black">Password:</label><br>
                             <input type="password" name="password" id="password" class="form-control" required>
+                            <c:if test="${incorrect_password == true}">
+                                <p class="text-danger lh-1 ms-1">Incorrect password, password should be at list 4 character</p>
+                            </c:if>
                         </div>
                         <div class="form-group">
-                            <input type="submit" name="submit" class="btn btn-info btn-md" value="submit">
+                           <input type="submit" name="submit" class="btn btn-outline-primary" value="submit">
+
                         </div>
 
                     </form>

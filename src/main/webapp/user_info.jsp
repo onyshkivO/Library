@@ -3,23 +3,41 @@
 <html>
 <head>
     <title>User info</title>
+    <link href="style.css" rel="stylesheet">
 </head>
+
 <body>
 <%@ include file="header.jsp" %>
-<h2>Login</h2>
-<h3>${sessionScope.user.login}</h3>
-<h2>Email</h2>
-<h3>${sessionScope.user.email}</h3>
-<h2>First name</h2>
-<h3>${sessionScope.user.firstName}</h3>
-<h2>Last Name</h2>
-<h3>${sessionScope.user.lastName}</h3>
-<h2>Phone</h2>
-<c:if test="${sessionScope.user.phone!=null}">
-<h3>${sessionScope.user.phone}</h3>
-</c:if>
-<c:if test="${sessionScope.user.phone==null||sessionScope.user.phone.isEmpty()}">
-    <h3>Ведіть ваш номер, щоб його бачити</h3>
-</c:if>
+<div class="btn-group mx-5 ps-5" role="group" aria-label="First group">
+    <a class="btn btn-outline-primary active" href="user_info.jsp" role="button">My Profile</a>
+    <c:if test="${sessionScope.user_role == 2}">
+        <a class="btn btn-outline-primary" href="controller?action=getOrders" role="button">Orders</a>
+        <a class="btn btn-outline-primary" href="controller?action=getUsersBook" role="button">Users books</a>
+    </c:if>
+    <c:if test="${sessionScope.user_role == 1}">
+    <a class="btn btn-outline-primary" href="controller?action=userBooks" role="button">My Books</a>
+    </c:if>
+</div>
+<div class="container-fluid mt-3 mx-5 ps-5"  style="width: 500px;">
+    <p class="fs-4 fw-semibold">Login:</p>
+    <p class="fs-5">${sessionScope.user.login}</p>
+    <p class="fs-4 fw-semibold">Email:</p>
+    <p class="fs-5">${sessionScope.user.email}</p>
+    <p class="fs-4 fw-semibold">First name:</p>
+    <p class="fs-5">${sessionScope.user.firstName}</p>
+    <p class="fs-4 fw-semibold">Last Name:</p>
+    <p class="fs-5">${sessionScope.user.lastName}</p>
+    <p class="fs-4 fw-semibold">Phone:</p>
+
+    <c:if test="${sessionScope.user.phone!=null}">
+        <p class="fs-5">${sessionScope.user.phone}</p>
+    </c:if>
+    <c:if test="${sessionScope.user.phone==null||sessionScope.user.phone.isEmpty()}">
+    <p class="fs-5">Ведіть ваш номер, щоб його бачити</p>
+    </c:if>
+    <div class="d-grid gap-2 col-6 mt-3">
+    <a class="btn btn-outline-primary" href="edit_profile.jsp" role="button">Edit profile</a>
+    </div>
+</div>
 </body>
 </html>
