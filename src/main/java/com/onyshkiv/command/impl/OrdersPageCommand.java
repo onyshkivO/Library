@@ -3,8 +3,7 @@ package com.onyshkiv.command.impl;
 import com.onyshkiv.command.Command;
 import com.onyshkiv.command.CommandResult;
 import com.onyshkiv.entity.ActiveBook;
-import com.onyshkiv.entity.Book;
-import com.onyshkiv.service.ServiceExcpetion;
+import com.onyshkiv.service.ServiceException;
 import com.onyshkiv.service.impl.ActiveBookService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -22,7 +21,7 @@ public class OrdersPageCommand implements Command {
             req.setAttribute("orders",orders);
             req.setAttribute("date",new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
             System.out.println("there");
-        } catch (ServiceExcpetion e) {
+        } catch (ServiceException e) {
             System.out.println("Something went wronge #OrdersPageCommand");
             System.out.println("there bad");
             return new CommandResult("/",true);

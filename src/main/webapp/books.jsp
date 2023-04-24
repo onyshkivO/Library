@@ -10,6 +10,14 @@
 <body>
 <%@ include file="header.jsp" %>
 <div class="container">
+    <form class="mt-4" action="controller?" method="get">
+
+        <div class="input-group mb-3 d-flex justify-content-center" style="max-width: 500px">
+            <input type="text" class="form-control"  name="name" value="${requestScope.name}">
+            <input type="hidden" class="form-control" name="action" value="bookPage" >
+            <button type="submit" class="btn btn-outline-primary"  >Search</button>
+        </div>
+    </form>
     <div class="row">
         <c:choose>
             <c:when test="${books.isEmpty()==true}">

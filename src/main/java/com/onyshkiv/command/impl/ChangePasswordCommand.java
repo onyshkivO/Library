@@ -3,7 +3,7 @@ package com.onyshkiv.command.impl;
 import com.onyshkiv.command.Command;
 import com.onyshkiv.command.CommandResult;
 import com.onyshkiv.entity.User;
-import com.onyshkiv.service.ServiceExcpetion;
+import com.onyshkiv.service.ServiceException;
 import com.onyshkiv.service.impl.UserService;
 import com.onyshkiv.util.password.PasswordHashGenerator;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,7 +29,7 @@ public class ChangePasswordCommand implements Command {
                 req.setAttribute("bad_old_password",true);
                 return new CommandResult("/change_password.jsp");
             }
-        } catch (ServiceExcpetion e) {
+        } catch (ServiceException e) {
             e.printStackTrace();
             //log
             req.setAttribute("isWrong",true);

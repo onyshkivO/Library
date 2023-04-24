@@ -4,7 +4,7 @@ import com.onyshkiv.command.Command;
 import com.onyshkiv.command.CommandResult;
 import com.onyshkiv.entity.ActiveBook;
 import com.onyshkiv.entity.User;
-import com.onyshkiv.service.ServiceExcpetion;
+import com.onyshkiv.service.ServiceException;
 import com.onyshkiv.service.impl.ActiveBookService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,7 +20,7 @@ public class GetUserBookCommand implements Command {
         try {
             activeBooks = activeBookService.findBooksByUserLogin(user.getLogin());
             req.setAttribute("user_books", activeBooks);
-        } catch (ServiceExcpetion e) {
+        } catch (ServiceException e) {
             //log
             System.out.println("Something went wronge");
             return new CommandResult("/",true);

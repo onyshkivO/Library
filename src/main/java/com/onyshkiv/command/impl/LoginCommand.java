@@ -3,7 +3,7 @@ package com.onyshkiv.command.impl;
 import com.onyshkiv.command.Command;
 import com.onyshkiv.command.CommandResult;
 import com.onyshkiv.entity.User;
-import com.onyshkiv.service.ServiceExcpetion;
+import com.onyshkiv.service.ServiceException;
 import com.onyshkiv.service.impl.ActiveBookService;
 import com.onyshkiv.service.impl.UserService;
 import com.onyshkiv.util.password.PasswordHashGenerator;
@@ -66,7 +66,7 @@ public class LoginCommand implements Command {
                 return new CommandResult(page);
             }
 
-        } catch (ServiceExcpetion e) {
+        } catch (ServiceException e) {
             //log
 
             req.setAttribute("bad_input", true);

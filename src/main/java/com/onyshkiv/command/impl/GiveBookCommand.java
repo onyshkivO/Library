@@ -2,8 +2,7 @@ package com.onyshkiv.command.impl;
 
 import com.onyshkiv.command.Command;
 import com.onyshkiv.command.CommandResult;
-import com.onyshkiv.entity.ActiveBook;
-import com.onyshkiv.service.ServiceExcpetion;
+import com.onyshkiv.service.ServiceException;
 import com.onyshkiv.service.impl.ActiveBookService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -32,7 +31,7 @@ public class GiveBookCommand implements Command {
         Double fine = Double.valueOf(req.getParameter("fine"));
         try {
             activeBookService.updateActiveBookForGive(activeBookId, date, fine);
-        }catch (ServiceExcpetion e){
+        }catch (ServiceException e){
             //log
             e.printStackTrace();
             req.setAttribute("wronge",true);

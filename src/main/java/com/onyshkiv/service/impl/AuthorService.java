@@ -2,11 +2,10 @@ package com.onyshkiv.service.impl;
 
 import com.onyshkiv.DAO.DAOException;
 import com.onyshkiv.DAO.EntityTransaction;
-import com.onyshkiv.DAO.impl.ActiveBookDAO;
 import com.onyshkiv.DAO.impl.AuthorDAO;
 import com.onyshkiv.entity.Author;
 import com.onyshkiv.service.IAuthorService;
-import com.onyshkiv.service.ServiceExcpetion;
+import com.onyshkiv.service.ServiceException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -35,7 +34,7 @@ public class AuthorService implements IAuthorService {
 
 
     @Override
-    public List<Author> findAllAuthors() throws ServiceExcpetion {
+    public List<Author> findAllAuthors() throws ServiceException {
         List<Author> list;
 
         entityTransaction.init(authorDAO);
@@ -43,7 +42,7 @@ public class AuthorService implements IAuthorService {
             list = authorDAO.findAll();
         } catch (DAOException e) {
             //log
-            throw new ServiceExcpetion(e);
+            throw new ServiceException(e);
         } finally {
             entityTransaction.end(authorDAO);
         }
@@ -52,14 +51,14 @@ public class AuthorService implements IAuthorService {
     }
 
     @Override
-    public Optional<Author> findAuthorById(Integer id) throws ServiceExcpetion {
+    public Optional<Author> findAuthorById(Integer id) throws ServiceException {
         Optional<Author> optional;
         entityTransaction.init(authorDAO);
         try {
             optional = authorDAO.findEntityById(id);
         } catch (DAOException e) {
             //log
-            throw new ServiceExcpetion(e);
+            throw new ServiceException(e);
         } finally {
             entityTransaction.end(authorDAO);
         }
@@ -67,41 +66,41 @@ public class AuthorService implements IAuthorService {
     }
 
     @Override
-    public void createAuthor(Author author) throws ServiceExcpetion {
+    public void createAuthor(Author author) throws ServiceException {
         entityTransaction.init(authorDAO);
         try{
             authorDAO.create(author);
         }catch (DAOException e){
             //log
-            throw new ServiceExcpetion(e);
+            throw new ServiceException(e);
         }finally {
             entityTransaction.end(authorDAO);
         }
     }
 
     @Override
-    public void updateAuthor(Author author) throws ServiceExcpetion {
+    public void updateAuthor(Author author) throws ServiceException {
         entityTransaction.init(authorDAO);
 
         try{
             authorDAO.update(author);
         }catch (DAOException e){
             //log
-            throw new ServiceExcpetion(e);
+            throw new ServiceException(e);
         }finally {
             entityTransaction.end(authorDAO);
         }
     }
 
     @Override
-    public void deleteAuthor(Author author) throws ServiceExcpetion {
+    public void deleteAuthor(Author author) throws ServiceException {
         entityTransaction.init(authorDAO);
 
         try{
             authorDAO.delete(author);
         }catch (DAOException e){
             //log
-            throw new ServiceExcpetion(e);
+            throw new ServiceException(e);
         }finally {
             entityTransaction.end(authorDAO);
         }

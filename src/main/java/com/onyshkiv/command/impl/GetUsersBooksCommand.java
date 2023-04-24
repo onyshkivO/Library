@@ -4,7 +4,7 @@ import com.onyshkiv.command.Command;
 import com.onyshkiv.command.CommandResult;
 import com.onyshkiv.entity.ActiveBook;
 import com.onyshkiv.entity.User;
-import com.onyshkiv.service.ServiceExcpetion;
+import com.onyshkiv.service.ServiceException;
 import com.onyshkiv.service.impl.ActiveBookService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class GetUsersBooksCommand implements Command {
     ActiveBookService activeBookService = ActiveBookService.getInstance();
@@ -33,7 +32,7 @@ public class GetUsersBooksCommand implements Command {
                 }
             }
             req.setAttribute("users_books", map);
-        } catch (ServiceExcpetion e) {
+        } catch (ServiceException e) {
             //log
             System.out.println("Something went wronge");
             return new CommandResult("/",true);

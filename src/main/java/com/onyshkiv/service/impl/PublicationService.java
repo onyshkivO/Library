@@ -5,7 +5,7 @@ import com.onyshkiv.DAO.EntityTransaction;
 import com.onyshkiv.DAO.impl.PublicationDAO;
 import com.onyshkiv.entity.Publication;
 import com.onyshkiv.service.IPublicationService;
-import com.onyshkiv.service.ServiceExcpetion;
+import com.onyshkiv.service.ServiceException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,7 +32,7 @@ public class PublicationService implements IPublicationService {
 
 
     @Override
-    public List<Publication> findAllPublication() throws ServiceExcpetion {
+    public List<Publication> findAllPublication() throws ServiceException {
         List<Publication> list;
 
         entityTransaction.init(publicationDAO);
@@ -40,7 +40,7 @@ public class PublicationService implements IPublicationService {
             list = publicationDAO.findAll();
         } catch (DAOException e) {
             //log
-            throw new ServiceExcpetion(e);
+            throw new ServiceException(e);
         } finally {
             entityTransaction.end(publicationDAO);
         }
@@ -48,7 +48,7 @@ public class PublicationService implements IPublicationService {
     }
 
     @Override
-    public Optional<Publication> findPublicationById(Integer id) throws ServiceExcpetion {
+    public Optional<Publication> findPublicationById(Integer id) throws ServiceException {
         Optional<Publication> optional;
 
         entityTransaction.init(publicationDAO);
@@ -56,7 +56,7 @@ public class PublicationService implements IPublicationService {
             optional = publicationDAO.findEntityById(id);
         } catch (DAOException e) {
             //log
-            throw new ServiceExcpetion(e);
+            throw new ServiceException(e);
         } finally {
             entityTransaction.end(publicationDAO);
         }
@@ -64,49 +64,49 @@ public class PublicationService implements IPublicationService {
     }
 
     @Override
-    public void createPublication(Publication publication) throws ServiceExcpetion {
+    public void createPublication(Publication publication) throws ServiceException {
 
         entityTransaction.init(publicationDAO);
         try {
             publicationDAO.create(publication);
         } catch (DAOException e) {
             //log
-            throw new ServiceExcpetion(e);
+            throw new ServiceException(e);
         } finally {
             entityTransaction.end(publicationDAO);
         }
     }
 
     @Override
-    public void updatePublication(Publication publication) throws ServiceExcpetion {
+    public void updatePublication(Publication publication) throws ServiceException {
 
         entityTransaction.init(publicationDAO);
         try {
             publicationDAO.update(publication);
         } catch (DAOException e) {
             //log
-            throw new ServiceExcpetion(e);
+            throw new ServiceException(e);
         } finally {
             entityTransaction.end(publicationDAO);
         }
     }
 
     @Override
-    public void deletePublication(Publication publication) throws ServiceExcpetion {
+    public void deletePublication(Publication publication) throws ServiceException {
 
         entityTransaction.init(publicationDAO);
         try {
             publicationDAO.delete(publication);
         } catch (DAOException e) {
             //log
-            throw new ServiceExcpetion(e);
+            throw new ServiceException(e);
         } finally {
             entityTransaction.end(publicationDAO);
         }
     }
 
     @Override
-    public boolean containsPublication(Integer id) throws ServiceExcpetion {
+    public boolean containsPublication(Integer id) throws ServiceException {
         Optional<Publication> optional;
 
         entityTransaction.init(publicationDAO);
@@ -114,7 +114,7 @@ public class PublicationService implements IPublicationService {
             optional = publicationDAO.findEntityById(id);
         } catch (DAOException e) {
             //log
-            throw new ServiceExcpetion(e);
+            throw new ServiceException(e);
         } finally {
             entityTransaction.end(publicationDAO);
         }

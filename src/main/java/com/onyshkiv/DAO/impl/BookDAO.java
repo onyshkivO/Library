@@ -83,6 +83,33 @@ public class BookDAO extends AbstractDAO<Integer, Book> {
         }
         return books;
     }
+
+    public List<Book> findAllVailableBooksByName(String name) throws DAOException {
+        name = name==null||name.isBlank()?"%":name+"%";
+        List<Book> books = new ArrayList<>();
+        try (
+                PreparedStatement statement = prepareStatement(con, SQLQuery.BookQuery.FIND_AVAILABLE_BOOKS_BY_NAME, false,name);
+                ResultSet resultSet = statement.executeQuery()
+        ) {
+            while (resultSet.next()) {
+                Book result = map(resultSet);
+                PublicationDAO publicationDAO = PublicationDAO.getInstance();
+                publicationDAO.setConnection(con);
+                result.setPublication(publicationDAO.findEntityById(result.getPublication().getPublicationId()).orElse(null));
+
+                AuthorDAO authorDAO = AuthorDAO.getInstance();
+                authorDAO.setConnection(con);
+                result.setAuthors(authorDAO.getAllAuthorByBookISBN(result.getIsbn()));
+                books.add(result);
+            }
+        } catch (SQLException e) {
+            //log
+            logger.error(e.getMessage());
+            throw new DAOException(e);
+        }
+        return books;
+    }
+
     //++++++++++++++++++++++
     @Override
     public Optional<Book> findEntityById(Integer id) throws DAOException {

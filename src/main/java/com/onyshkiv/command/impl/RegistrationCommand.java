@@ -5,9 +5,8 @@ import com.onyshkiv.command.CommandResult;
 import com.onyshkiv.entity.Role;
 import com.onyshkiv.entity.User;
 import com.onyshkiv.entity.UserStatus;
-import com.onyshkiv.service.ServiceExcpetion;
+import com.onyshkiv.service.ServiceException;
 import com.onyshkiv.service.impl.UserService;
-import com.onyshkiv.util.password.PasswordHashGenerator;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -83,7 +82,7 @@ public class RegistrationCommand implements Command {
             session.setAttribute("user_role", user.getRole().getRoleId());
             session.setAttribute("exist_user", true);
             page = "/user_info.jsp";
-        } catch (ServiceExcpetion e) {
+        } catch (ServiceException e) {
             //log
             req.setAttribute("already_exist_login", true);
             return new CommandResult(page);

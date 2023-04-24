@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IPublicationService {
-    List<Publication> findAllPublication() throws ServiceExcpetion;
-    Optional<Publication> findPublicationById(Integer id) throws ServiceExcpetion;
-    void createPublication(Publication publication) throws ServiceExcpetion;
-    void updatePublication(Publication publication) throws ServiceExcpetion;
-    void deletePublication(Publication publication) throws ServiceExcpetion;
-    boolean containsPublication(Integer id) throws ServiceExcpetion;
+    List<Publication> findAllPublication() throws ServiceException;
+    Optional<Publication> findPublicationById(Integer id) throws ServiceException;
+    void createPublication(Publication publication) throws ServiceException;
+    void updatePublication(Publication publication) throws ServiceException;
+    void deletePublication(Publication publication) throws ServiceException;
+    boolean containsPublication(Integer id) throws ServiceException;
 }

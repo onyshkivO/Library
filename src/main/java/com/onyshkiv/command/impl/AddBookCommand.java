@@ -3,17 +3,14 @@ package com.onyshkiv.command.impl;
 import com.onyshkiv.command.Command;
 import com.onyshkiv.command.CommandResult;
 import com.onyshkiv.entity.*;
-import com.onyshkiv.service.ServiceExcpetion;
+import com.onyshkiv.service.ServiceException;
 import com.onyshkiv.service.impl.ActiveBookService;
 import com.onyshkiv.service.impl.BookService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class AddBookCommand implements Command {
     ActiveBookService activeBookService = ActiveBookService.getInstance();
@@ -41,7 +38,7 @@ public class AddBookCommand implements Command {
             //if (books==null) books = new ArrayList<>();
             //books.add(book);
             //session.setAttribute("user_books",books);
-        } catch (ServiceExcpetion e) {
+        } catch (ServiceException e) {
             e.printStackTrace();
             //log
             System.out.println("something went wronge");

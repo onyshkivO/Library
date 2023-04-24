@@ -7,13 +7,11 @@ import com.onyshkiv.DAO.impl.BookDAO;
 import com.onyshkiv.DAO.impl.PublicationDAO;
 import com.onyshkiv.entity.Author;
 import com.onyshkiv.entity.Book;
-import com.onyshkiv.entity.Publication;
 import com.onyshkiv.service.IBookService;
-import com.onyshkiv.service.ServiceExcpetion;
+import com.onyshkiv.service.ServiceException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 public class BookService implements IBookService {
     private BookDAO bookDAO;
@@ -38,14 +36,14 @@ public class BookService implements IBookService {
     }
 
     @Override
-    public Optional<Book> findBookById(Integer id) throws ServiceExcpetion {
+    public Optional<Book> findBookById(Integer id) throws ServiceException {
         Optional<Book> optional;
         entityTransaction.init(bookDAO);
         try {
             optional = bookDAO.findEntityById(id);
         } catch (DAOException e) {
             //log
-            throw new ServiceExcpetion(e);
+            throw new ServiceException(e);
         } finally {
             entityTransaction.end(bookDAO);
         }
@@ -78,37 +76,51 @@ public class BookService implements IBookService {
 //    }
 
     @Override
-    public List<Book> findAllBooks() throws ServiceExcpetion {
+    public List<Book> findAllBooks() throws ServiceException {
         List<Book> list;
         entityTransaction.init(bookDAO);
         try {
             list = bookDAO.findAll();
         } catch (DAOException e) {
             //log
-            throw new ServiceExcpetion(e);
+            throw new ServiceException(e);
         } finally {
             entityTransaction.end(bookDAO);
         }
         return list;
     }
 
+
     @Override
-    public List<Book> findAllAvailableBooks() throws ServiceExcpetion {
+    public List<Book> findAllAvailableBooks() throws ServiceException {
         List<Book> list;
         entityTransaction.init(bookDAO);
         try {
             list = bookDAO.findAllVailableBooks();
         } catch (DAOException e) {
             //log
-            throw new ServiceExcpetion(e);
+            throw new ServiceException(e);
         } finally {
             entityTransaction.end(bookDAO);
         }
         return list;
     }
-
     @Override
-    public void createBook(Book book) throws ServiceExcpetion {
+    public List<Book> findAllVailableBooksByName(String name) throws ServiceException {
+        List<Book> list;
+        entityTransaction.init(bookDAO);
+        try {
+            list = bookDAO.findAllVailableBooksByName(name);
+        } catch (DAOException e) {
+            //log
+            throw new ServiceException(e);
+        } finally {
+            entityTransaction.end(bookDAO);
+        }
+        return list;
+    }
+    @Override
+    public void createBook(Book book) throws ServiceException {
         entityTransaction.initTransaction(bookDAO, authorDAO);
         try {
             bookDAO.create(book);
@@ -119,7 +131,7 @@ public class BookService implements IBookService {
         } catch (DAOException e) {
             entityTransaction.rollback();
             //log
-            throw new ServiceExcpetion(e);
+            throw new ServiceException(e);
         } finally {
             entityTransaction.endTransaction(bookDAO, authorDAO);
         }
@@ -127,7 +139,7 @@ public class BookService implements IBookService {
     }
 
     @Override
-    public void updateBook(Book book) throws ServiceExcpetion {
+    public void updateBook(Book book) throws ServiceException {
         entityTransaction.initTransaction(bookDAO, authorDAO);
         try {
             bookDAO.update(book);
@@ -139,14 +151,14 @@ public class BookService implements IBookService {
         } catch (DAOException e) {
             //log
             entityTransaction.rollback();
-            throw new ServiceExcpetion(e);
+            throw new ServiceException(e);
         } finally {
             entityTransaction.endTransaction(bookDAO, authorDAO);
         }
     }
 
     @Override
-    public void deleteBook(Book book) throws ServiceExcpetion {
+    public void deleteBook(Book book) throws ServiceException {
         entityTransaction.initTransaction(bookDAO, authorDAO);
         try {
             bookDAO.delete(book);
@@ -155,21 +167,21 @@ public class BookService implements IBookService {
         } catch (DAOException e) {
             //log
             entityTransaction.rollback();
-            throw new ServiceExcpetion(e);
+            throw new ServiceException(e);
         } finally {
             entityTransaction.endTransaction(bookDAO, authorDAO);
         }
     }
 
     @Override
-    public boolean isAvailableBook(Integer isbn) throws ServiceExcpetion {
+    public boolean isAvailableBook(Integer isbn) throws ServiceException {
         entityTransaction.init(bookDAO);
         try {
             Optional<Book> book = bookDAO.findEntityById(isbn);
             if (book.isPresent() && book.get().getQuantity() > 0) return true;
         } catch (DAOException e) {
             //log
-            throw new ServiceExcpetion(e);
+            throw new ServiceException(e);
         } finally {
             entityTransaction.end(bookDAO);
         }

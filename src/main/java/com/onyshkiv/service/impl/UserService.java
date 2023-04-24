@@ -2,11 +2,10 @@ package com.onyshkiv.service.impl;
 
 import com.onyshkiv.DAO.DAOException;
 import com.onyshkiv.DAO.EntityTransaction;
-import com.onyshkiv.DAO.impl.PublicationDAO;
 import com.onyshkiv.DAO.impl.UserDAO;
 import com.onyshkiv.entity.User;
 import com.onyshkiv.service.IUserService;
-import com.onyshkiv.service.ServiceExcpetion;
+import com.onyshkiv.service.ServiceException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -33,7 +32,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public Optional<User> findUserByLogin(String login) throws ServiceExcpetion {
+    public Optional<User> findUserByLogin(String login) throws ServiceException {
         Optional<User> optional;
         entityTransaction.init(userDAO);
 
@@ -41,14 +40,14 @@ public class UserService implements IUserService {
             optional = userDAO.findEntityById(login);
         } catch (DAOException e) {
             //log
-            throw new ServiceExcpetion(e);
+            throw new ServiceException(e);
         } finally {
             entityTransaction.end(userDAO);
         }
         return optional;
     }
     @Override
-    public Optional<String> findUsePasswordByLogin(String login) throws ServiceExcpetion {
+    public Optional<String> findUsePasswordByLogin(String login) throws ServiceException {
         Optional<String> optional;
         entityTransaction.init(userDAO);
 
@@ -56,7 +55,7 @@ public class UserService implements IUserService {
             optional = userDAO.findUserPasswordById(login);
         } catch (DAOException e) {
             //log
-            throw new ServiceExcpetion(e);
+            throw new ServiceException(e);
         } finally {
             entityTransaction.end(userDAO);
         }
@@ -64,7 +63,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public List<User> findAllUsers() throws ServiceExcpetion {
+    public List<User> findAllUsers() throws ServiceException {
         List<User> list;
         entityTransaction.init(userDAO);
 
@@ -72,7 +71,7 @@ public class UserService implements IUserService {
             list = userDAO.findAll();
         } catch (DAOException e) {
             //log
-            throw new ServiceExcpetion(e);
+            throw new ServiceException(e);
         } finally {
             entityTransaction.end(userDAO);
         }
@@ -80,65 +79,65 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void createUser(User user) throws ServiceExcpetion {
+    public void createUser(User user) throws ServiceException {
         entityTransaction.init(userDAO);
         try {
             userDAO.create(user);
         } catch (DAOException e) {
             //log
-            throw new ServiceExcpetion(e);
+            throw new ServiceException(e);
         } finally {
             entityTransaction.end(userDAO);
         }
     }
 
     @Override
-    public void updateUser(User user) throws ServiceExcpetion {
+    public void updateUser(User user) throws ServiceException {
         entityTransaction.init(userDAO);
         try {
             userDAO.update(user);
         } catch (DAOException e) {
             //log
-            throw new ServiceExcpetion(e);
+            throw new ServiceException(e);
         } finally {
             entityTransaction.end(userDAO);
         }
     }
 
     @Override
-    public void deleteUser(User user) throws ServiceExcpetion {
+    public void deleteUser(User user) throws ServiceException {
         entityTransaction.init(userDAO);
         try {
             userDAO.delete(user);
         } catch (DAOException e) {
             //log
-            throw new ServiceExcpetion(e);
+            throw new ServiceException(e);
         } finally {
             entityTransaction.end(userDAO);
         }
     }
 
     @Override
-    public void changeUserPassword(String password,String login) throws ServiceExcpetion {
+    public void changeUserPassword(String password,String login) throws ServiceException {
         entityTransaction.init(userDAO);
         try {
             userDAO.changePassword(password,login);
         } catch (DAOException e) {
             //log
-            throw new ServiceExcpetion(e);
+            throw new ServiceException(e);
         } finally {
             entityTransaction.end(userDAO);
         }
     }
 
     @Override
-    public void changeUserLogin(String newLogin, String oldLogin) throws ServiceExcpetion {
+    public void changeUserLogin(String newLogin, String oldLogin) throws ServiceException {
         entityTransaction.init(userDAO);
         try {
             userDAO.changeLogin(newLogin, oldLogin);
         } catch (DAOException e) {
             //log
-            throw new ServiceExcpetion(e);
+            throw new ServiceException(e);
         } finally {
             entityTransaction.end(userDAO);
         }

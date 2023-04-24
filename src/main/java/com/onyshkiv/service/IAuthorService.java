@@ -7,11 +7,11 @@ import java.util.Optional;
 
 public interface IAuthorService {
 
-    List<Author> findAllAuthors() throws ServiceExcpetion;
-    Optional<Author> findAuthorById(Integer id) throws ServiceExcpetion;
-    void createAuthor(Author author) throws ServiceExcpetion;
-    void updateAuthor(Author author) throws ServiceExcpetion;
-    void deleteAuthor(Author author) throws ServiceExcpetion;
+    List<Author> findAllAuthors() throws ServiceException;
+    Optional<Author> findAuthorById(Integer id) throws ServiceException;
+    void createAuthor(Author author) throws ServiceException;
+    void updateAuthor(Author author) throws ServiceException;
+    void deleteAuthor(Author author) throws ServiceException;
 
 
 

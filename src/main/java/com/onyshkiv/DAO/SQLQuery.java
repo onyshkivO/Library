@@ -31,6 +31,8 @@ public abstract class SQLQuery {
                 "FROM book";
         public static final String FIND_ALL_AVAILABLE_BOOKS = "SELECT isbn, name,date_of_publication, publication_id, quantity, details\n" +
                 "FROM book WHERE quantity>0";
+        public static final String FIND_AVAILABLE_BOOKS_BY_NAME = "SELECT isbn, name,date_of_publication, publication_id, quantity, details\n" +
+                "FROM book WHERE quantity>0 AND name LIKE ?";
         public static final String FIND_BOOK_BY_ISBN = "SELECT isbn, name,date_of_publication, publication_id, quantity, details\n" +
                 "FROM book\n" +
                 "WHERE isbn =?";
@@ -68,6 +70,7 @@ public abstract class SQLQuery {
 
         public static final String SELECT_ALL_ACTIVE_BOOKS = "SELECT active_book_id,book_isbn,user_login, subscription_status_id,start_date,end_date,fine FROM active_book";
         public static final String SELECT_ACTIVE_BOOKS_BY_USER_LOGIN = "SELECT active_book_id,book_isbn,user_login, subscription_status_id,start_date,end_date,fine FROM active_book WHERE user_login = ? AND (subscription_status_id=1 OR subscription_status_id=3)";
+        public static final String SELECT_ACTIVE_BOOKS_BY_NAME = "SELECT active_book_id,book_isbn,user_login, subscription_status_id,start_date,end_date,fine FROM active_book WHERE name LIKE ?";
         public static final String SELECT_ACTIVE_BOOKS_ORDERS = "SELECT active_book_id,book_isbn,user_login, subscription_status_id,start_date,end_date,fine FROM active_book WHERE subscription_status_id=4";
         public static final String SELECT_ACTIVE_BOOK_BY_ID = "SELECT active_book_id,book_isbn,user_login, subscription_status_id,start_date,end_date,fine FROM active_book WHERE  active_book_id=?";
         public static final String SELECT_ALL_USERS_ACTIVE_BOOKS = "SELECT active_book_id,book_isbn,user_login, subscription_status_id,start_date,end_date,fine FROM active_book WHERE  subscription_status_id=1 OR subscription_status_id=3";
