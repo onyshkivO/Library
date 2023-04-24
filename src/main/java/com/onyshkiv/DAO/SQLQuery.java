@@ -66,16 +66,16 @@ public abstract class SQLQuery {
 
     public static class ActiveBookQuery {
 
-        public static final String SELECT_ALL_ACTIVE_BOOKS = "SELECT active_book_id,book_isbn,user_login,way_of_using_id, subscription_status_id,start_date,end_date,quantity,fine FROM active_book";
-        public static final String SELECT_ACTIVE_BOOKS_BY_USER_LOGIN = "SELECT active_book_id,book_isbn,user_login,way_of_using_id, subscription_status_id,start_date,end_date,quantity,fine FROM active_book WHERE user_login = ? AND (subscription_status_id=1 OR subscription_status_id=3)";
-        public static final String SELECT_ACTIVE_BOOKS_ORDERS = "SELECT active_book_id,book_isbn,user_login,way_of_using_id, subscription_status_id,start_date,end_date,quantity,fine FROM active_book WHERE subscription_status_id=4";
-        public static final String SELECT_ACTIVE_BOOK_BY_ID = "SELECT active_book_id,book_isbn,user_login,way_of_using_id, subscription_status_id,start_date,end_date,quantity,fine FROM active_book WHERE  active_book_id=?";
-        public static final String SELECT_ALL_USERS_ACTIVE_BOOKS = "SELECT active_book_id,book_isbn,user_login,way_of_using_id, subscription_status_id,start_date,end_date,quantity,fine FROM active_book WHERE  subscription_status_id=1 OR subscription_status_id=3";
-        public static final String SELECT_ACTIVE_BOOK_BY_USER_LOGIN_AND_BOOK_ISBN = "SELECT active_book_id,book_isbn,user_login,way_of_using_id, subscription_status_id,start_date,end_date,quantity,fine FROM active_book WHERE user_login = ? AND book_isbn = ? AND subscription_status_id<>2";
+        public static final String SELECT_ALL_ACTIVE_BOOKS = "SELECT active_book_id,book_isbn,user_login, subscription_status_id,start_date,end_date,fine FROM active_book";
+        public static final String SELECT_ACTIVE_BOOKS_BY_USER_LOGIN = "SELECT active_book_id,book_isbn,user_login, subscription_status_id,start_date,end_date,fine FROM active_book WHERE user_login = ? AND (subscription_status_id=1 OR subscription_status_id=3)";
+        public static final String SELECT_ACTIVE_BOOKS_ORDERS = "SELECT active_book_id,book_isbn,user_login, subscription_status_id,start_date,end_date,fine FROM active_book WHERE subscription_status_id=4";
+        public static final String SELECT_ACTIVE_BOOK_BY_ID = "SELECT active_book_id,book_isbn,user_login, subscription_status_id,start_date,end_date,fine FROM active_book WHERE  active_book_id=?";
+        public static final String SELECT_ALL_USERS_ACTIVE_BOOKS = "SELECT active_book_id,book_isbn,user_login, subscription_status_id,start_date,end_date,fine FROM active_book WHERE  subscription_status_id=1 OR subscription_status_id=3";
+        public static final String SELECT_ACTIVE_BOOK_BY_USER_LOGIN_AND_BOOK_ISBN = "SELECT active_book_id,book_isbn,user_login, subscription_status_id,start_date,end_date,fine FROM active_book WHERE user_login = ? AND book_isbn = ? AND subscription_status_id<>2";
 
         public static final String INSERT_ACTIVE_BOOK = "Insert Into active_book values\n" +
-                "(default,?,?,?,?,?,?,?,?);";
-        public static final String UPDATE_ACTIVE_BOOK = "UPDATE active_book SET book_isbn=?,user_login=?,way_of_using_id=?,subscription_status_id=?,start_date=?,end_date=?,quantity=?,fine=? " +
+                "(default,?,?,?,?,?,?);";
+        public static final String UPDATE_ACTIVE_BOOK = "UPDATE active_book SET book_isbn=?,user_login=?,subscription_status_id=?,start_date=?,end_date=?,fine=? " +
                 "WHERE active_book_id=?";
         public static final String UPDATE_BOOK_BEFORE_GIVE = "UPDATE active_book SET subscription_status_id=?,start_date=?,end_date=?,fine=? " +
                 "WHERE active_book_id=?";

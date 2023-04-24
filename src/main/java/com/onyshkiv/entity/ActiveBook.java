@@ -7,38 +7,33 @@ import java.util.Set;
 public class ActiveBook extends Entity{
     private int activeBookId;
     private Book book;
-    private WayOfUsing wayOfUsing;
     private SubscriptionStatus subscriptionStatus;
     private Date startDate;
     private Date endDate;
     private Double fine;
     private User user;
-    private Integer quantity;
     public ActiveBook() {}
     public ActiveBook(int activeBookId) {
         this.activeBookId = activeBookId;
     }
-    public ActiveBook( Book book, User user,WayOfUsing wayOfUsing, SubscriptionStatus subscriptionStatus, Date startDate, Date endDate,Integer quantity, Double fine) {
+    public ActiveBook( Book book, User user, SubscriptionStatus subscriptionStatus, Date startDate, Date endDate, Double fine) {
         this.activeBookId = 0;
         this.book = book;
-        this.wayOfUsing = wayOfUsing;
         this.subscriptionStatus = subscriptionStatus;
         this.startDate = startDate;
         this.endDate = endDate;
         this.fine = fine;
         this.user = user;
-        this.quantity=quantity;
+
     }
-    public ActiveBook( int activeBookId, Book book,User user, WayOfUsing wayOfUsing, SubscriptionStatus subscriptionStatus, Date startDate, Date endDate,Integer quantity, Double fine) {
+    public ActiveBook( int activeBookId, Book book,User user,  SubscriptionStatus subscriptionStatus, Date startDate, Date endDate, Double fine) {
         this.activeBookId = activeBookId;
         this.book = book;
-        this.wayOfUsing = wayOfUsing;
         this.subscriptionStatus = subscriptionStatus;
         this.startDate = startDate;
         this.endDate = endDate;
         this.fine = fine;
         this.user = user;
-        this.quantity=quantity;
     }
 
     public int getActiveBookId() {
@@ -54,13 +49,6 @@ public class ActiveBook extends Entity{
         this.book = book;
     }
 
-    public WayOfUsing getWayOfUsing() {
-        return wayOfUsing;
-    }
-
-    public void setWayOfUsing(WayOfUsing wayOfUsing) {
-        this.wayOfUsing = wayOfUsing;
-    }
 
     public SubscriptionStatus getSubscriptionStatus() {
         return subscriptionStatus;
@@ -102,17 +90,13 @@ public class ActiveBook extends Entity{
         this.user = user;
     }
 
-    public Integer getQuantity() {
-        return quantity;
-    }
+
 
     public void setFine(Double fine) {
         this.fine = fine;
     }
 
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -132,13 +116,11 @@ public class ActiveBook extends Entity{
         return "ActiveBook{" +
                 "activeBookId=" + activeBookId +
                 ", book=" + book +
-                ", wayOfUsing=" + wayOfUsing +
                 ", subscriptionStatus=" + subscriptionStatus +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 ", fine=" + fine +
                 ", user=" + user +
-                ", quantity=" + quantity +
                 '}';
     }
 }

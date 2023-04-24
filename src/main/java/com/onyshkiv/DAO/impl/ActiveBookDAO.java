@@ -110,6 +110,7 @@ public class ActiveBookDAO extends AbstractDAO<Integer, ActiveBook> {
              ResultSet resultSet = statement.executeQuery()
         ) {
             while (resultSet.next()) {
+                System.out.println(1);
                 ActiveBook activeBook = map(resultSet);
                 BookDAO bookDAO = BookDAO.getInstance();
                 bookDAO.setConnection(con);
@@ -189,11 +190,9 @@ public class ActiveBookDAO extends AbstractDAO<Integer, ActiveBook> {
         Object[] values = {
                 model.getBook().getIsbn(),
                 model.getUser().getLogin(),
-                model.getWayOfUsing().getWayOfUsingId(),
                 model.getSubscriptionStatus().getSubscriptionStatusID(),
                 toSqlDate(model.getStartDate()),
                 toSqlDate(model.getEndDate()),
-                model.getQuantity(),
                 model.getFine()
 
         };
@@ -227,11 +226,9 @@ public class ActiveBookDAO extends AbstractDAO<Integer, ActiveBook> {
         Object[] values = {
                 model.getBook().getIsbn(),
                 model.getUser().getLogin(),
-                model.getWayOfUsing().getWayOfUsingId(),
                 model.getSubscriptionStatus().getSubscriptionStatusID(),
                 toSqlDate(model.getStartDate()),
                 toSqlDate(model.getEndDate()),
-                model.getQuantity(),
                 model.getFine(),
                 model.getActiveBookId()
 
@@ -292,11 +289,9 @@ public class ActiveBookDAO extends AbstractDAO<Integer, ActiveBook> {
         User user = new User();
         user.setLogin(resultSet.getString("user_login"));
         result.setUser(user);
-        result.setWayOfUsing(new WayOfUsing(resultSet.getInt("way_of_using_id")));
         result.setSubscriptionStatus(new SubscriptionStatus(resultSet.getInt("subscription_status_id")));
         result.setStartDate(resultSet.getDate("start_date"));
         result.setEndDate(resultSet.getDate("end_date"));
-        result.setQuantity(resultSet.getInt("quantity"));
         result.setFine(resultSet.getDouble("fine"));
 
         return result;

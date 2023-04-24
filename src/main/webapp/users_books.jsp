@@ -50,14 +50,14 @@
                             <tbody>
                             <c:forEach var="active_book" items="${users_books.get(subscription)}">
                                 <tr>
-                                    <td>${active_book.book.name}</td>
-                                    <td>${active_book.endDate}</td>
+                                    <td class="w-50">${active_book.book.name}</td>
+                                    <td class="w-25">${active_book.endDate}</td>
                                     <c:choose>
                                         <c:when test="${active_book.subscriptionStatus.subscriptionStatusID==3}">
-                                            <td>${active_book.fine}</td>
+                                            <td class="w-25">${active_book.fine}</td>
                                         </c:when>
                                         <c:otherwise>
-                                            <td></td>
+                                            <td class="w-25"></td>
                                         </c:otherwise>
                                     </c:choose>
 

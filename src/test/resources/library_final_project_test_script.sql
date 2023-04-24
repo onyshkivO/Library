@@ -113,7 +113,6 @@ CREATE TABLE IF NOT EXISTS `library_final_project_test`.`authors` (
   PRIMARY KEY (`authors_id`),
   CONSTRAINT UC_Name UNIQUE (name));
 
-
 -- -----------------------------------------------------
 -- Table `library_final_project_test`.`book_has_authors`
 -- -----------------------------------------------------

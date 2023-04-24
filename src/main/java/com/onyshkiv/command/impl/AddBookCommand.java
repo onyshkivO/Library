@@ -35,7 +35,7 @@ public class AddBookCommand implements Command {
 
 
 
-            ActiveBook activeBook= new ActiveBook(book,user,new WayOfUsing(1),new SubscriptionStatus(4), new Date(),new Date(),1,null);
+            ActiveBook activeBook= new ActiveBook(book,user,new SubscriptionStatus(4), new Date(),new Date(),null);
             activeBookService.createActiveBook(activeBook);
             //List<Book> books = (List<Book>) session.getAttribute("user_books");
             //if (books==null) books = new ArrayList<>();

@@ -71,10 +71,8 @@ class ActiveBookDAOTest {
                 () -> assertEquals(expected.getBook(),actual.getBook()),
                 () -> assertEquals(expected.getUser(),actual.getUser()),
                 () -> assertEquals(expected.getSubscriptionStatus(),actual.getSubscriptionStatus()),
-                () -> assertEquals(expected.getWayOfUsing(),actual.getWayOfUsing()),
                 () -> assertEquals(expected.getStartDate(),actual.getStartDate()),
                 () -> assertEquals(expected.getEndDate(),actual.getEndDate()),
-                () -> assertEquals(expected.getQuantity(),actual.getQuantity()),
                 () -> assertNull(expected.getFine()));
     }
 
@@ -86,7 +84,7 @@ class ActiveBookDAOTest {
         authors1.add(new Author(2,"author2"));
         Book book1 = new Book(1, "book1",new SimpleDateFormat( "dd.MM.yyyy" ).parse( "11.11.2011" ),new Publication(1,"publication1"),1,null,authors1);
         User user1 = new User("user1","asd", PasswordHashGenerator.hash("password"),new Role("reader"),new UserStatus( "active"), "Ostap", "Patso", null);
-        ActiveBook activeBook1 = new ActiveBook(1,book1,user1,new WayOfUsing(1),new SubscriptionStatus(1),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "20.11.2022" ),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "15.12.2022" ),1,null);
+        ActiveBook activeBook1 = new ActiveBook(1,book1,user1,new SubscriptionStatus(1),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "20.11.2022" ),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "15.12.2022" ),null);
         return Stream.of(
                 Arguments.of(activeBook1));
     }
@@ -106,11 +104,9 @@ class ActiveBookDAOTest {
                 () -> assertEquals(created.getActiveBookId(),activeBook.getActiveBookId()),
                 () -> assertEquals(created.getBook(),activeBook.getBook()),
                 () -> assertEquals(created.getUser(),activeBook.getUser()),
-                () -> assertEquals(created.getWayOfUsing(),activeBook.getWayOfUsing()),
                 () -> assertEquals(created.getSubscriptionStatus(),activeBook.getSubscriptionStatus()),
                 () -> assertEquals(created.getStartDate(),activeBook.getStartDate()),
                 () -> assertEquals(created.getEndDate(),activeBook.getEndDate()),
-                () -> assertEquals(created.getQuantity(),activeBook.getQuantity()),
                 () -> assertEquals(created.getFine(),0.0));
     }
 
@@ -120,7 +116,7 @@ class ActiveBookDAOTest {
         authors1.add(new Author(2,"author2"));
         Book book1 = new Book(1, "book1",new SimpleDateFormat( "dd.MM.yyyy" ).parse( "11.11.2011" ),new Publication(1,"publication1"),1,null,authors1);
         User user1 = new User("user1","asd", PasswordHashGenerator.hash("password"),new Role("reader"),new UserStatus( "active"), "Ostap", "Patso", null);
-        ActiveBook activeBook1 = new ActiveBook(book1,user1,new WayOfUsing(1),new SubscriptionStatus(1),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "20.11.2022" ),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "15.12.2022" ),1,null);
+        ActiveBook activeBook1 = new ActiveBook(book1,user1,new SubscriptionStatus(1),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "20.11.2022" ),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "15.12.2022" ),null);
         return Stream.of(
                 Arguments.of(activeBook1));
     }
@@ -137,10 +133,10 @@ class ActiveBookDAOTest {
         authors1.add(new Author(2,"author2"));
         Book book1 = new Book(1, "book1",new SimpleDateFormat( "dd.MM.yyyy" ).parse( "11.11.2011" ),new Publication(1,"publication1"),1,null,authors1);
         User user1 = new User("user1","asd", PasswordHashGenerator.hash("password"),new Role("reader"),new UserStatus( "active"), "Ostap", "Patso", null);
-        ActiveBook activeBook1 = new ActiveBook(1,book1,user1,new WayOfUsing(1),new SubscriptionStatus(1),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "20.11.2022" ),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "15.12.2022" ),1,null);
-        ActiveBook activeBook2 = new ActiveBook(book1,new User(),new WayOfUsing(1),new SubscriptionStatus(1),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "20.11.2022" ),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "15.12.2022" ),1,null);
-        ActiveBook activeBook3 = new ActiveBook(book1,null,new WayOfUsing(1),new SubscriptionStatus(1),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "20.11.2022" ),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "15.12.2022" ),1,null);
-        ActiveBook activeBook4 = new ActiveBook(312321,book1,null,new WayOfUsing(1),new SubscriptionStatus(1),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "20.11.2022" ),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "15.12.2022" ),1,null);
+        ActiveBook activeBook1 = new ActiveBook(1,book1,user1,new SubscriptionStatus(1),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "20.11.2022" ),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "15.12.2022" ),null);
+        ActiveBook activeBook2 = new ActiveBook(book1,new User(),new SubscriptionStatus(1),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "20.11.2022" ),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "15.12.2022" ),null);
+        ActiveBook activeBook3 = new ActiveBook(book1,null,new SubscriptionStatus(1),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "20.11.2022" ),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "15.12.2022" ),null);
+        ActiveBook activeBook4 = new ActiveBook(312321,book1,null,new SubscriptionStatus(1),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "20.11.2022" ),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "15.12.2022" ),null);
         return Stream.of(
                 Arguments.of(activeBook1),
                 Arguments.of(activeBook2),
@@ -157,11 +153,9 @@ class ActiveBookDAOTest {
                 () -> assertEquals(actual.getActiveBookId(),activeBook.getActiveBookId()),
                 () -> assertEquals(actual.getBook(),activeBook.getBook()),
                 () -> assertEquals(actual.getUser(),activeBook.getUser()),
-                () -> assertEquals(actual.getWayOfUsing(),activeBook.getWayOfUsing()),
                 () -> assertEquals(actual.getSubscriptionStatus(),activeBook.getSubscriptionStatus()),
                 () -> assertEquals(actual.getStartDate(),activeBook.getStartDate()),
                 () -> assertEquals(actual.getEndDate(),activeBook.getEndDate()),
-                () -> assertEquals(actual.getQuantity(),activeBook.getQuantity()),
                 () -> assertEquals(actual.getFine(),activeBook.getFine()));
     }
 
@@ -171,7 +165,7 @@ class ActiveBookDAOTest {
         authors1.add(new Author(2,"author2"));
         Book book1 = new Book(1, "book1",new SimpleDateFormat( "dd.MM.yyyy" ).parse( "11.11.2011" ),new Publication(1,"publication1"),1,null,authors1);
         User user1 = new User("userLibr2","asd", PasswordHashGenerator.hash("password"),new Role(1),new UserStatus( 1), "lib", "miy", null);
-        ActiveBook activeBook1 = new ActiveBook(3,book1,user1,new WayOfUsing(1),new SubscriptionStatus(3),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "20.11.2022" ),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "15.12.2022" ),1,50.5);
+        ActiveBook activeBook1 = new ActiveBook(3,book1,user1,new SubscriptionStatus(3),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "20.11.2022" ),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "15.12.2022" ),50.5);
         return Stream.of(
                 Arguments.of(activeBook1));
     }
@@ -189,9 +183,9 @@ class ActiveBookDAOTest {
         authors1.add(new Author(2,"author2"));
         Book book1 = new Book(1, "book1",new SimpleDateFormat( "dd.MM.yyyy" ).parse( "11.11.2011" ),new Publication(1,"publication1"),1,null,authors1);
         User user1 = new User("userLibr2","asd", PasswordHashGenerator.hash("password"),new Role(1),new UserStatus( 1), "lib", "miy", null);
-        ActiveBook activeBook1 = new ActiveBook(3,book1,null,new WayOfUsing(1),new SubscriptionStatus(3),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "20.11.2022" ),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "15.12.2022" ),1,50.5);
-        ActiveBook activeBook2 = new ActiveBook(3,book1,new User(),new WayOfUsing(1),new SubscriptionStatus(3),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "20.11.2022" ),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "15.12.2022" ),1,50.5);
-        ActiveBook activeBook3 = new ActiveBook(book1,user1,new WayOfUsing(1),new SubscriptionStatus(3),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "20.11.2022" ),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "15.12.2022" ),1,50.5);
+        ActiveBook activeBook1 = new ActiveBook(3,book1,null,new SubscriptionStatus(3),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "20.11.2022" ),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "15.12.2022" ),50.5);
+        ActiveBook activeBook2 = new ActiveBook(3,book1,new User(),new SubscriptionStatus(3),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "20.11.2022" ),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "15.12.2022" ),50.5);
+        ActiveBook activeBook3 = new ActiveBook(book1,user1,new SubscriptionStatus(3),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "20.11.2022" ),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "15.12.2022" ),50.5);
         return Stream.of(
                 Arguments.of(activeBook1),
                 Arguments.of(activeBook2),
@@ -211,7 +205,7 @@ class ActiveBookDAOTest {
         authors1.add(new Author(2,"author2"));
         Book book1 = new Book(1, "book1",new SimpleDateFormat( "dd.MM.yyyy" ).parse( "11.11.2011" ),new Publication(1,"publication1"),1,null,authors1);
         User user1 = new User("userLibr2","asd", PasswordHashGenerator.hash("password"),new Role(1),new UserStatus( 1), "lib", "miy", null);
-        ActiveBook activeBook1 = new ActiveBook(123,book1,user1,new WayOfUsing(1),new SubscriptionStatus(3),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "20.11.2022" ),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "15.12.2022" ),1,50.5);
+        ActiveBook activeBook1 = new ActiveBook(123,book1,user1,new SubscriptionStatus(3),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "20.11.2022" ),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "15.12.2022" ),50.5);
         return Stream.of(
                 Arguments.of(activeBook1));
     }
@@ -230,7 +224,7 @@ class ActiveBookDAOTest {
         authors1.add(new Author(2,"author2"));
         Book book1 = new Book(1, "book1",new SimpleDateFormat( "dd.MM.yyyy" ).parse( "11.11.2011" ),new Publication(1,"publication1"),1,null,authors1);
         User user1 = new User("userLibr2","asd", PasswordHashGenerator.hash("password"),new Role(1),new UserStatus( 1), "lib", "miy", null);
-        ActiveBook activeBook1 = new ActiveBook(4,book1,user1,new WayOfUsing(1),new SubscriptionStatus(3),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "20.11.2022" ),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "15.12.2022" ),1,50.5);
+        ActiveBook activeBook1 = new ActiveBook(4,book1,user1,new SubscriptionStatus(3),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "20.11.2022" ),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "15.12.2022" ),50.5);
         return Stream.of(
                 Arguments.of(activeBook1));
     }
@@ -247,7 +241,7 @@ class ActiveBookDAOTest {
         authors1.add(new Author(2,"author2"));
         Book book1 = new Book(1, "book1",new SimpleDateFormat( "dd.MM.yyyy" ).parse( "11.11.2011" ),new Publication(1,"publication1"),1,null,authors1);
         User user1 = new User("userLibr2","asd", PasswordHashGenerator.hash("password"),new Role(1),new UserStatus( 1), "lib", "miy", null);
-        ActiveBook activeBook1 = new ActiveBook(312,book1,user1,new WayOfUsing(1),new SubscriptionStatus(3),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "20.11.2022" ),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "15.12.2022" ),1,50.5);
+        ActiveBook activeBook1 = new ActiveBook(312,book1,user1,new SubscriptionStatus(3),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "20.11.2022" ),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "15.12.2022" ),50.5);
         return Stream.of(
                 Arguments.of(activeBook1));
     }
