@@ -10,6 +10,7 @@ public interface IBookService {
     List<Book> findAllBooks() throws ServiceException;
     List<Book> findAllAvailableBooks() throws ServiceException;
     List<Book> findAllVailableBooksByName(String name) throws ServiceException;
+    List<Book> findAllVailableBooksByAuthorName(String name) throws ServiceException;
     void createBook(Book book) throws ServiceException;
     void updateBook(Book book) throws ServiceException;
     void deleteBook(Book book) throws ServiceException;

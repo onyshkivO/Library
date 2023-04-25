@@ -19,20 +19,30 @@ public class BooksPageCommand implements Command {
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) {
         List<Book> books;
         String name = req.getParameter("name");
+        String searchOption = req.getParameter("search_option");
 
-        if (name != null && !name.equals("")) {
+
+        if (name != null && !name.equals("")&&searchOption.equals("book_name")) {
             try {
                 books = bookService.findAllVailableBooksByName(name);
             } catch ( ServiceException e) {
                 logger.error("Problem with service occurred!", e);
-                return new CommandResult("/",true); //todo another redirect
+                return new CommandResult("/controller?action=bookPage",true); //todo another redirect
             }
-        } else {
+        }else if (name != null && !name.equals("")&&searchOption.equals("author_name")){
+            try {
+                books = bookService.findAllVailableBooksByAuthorName(name);
+            } catch ( ServiceException e) {
+                logger.error("Problem with service occurred!", e);
+                return new CommandResult("/controller?action=bookPage",true); //todo another redirect
+            }
+        }
+        else {
             try {
                 books = bookService.findAllBooks();
             } catch (ServiceException e) {
                 logger.error("Problem with service occurred!", e);
-                return new CommandResult("/",true); //todo another redirect
+                return new CommandResult("/controller?action=bookPage",true); //todo another redirect
             }
         }
 

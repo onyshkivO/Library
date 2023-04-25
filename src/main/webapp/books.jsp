@@ -10,13 +10,39 @@
 <body>
 <%@ include file="header.jsp" %>
 <div class="container">
-    <form class="mt-4" action="controller?" method="get">
 
-        <div class="input-group mb-3 d-flex justify-content-center" style="max-width: 500px">
-            <input type="text" class="form-control"  name="name" value="${requestScope.name}">
-            <input type="hidden" class="form-control" name="action" value="bookPage" >
-            <button type="submit" class="btn btn-outline-primary"  >Search</button>
+
+    <form class="mt-4  d-flex justify-content-between" action="controller" method="get">
+        <div style="max-width: 400px">
+            <h5>Searching</h5>
+            <div  class="input-group me-5 pe-5 d-flex">
+            <input type="text" class="form-control" name="name" value="${requestScope.name}">
+            <select class="form-select" id="inputGroupSelect01" name="search_option">
+                <option value="book_name">Book name</option>
+                <option value="author_name">Author name</option>
+            </select>
+            <input type="hidden" class="form-control" name="action" value="bookPage">
+            </div>
         </div>
+        <button type="submit" class="btn btn-outline-primary mt-auto" >Search</button>
+        <div class=" me-5 pe-5 " style="min-width: 360px" >
+            <h5>Sorting</h5>
+            <div class="input-group d-flex">
+                <select class="form-select" id="sort_option" name="search_option" style="min-width: 220px">
+                    <option value="book_name" >Book name</option>
+                    <option value="author_name">Author name</option>
+                    <option value="date_of_publication">Date of publication</option>
+                    <option value="publication_name">Publication name</option>
+                </select>
+                <select class="form-select" id="sort_option_order" name="sort_option_order" style="max-width: 140px">
+                    <option value="acs">Ascending</option>
+                    <option value="desc">Descending</option>
+                </select>
+            </div>
+
+        </div>
+
+
     </form>
     <div class="row">
         <c:choose>
@@ -55,7 +81,6 @@
                 </c:forEach>
             </c:otherwise>
         </c:choose>
-
 
 
     </div>
