@@ -23,7 +23,7 @@ public class GetUserBookCommand implements Command {
         } catch (ServiceException e) {
             //log
             System.out.println("Something went wronge");
-            return new CommandResult("/",true);
+            return new CommandResult("/",true); //todo another redirect(and in other commands)
         }
 
         return new CommandResult("/user_books_info.jsp");

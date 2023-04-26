@@ -46,6 +46,7 @@ public class UserService implements IUserService {
         }
         return optional;
     }
+
     @Override
     public Optional<String> findUsePasswordByLogin(String login) throws ServiceException {
         Optional<String> optional;
@@ -69,6 +70,22 @@ public class UserService implements IUserService {
 
         try {
             list = userDAO.findAll();
+        } catch (DAOException e) {
+            //log
+            throw new ServiceException(e);
+        } finally {
+            entityTransaction.end(userDAO);
+        }
+        return list;
+    }
+
+    @Override
+    public List<User> findLibrarians() throws ServiceException {
+        List<User> list;
+        entityTransaction.init(userDAO);
+
+        try {
+            list = userDAO.findLibrarians();
         } catch (DAOException e) {
             //log
             throw new ServiceException(e);
@@ -118,10 +135,10 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void changeUserPassword(String password,String login) throws ServiceException {
+    public void changeUserPassword(String password, String login) throws ServiceException {
         entityTransaction.init(userDAO);
         try {
-            userDAO.changePassword(password,login);
+            userDAO.changePassword(password, login);
         } catch (DAOException e) {
             //log
             throw new ServiceException(e);

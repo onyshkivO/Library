@@ -37,6 +37,14 @@ public abstract class SQLQuery {
                 "FROM book WHERE quantity>0 AND isbn in " +
                 "(select b_isbn from book_has_authors where a_id in " +
                 "(SELECT authors_id from authors where name like ?))";
+//todo норм сортування
+        public static final String FIND_AVALIABLE_BOOKS_BY_SOME_OPTION_ASC = "SELECT distinct b.isbn, b.name,b.date_of_publication, b.publication_id, b.quantity, b.details\n" +
+                "from book b\n" +
+                "INNER JOIN book_has_authors ba ON b.isbn = ba.b_isbn\n" +
+                "INNER JOIN authors a ON ba.a_id = a.authors_id\n" +
+                "INNER JOIN publication p using(publication_id)\n" +
+                "where quantity>0 AND b.name like '%'\n" +
+                "ORDER BY b.name ASC;";
         public static final String FIND_BOOK_BY_ISBN = "SELECT isbn, name,date_of_publication, publication_id, quantity, details\n" +
                 "FROM book\n" +
                 "WHERE isbn =?";
@@ -52,16 +60,15 @@ public abstract class SQLQuery {
         public static final String SELECT_USER_BY_LOGIN = "select login, email,role_id,status_id, first_name,last_name, phone\n" +
                 "from user\n" +
                 "WHERE login = ?";
+        public static final String SELECT_ALL_LIBRARIANS = "SELECT login, email,role_id,status_id, first_name,last_name, phone FROM user WHERE role_id=2;";
         public static final String SELECT_PASSWORD_BY_LOGIN = "SELECT password FROM user WHERE login =?";
 
-        public static final String SELECT_ALL_USERS_BY_ACTIVE_BOOK = "select user_login " +
-                "from active_book_has_user \n" +
-                "where active_book_id =?";
         public static final String INSERT_USER = "INSERT INTO user values\n" +
                 "(?,?,?,?,?,?,?,?);";
         public static final String UPDATE_USER = "UPDATE user SET email=?,role_id=?,status_id=?,first_name=?,last_name=?,phone=? \n" +
                 "WHERE login = ?";
         public static final String DELETE_USER = "DELETE FROM user WHERE login = ?";
+
         public static final String CHANGE_PASSWORD = "UPDATE User SET password = ? WHERE login = ?";
         public static final String CHANGE_LOGIN = "UPDATE User SET login = ? WHERE login = ?";
 

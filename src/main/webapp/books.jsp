@@ -18,7 +18,8 @@
             <div class="input-group me-5 pe-5 d-flex">
                 <input type="text" class="form-control" name="name" value="${requestScope.name}">
                 <select class="form-select" id="inputGroupSelect01" name="search_option">
-                    <option value="book_name" <c:if test="${requestScope.search_option == 'book_name'}">selected</c:if>><%-- todo хз, може ця перевірка не дуже равильна--%>
+                    <option value="book_name"
+                            <c:if test="${requestScope.search_option == 'book_name'}">selected</c:if>><%-- todo хз, може ця перевірка не дуже равильна--%>
                         Book name
                     </option>
                     <option value="author_name"
@@ -29,25 +30,43 @@
             </div>
         </div>
         <button type="submit" class="btn btn-outline-primary mt-auto">Search</button>
+
         <div class=" me-5 pe-5 " style="min-width: 360px">
             <h5>Sorting</h5>
             <div class="input-group d-flex">
-                <select class="form-select" id="sort_option" name="search_option" style="min-width: 220px">
-                    <option value="book_name">Book name</option>
-                    <option value="author_name">Author name</option>
-                    <option value="date_of_publication">Date of publication</option>
-                    <option value="publication_name">Publication name</option>
+                <select class="form-select" id="sort_option" name="sort_option" style="min-width: 220px">
+                    <option value="book_name" <c:if test="${requestScope.sort_option == 'book_name'}">selected</c:if>>
+                        Book name
+                    </option>
+                    <option value="author_name"
+                            <c:if test="${requestScope.sort_option == 'author_name'}">selected</c:if>>Author name
+                    </option>
+                    <option value="date_of_publication"
+                            <c:if test="${requestScope.sort_option == 'date_of_publication'}">selected</c:if>>Date of
+                        publication
+                    </option>
+                    <option value="publication_name"
+                            <c:if test="${requestScope.sort_option == 'publication_name'}">selected</c:if>>Publication
+                        name
+                    </option>
                 </select>
                 <select class="form-select" id="sort_option_order" name="sort_option_order" style="max-width: 140px">
-                    <option value="acs">Ascending</option>
-                    <option value="desc">Descending</option>
+                    <option value="asc" <c:if test="${requestScope.sort_option_order == 'asc'}">selected</c:if>>
+                        Ascending
+                    </option>
+                    <option value="desc" <c:if test="${requestScope.sort_option_order == 'desc'}">selected</c:if>>
+                        Descending
+                    </option>
                 </select>
             </div>
 
         </div>
 
 
+
     </form>
+    <a href="#" class="btn btn-primary mt-3 ms-auto me-5 d-flex" style="max-width: 100px">Add Book</a>
+
     <div class="row d-flex justify-content-center">
         <c:choose>
             <c:when test="${books.isEmpty()==true}">
@@ -78,6 +97,12 @@
                             <p class="card-text">${book.details}</p>
                             <c:if test="${sessionScope.exist_user == true&&sessionScope.user_role==1}">
                                 <a href="controller?action=addBook&isbn=${book.isbn}" class="btn btn-primary">Add</a>
+                            </c:if>
+                            <c:if test="${sessionScope.exist_user == true&&sessionScope.user_role==3}">
+                                <div class="d-flex justify-content-between">
+                                    <a href="#" class="btn btn-primary">Edit</a>
+                                    <a href="#" class="btn btn-primary">Delete</a>
+                                </div>
                             </c:if>
 
                         </div>

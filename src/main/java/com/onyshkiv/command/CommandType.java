@@ -15,7 +15,9 @@ public enum CommandType {
     GETORDERSGET(new OrdersPageCommand()),
     //GIVEBOOKPOST(new GiveBookCommand());
     GIVEBOOKGET(new GiveBookCommand()),
-    GETUSERSBOOKGET(new GetUsersBooksCommand());
+    GETUSERSBOOKGET(new GetUsersBooksCommand()),
+    GETLIBRARIANSGET(new GetLibrariansCommand()),
+    DELETEUSERGET(new DeleteUserCommand());
 
     private Command command;
 

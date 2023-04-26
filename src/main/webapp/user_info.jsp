@@ -17,6 +17,12 @@
     <c:if test="${sessionScope.user_role == 1}">
     <a class="btn btn-outline-primary" href="controller?action=userBooks" role="button">My Books</a>
     </c:if>
+    <c:if test="${sessionScope.user_role == 3}">
+        <a class="btn btn-outline-primary" href="controller?action=getLibrarians" role="button">Librarians</a>
+        <a class="btn btn-outline-primary" href="#" role="button">Users</a>
+    </c:if>
+
+
 </div>
 <div class="container-fluid mt-3 mx-5 ps-5"  style="width: 500px;">
     <p class="fs-4 fw-semibold">Login:</p>

@@ -1,8 +1,11 @@
 package com.onyshkiv.entity;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Comparator;
 import java.util.Objects;
 
-public class Author extends Entity{
+public class Author extends Entity implements Comparable {
     private int authorId;
     private String name;
 
@@ -50,5 +53,11 @@ public class Author extends Entity{
                 "authorId=" + authorId +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    @Override
+    public int compareTo(@NotNull Object o) {
+        Author another = (Author)o;
+        return this.name.compareTo(another.name);
     }
 }

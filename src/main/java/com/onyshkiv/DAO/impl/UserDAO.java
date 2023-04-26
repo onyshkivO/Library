@@ -49,6 +49,22 @@ public class UserDAO extends AbstractDAO<String, User> {
         return users;
     }
 
+    public List<User> findLibrarians() throws DAOException {
+        List<User> users = new ArrayList<>();
+        try (
+                PreparedStatement statement = prepareStatement(con, SQLQuery.UserQuery.SELECT_ALL_LIBRARIANS, false);
+                ResultSet resultSet = statement.executeQuery()
+        ) {
+            while (resultSet.next()) {
+                users.add(map(resultSet));
+            }
+        } catch (SQLException e) {
+            //log
+            throw new DAOException(e);
+        }
+        return users;
+    }
+
 
     //+++++++++++++++++++++++++++++++++++++
     @Override
