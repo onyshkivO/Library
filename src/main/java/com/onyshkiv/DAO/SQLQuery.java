@@ -33,6 +33,10 @@ public abstract class SQLQuery {
                 "FROM book WHERE quantity>0";
         public static final String FIND_AVAILABLE_BOOKS_BY_NAME = "SELECT isbn, name,date_of_publication, publication_id, quantity, details\n" +
                 "FROM book WHERE quantity>0 AND name LIKE ?";
+        public static final String FIND_AVAILABLE_BOOKS_BY_AUTHOR_NAME = "SELECT isbn, name,date_of_publication, publication_id, quantity, details " +
+                "FROM book WHERE quantity>0 AND isbn in " +
+                "(select b_isbn from book_has_authors where a_id in " +
+                "(SELECT authors_id from authors where name like ?))";
         public static final String FIND_BOOK_BY_ISBN = "SELECT isbn, name,date_of_publication, publication_id, quantity, details\n" +
                 "FROM book\n" +
                 "WHERE isbn =?";

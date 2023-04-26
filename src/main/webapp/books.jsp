@@ -13,23 +13,27 @@
 
 
     <form class="mt-4  d-flex justify-content-between" action="controller" method="get">
-        <div style="max-width: 400px">
+        <div class="ms-5 ps-5" style="max-width: 400px">
             <h5>Searching</h5>
-            <div  class="input-group me-5 pe-5 d-flex">
-            <input type="text" class="form-control" name="name" value="${requestScope.name}">
-            <select class="form-select" id="inputGroupSelect01" name="search_option">
-                <option value="book_name">Book name</option>
-                <option value="author_name">Author name</option>
-            </select>
-            <input type="hidden" class="form-control" name="action" value="bookPage">
+            <div class="input-group me-5 pe-5 d-flex">
+                <input type="text" class="form-control" name="name" value="${requestScope.name}">
+                <select class="form-select" id="inputGroupSelect01" name="search_option">
+                    <option value="book_name" <c:if test="${requestScope.search_option == 'book_name'}">selected</c:if>><%-- todo хз, може ця перевірка не дуже равильна--%>
+                        Book name
+                    </option>
+                    <option value="author_name"
+                            <c:if test="${requestScope.search_option == 'author_name'}">selected</c:if>>Author name
+                    </option>
+                </select>
+                <input type="hidden" class="form-control" name="action" value="bookPage">
             </div>
         </div>
-        <button type="submit" class="btn btn-outline-primary mt-auto" >Search</button>
-        <div class=" me-5 pe-5 " style="min-width: 360px" >
+        <button type="submit" class="btn btn-outline-primary mt-auto">Search</button>
+        <div class=" me-5 pe-5 " style="min-width: 360px">
             <h5>Sorting</h5>
             <div class="input-group d-flex">
                 <select class="form-select" id="sort_option" name="search_option" style="min-width: 220px">
-                    <option value="book_name" >Book name</option>
+                    <option value="book_name">Book name</option>
                     <option value="author_name">Author name</option>
                     <option value="date_of_publication">Date of publication</option>
                     <option value="publication_name">Publication name</option>
@@ -44,7 +48,7 @@
 
 
     </form>
-    <div class="row">
+    <div class="row d-flex justify-content-center">
         <c:choose>
             <c:when test="${books.isEmpty()==true}">
                 <h2 class="my-4 d-flex justify-content-center">There are no available books</h2>
