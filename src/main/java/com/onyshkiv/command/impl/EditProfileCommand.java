@@ -47,7 +47,7 @@ public class EditProfileCommand implements Command {
                 }
             }
             session.setAttribute("user",user);
-            page="/user_info.jsp";
+            page="/user_profile.jsp";
         } catch (ServiceException e) {
             e.printStackTrace();
             //log

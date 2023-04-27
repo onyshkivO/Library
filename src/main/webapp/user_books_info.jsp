@@ -6,7 +6,7 @@
 <body>
 <%@ include file="header.jsp" %>
 <div class="btn-group mx-5 ps-5" role="group" aria-label="First group">
-    <a class="btn btn-outline-primary" href="user_info.jsp" role="button">My Profile</a>
+    <a class="btn btn-outline-primary" href="user_profile.jsp" role="button">My Profile</a>
     <a class="btn btn-outline-primary active" href="controller?action=userBooks" role="button">My Books</a>
 </div>
 <div class="container my-4">

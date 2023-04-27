@@ -35,7 +35,7 @@
                     <ul class="navbar-nav ms-auto" >
                         <li class="nav-item me-3">
                             <a class="nav-link"
-                               href="user_info.jsp">Hello ${sessionScope.user.firstName} ${sessionScope.user.lastName}</a>
+                               href="user_profile.jsp">Hello ${sessionScope.user.firstName} ${sessionScope.user.lastName}</a>
                         </li>
                         <li class="mar"><a class="btn btn-primary" href="controller?action=signout" role="button">Sign Out</a>
                         </li>

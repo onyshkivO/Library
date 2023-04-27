@@ -17,8 +17,8 @@
             <div id="login-column" class="col-md-6">
                 <div id="login-box" class="col-md-12">
                     <form id="login-form" class="form" action="controller?action=signup" method="post">
-                        <input type="hidden" name="role" id="role" class="form-control" value="reader">
-                        <h3 class="text-center text-info text-black">Registration:</h3>
+                        <input type="hidden" name="role" id="role" class="form-control" value="librarian">
+                        <h3 class="text-center text-info text-black">register librarian:</h3>
                         <div class="form-group">
                             <label for="login" class="text-info text-black">Login:</label><br>
                             <input type="text" name="login" id="login" class="form-control" value="${login}" required>
@@ -69,14 +69,12 @@
                                 <p class="text-danger lh-1 ms-1">Incorrect password, password should be at list 4 character</p>
                             </c:if>
                         </div>
+
                         <div class="form-group">
-                            <!--                            <label for="remember-me" class="text-info"><span>Remember me</span> <span><input id="remember-me" name="remember-me" type="checkbox"></span></label><br>-->
-                            <input type="submit" name="submit" class="btn btn-outline-primary" value="submit">
+                           <input type="submit" name="submit" class="btn btn-outline-primary" value="submit">
 
                         </div>
-                        <!--                        <div id="register-link" class="text-right">-->
-                        <!--                            <a href="#" class="text-info">Register here</a>-->
-                        <!--                        </div>-->
+
                     </form>
                 </div>
             </div>

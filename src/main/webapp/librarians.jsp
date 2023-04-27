@@ -7,14 +7,14 @@
 <body>
 <%@ include file="header.jsp" %>
 <div class="btn-group mx-5 ps-5" role="group" aria-label="First group">
-    <a class="btn btn-outline-primary" href="user_info.jsp" role="button">My Profile</a>
+    <a class="btn btn-outline-primary" href="user_profile.jsp" role="button">My Profile</a>
     <a class="btn btn-outline-primary active" href="controller?action=getLibrarians" role="button">Librarians</a>
     <a class="btn btn-outline-primary" href="#" role="button">Users</a>
 </div>
 
 <div class="container">
     <div class="d-grid gap-2">
-        <a href="#" class="btn btn-primary mt-3 ms-auto me-5 d-flex " >Add Librarian</a>
+        <a href="register_librarian.jsp" class="btn btn-primary mt-3 ms-auto me-5 d-flex " >Add Librarian</a>
     </div>
 
     <div class="row d-flex justify-content-center">

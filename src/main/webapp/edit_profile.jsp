@@ -39,7 +39,7 @@
             </div>
             <div class="d-grid gap-3 col-6 mt-3 mx-auto">
               <input type="submit" name="submit" class="btn btn-outline-primary" value="Submit">
-              <a class="btn btn-outline-primary" href="user_info.jsp" role="button">Cancel</a>
+              <a class="btn btn-outline-primary" href="user_profile.jsp" role="button">Cancel</a>
               <a class="btn btn-outline-primary" href="change_password.jsp" role="button">Change password</a>
             </div>
           </form>

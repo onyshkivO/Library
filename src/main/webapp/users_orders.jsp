@@ -9,7 +9,7 @@
 <body>
 <%@ include file="header.jsp" %>
 <div class="btn-group mx-5 ps-5" role="group" aria-label="First group">
-<a class="btn btn-outline-primary" href="user_info.jsp" role="button">My Profile</a>
+<a class="btn btn-outline-primary" href="user_profile.jsp" role="button">My Profile</a>
 <a class="btn btn-outline-primary active" href="controller?action=getOrders" role="button">Orders</a>
 <a class="btn btn-outline-primary" href="controller?action=getUsersBook" role="button">Users books</a>
 </div>
@@ -30,7 +30,7 @@
                 <div class="card-body">
                     <div class=" mb-3 ">
                         <h5 class="card-title">User</h5>
-                        <h6 class="card-title">${subscription.user.firstName} ${subscription.user.lastName}</h6>
+                        <h6 class="card-title"><a href="controller?action=userInfo&login=${subscription.user.login}">${subscription.user.firstName} ${subscription.user.lastName}</a></h6>
                     </div>
                     <div class=" mb-3 ">
                         <h5 class="card-title">Book</h5>
@@ -38,8 +38,8 @@
                         <h6 class="card-title">name: ${subscription.book.name}</h6>
                     </div>
 <%--                    <form id="login-form" class="form" action="controller?action=givebook&id=${subscription.activeBookId}" method="post">--%>
-                    <form id="login-form" class="form" action="controller" >
-                        <input type="hidden" name="action" value="giveBook">
+                    <form id="login-form" class="form" action="controller?action=giveBook" >
+<%--                        <input type="hidden" name="action" value="giveBook">--%>
                         <input type="hidden" name="id" value="${subscription.activeBookId}">
                         <label for="end_date"><h5 class="card-title">End date</h5></label>
                         <div class="input-group mb-3 w-25">

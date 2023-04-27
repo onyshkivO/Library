@@ -54,7 +54,7 @@ public class LoginCommand implements Command {
                     session.setAttribute("user_role", user.getRole().getRoleId());
                     session.setAttribute("exist_user", true);
 
-                    page = "/user_info.jsp";
+                    page = "/user_profile.jsp";
                 } else {
                     //log
                     req.setAttribute("password_does_not_match", true);
