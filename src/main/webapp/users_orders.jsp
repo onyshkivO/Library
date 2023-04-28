@@ -38,8 +38,8 @@
                         <h6 class="card-title">name: ${subscription.book.name}</h6>
                     </div>
 <%--                    <form id="login-form" class="form" action="controller?action=givebook&id=${subscription.activeBookId}" method="post">--%>
-                    <form id="login-form" class="form" action="controller?action=giveBook" >
-<%--                        <input type="hidden" name="action" value="giveBook">--%>
+                    <form id="login-form" class="form" action="controller" >
+                        <input type="hidden" name="action" value="giveBook">
                         <input type="hidden" name="id" value="${subscription.activeBookId}">
                         <label for="end_date"><h5 class="card-title">End date</h5></label>
                         <div class="input-group mb-3 w-25">

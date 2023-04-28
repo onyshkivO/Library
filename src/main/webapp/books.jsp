@@ -65,7 +65,8 @@
 
 
     </form>
-    <a href="#" class="btn btn-primary mt-3 ms-auto me-5 d-flex" style="max-width: 100px">Add Book</a>
+    <c:if test="${sessionScope.exist_user == true&&sessionScope.user.role.roleId==3}"><a href="#" class="btn btn-primary mt-3 ms-auto me-5 d-flex" style="max-width: 100px">Add Book</a></c:if>
+
 
     <div class="row d-flex justify-content-center">
         <c:choose>
@@ -96,7 +97,7 @@
                             </div>
                             <p class="card-text">${book.details}</p>
                             <c:if test="${sessionScope.exist_user == true&&sessionScope.user_role==1}">
-                                <a href="controller?action=addBook&isbn=${book.isbn}" class="btn btn-primary">Add</a>
+                                <a href="controller?action=addBook&isbn=${book.isbn}" class="btn btn-primary <c:if test="${sessionScope.user.userStatus.userStatusId==2}">disabled</c:if>" >Add</a>
                             </c:if>
                             <c:if test="${sessionScope.exist_user == true&&sessionScope.user_role==3}">
                                 <div class="d-flex justify-content-between">
@@ -116,14 +117,6 @@
 
 </div>
 
-<%--<c:forEach var="book" items="${books}">--%>
-<%--    <div class="container bg-light my-4 h-25">${book.name}--%>
-<%--        <a href="controller?action=addBook&isbn=${book.isbn}">--%>
-<%--            <button class="button" role="button">add</button>--%>
-<%--        </a>--%>
-<%--        <br>--%>
-<%--    </div>--%>
-<%--</c:forEach>--%>
 <script src="js/window.js"></script>
 </body>
 </html>

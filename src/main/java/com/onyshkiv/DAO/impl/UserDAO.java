@@ -64,6 +64,21 @@ public class UserDAO extends AbstractDAO<String, User> {
         }
         return users;
     }
+    public List<User> findUserByRole(Integer roleId) throws DAOException {
+        List<User> users = new ArrayList<>();
+        try (
+                PreparedStatement statement = prepareStatement(con, SQLQuery.UserQuery.SELECT_USERS_BY_ROLE, false,roleId);
+                ResultSet resultSet = statement.executeQuery()
+        ) {
+            while (resultSet.next()) {
+                users.add(map(resultSet));
+            }
+        } catch (SQLException e) {
+            //log
+            throw new DAOException(e);
+        }
+        return users;
+    }
 
 
     //+++++++++++++++++++++++++++++++++++++

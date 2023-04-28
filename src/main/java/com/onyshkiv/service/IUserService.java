@@ -11,6 +11,7 @@ public interface IUserService {
     public Optional<String> findUsePasswordByLogin(String login) throws ServiceException;
     List<User> findAllUsers() throws ServiceException;
     List<User> findLibrarians() throws ServiceException;
+    List<User> findReaders() throws ServiceException;
 
     void createUser(User user) throws ServiceException;
 

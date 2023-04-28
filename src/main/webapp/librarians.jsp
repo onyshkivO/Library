@@ -9,7 +9,7 @@
 <div class="btn-group mx-5 ps-5" role="group" aria-label="First group">
     <a class="btn btn-outline-primary" href="user_profile.jsp" role="button">My Profile</a>
     <a class="btn btn-outline-primary active" href="controller?action=getLibrarians" role="button">Librarians</a>
-    <a class="btn btn-outline-primary" href="#" role="button">Users</a>
+    <a class="btn btn-outline-primary" href="controller?action=getReaders" role="button">Users</a>
 </div>
 
 <div class="container">
@@ -18,7 +18,7 @@
     </div>
 
     <div class="row d-flex justify-content-center">
-        <c:forEach var="user" items="${librarians}">
+        <c:forEach var="user" items="${users}">
         <div class=" card col-lg-5 mx-3 my-3">
             <h5 class="card-header">${user.login}</h5>
             <div class="card-body">

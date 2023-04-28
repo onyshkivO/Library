@@ -30,7 +30,6 @@ public class BooksPageCommand implements Command {
         System.out.println("sortOptionOrder " + sortOptionOrder);
         System.out.println(name);
 
-
         if (name != null && !name.equals("") && searchOption.equals("book_name")) {
             try {
                 books = bookService.findAllVailableBooksByName(name);
@@ -47,7 +46,7 @@ public class BooksPageCommand implements Command {
             }
         } else {
             try {
-                books = bookService.findAllBooks();
+                books = bookService.findAllAvailableBooks();
             } catch (ServiceException e) {
                 logger.error("Problem with service occurred!", e);
                 return new CommandResult("/controller?action=bookPage", true);

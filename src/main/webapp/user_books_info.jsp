@@ -26,7 +26,7 @@
                 </thead>
                 <tbody>
                 <c:forEach var="active_book" items="${requestScope.user_books}">
-                    <tr>
+                    <tr  <c:if test="${active_book.subscriptionStatus.subscriptionStatusID==3}"> style="background-color: #fca2a2" </c:if>  "   >
                             <%--                <th scope="row">1</th>--%>
                         <td>${active_book.book.name}</td>
                         <td>${active_book.endDate}</td>

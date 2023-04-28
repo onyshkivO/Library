@@ -1,4 +1,4 @@
-package com.onyshkiv.command.impl;
+package com.onyshkiv.command.impl.admin;
 
 import com.onyshkiv.command.Command;
 import com.onyshkiv.command.CommandResult;
@@ -12,19 +12,19 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
-public class GetLibrariansCommand implements Command {
-    private static final Logger logger = LogManager.getLogger(GetLibrariansCommand.class);
+public class GetReadersCommand implements Command {
+    private static final Logger logger = LogManager.getLogger(GetReadersCommand.class);
     UserService userService = UserService.getInstance();
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) {
-        List<User> librarians;
+        List<User> readers;
         try{
-            librarians = userService.findLibrarians();
+            readers = userService.findReaders();
         } catch (ServiceException e) {
-            logger.error("Problem with user service occurred!(findLibrarians)", e);
+            logger.error("Problem with user service occurred!(#GetReadersCommand)", e);
             return new CommandResult("/", true); //todo another redirect
         }
-        req.setAttribute("librarians",librarians);
-        return new CommandResult("/librarians.jsp");
+        req.setAttribute("users",readers);
+        return new CommandResult("/readers.jsp");
     }
 }

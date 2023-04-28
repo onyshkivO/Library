@@ -4,6 +4,7 @@ import com.onyshkiv.DAO.DAOException;
 import com.onyshkiv.DAO.EntityTransaction;
 import com.onyshkiv.DAO.impl.UserDAO;
 import com.onyshkiv.entity.User;
+import com.onyshkiv.entity.UserStatus;
 import com.onyshkiv.service.IUserService;
 import com.onyshkiv.service.ServiceException;
 import org.apache.logging.log4j.LogManager;
@@ -64,12 +65,12 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public List<User> findAllUsers() throws ServiceException {
+    public List<User> findLibrarians() throws ServiceException {
         List<User> list;
         entityTransaction.init(userDAO);
 
         try {
-            list = userDAO.findAll();
+            list = userDAO.findUserByRole(2);
         } catch (DAOException e) {
             //log
             throw new ServiceException(e);
@@ -80,12 +81,28 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public List<User> findLibrarians() throws ServiceException {
+    public List<User> findReaders() throws ServiceException {
         List<User> list;
         entityTransaction.init(userDAO);
 
         try {
-            list = userDAO.findLibrarians();
+            list = userDAO.findUserByRole(1);
+        } catch (DAOException e) {
+            //log
+            throw new ServiceException(e);
+        } finally {
+            entityTransaction.end(userDAO);
+        }
+        return list;
+    }
+
+    @Override
+    public List<User> findAllUsers() throws ServiceException {
+        List<User> list;
+        entityTransaction.init(userDAO);
+
+        try {
+            list = userDAO.findAll();
         } catch (DAOException e) {
             //log
             throw new ServiceException(e);

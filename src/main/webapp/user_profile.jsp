@@ -19,12 +19,13 @@
     </c:if>
     <c:if test="${sessionScope.user_role == 3}">
         <a class="btn btn-outline-primary" href="controller?action=getLibrarians" role="button">Librarians</a>
-        <a class="btn btn-outline-primary" href="#" role="button">Users</a>
+        <a class="btn btn-outline-primary" href="controller?action=getReaders" role="button">Users</a>
     </c:if>
 
 
 </div>
 <div class="container-fluid mt-3 mx-5 ps-5"  style="width: 500px;">
+    <c:if test="${sessionScope.user.userStatus.userStatusId==2}"><h2 class="text-danger"> Your account are blocked!</h2></c:if>
     <p class="fs-4 fw-semibold">Login:</p>
     <p class="fs-5">${sessionScope.user.login}</p>
     <p class="fs-4 fw-semibold">Email:</p>
@@ -42,7 +43,7 @@
     <p class="fs-5">Ведіть ваш номер, щоб його бачити</p>
     </c:if>
     <div class="d-grid gap-2 col-6 mt-3">
-    <a class="btn btn-outline-primary" href="edit_profile.jsp" role="button">Edit profile</a>
+    <a class="btn btn-outline-primary <c:if test="${sessionScope.user.userStatus.userStatusId==2}">disabled</c:if>" href="edit_profile.jsp" role="button">Edit profile</a>
     </div>
 </div>
 </body>
