@@ -1,6 +1,5 @@
 //todo якось треба зробити, щоб вікно вискакувало лише 1 раз
 const body = document.querySelector('body');
-console.log("1");
 
 function checkPageStatus() {
 
@@ -10,7 +9,6 @@ function checkPageStatus() {
     const match = window.location.search.match(regex);
     const match2 = window.location.search.match(regex2);
     const match3 = window.location.search.match(regex3);
-    console.log("1");
     if (match2 !== null) {
 
         const badPopup = document.createElement('div');

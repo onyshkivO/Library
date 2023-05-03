@@ -2,13 +2,8 @@ package com.onyshkiv.command;
 
 
 import com.onyshkiv.command.impl.*;
-import com.onyshkiv.command.impl.admin.ChangeUserStatusCommand;
-import com.onyshkiv.command.impl.admin.GetLibrariansCommand;
-import com.onyshkiv.command.impl.admin.GetReadersCommand;
-import com.onyshkiv.command.impl.librarian.DeleteUserCommand;
-import com.onyshkiv.command.impl.librarian.GetUsersBooksCommand;
-import com.onyshkiv.command.impl.librarian.GiveBookCommand;
-import com.onyshkiv.command.impl.librarian.OrdersPageCommand;
+import com.onyshkiv.command.impl.admin.*;
+import com.onyshkiv.command.impl.librarian.*;
 import com.onyshkiv.command.impl.reader.AddBookCommand;
 import com.onyshkiv.command.impl.reader.GetUserBookCommand;
 
@@ -29,7 +24,10 @@ public enum CommandType {
     GETREADERSGET(new GetReadersCommand()),
     DELETEUSERGET(new DeleteUserCommand()),
     USERINFOGET(new GetUserInfoCommand()),
-    CHANGEUSERSTATUSGET(new ChangeUserStatusCommand());
+    CHANGEUSERSTATUSGET(new ChangeUserStatusCommand()),
+    GIVEBOOKBACKGET(new GiveBookBackCommand()),
+    ADDBOOKPAGEGET(new GetAddBookPageCommand()),
+    CREATEBOOKPOST(new CreateBookCommand());
     private Command command;
 
     CommandType(Command command){

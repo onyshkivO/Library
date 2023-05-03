@@ -3,7 +3,7 @@ package com.onyshkiv.DAO;
 public abstract class SQLQuery {
     public static class PublicationQuery {
 
-        public static final String SELECT_ALL_PUBLICATIONS = "SELECT * FROM publication";
+        public static final String SELECT_ALL_PUBLICATIONS = "SELECT * FROM publication ORDER BY name";
         public static final String SELECT_PUBLICATION_BY_ID = "SELECT * FROM publication WHERE publication_id = ? ";
         public static final String INSERT_PUBLICATION = "INSERT INTO publication VALUES (DEFAULT,?)";
         public static final String UPDATE_PUBLICATION = "UPDATE publication SET name =? WHERE publication_id=?";

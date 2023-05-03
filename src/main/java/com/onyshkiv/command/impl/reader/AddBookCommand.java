@@ -19,38 +19,39 @@ public class AddBookCommand implements Command {
     private static final Logger logger = LogManager.getLogger(AddBookCommand.class);
     ActiveBookService activeBookService = ActiveBookService.getInstance();
     BookService bookService = BookService.getInstance();
+
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession();
-        User user = (User)session.getAttribute("user");
-        Integer isbn = Integer.valueOf( req.getParameter(  "isbn"));
+        User user = (User) session.getAttribute("user");
+        Integer isbn = Integer.valueOf(req.getParameter("isbn"));
 
 
         try {
             Book book = bookService.findBookById(isbn).get();
 
-            if(activeBookService.findActiveBookByUserAndBook(user.getLogin(),isbn).isPresent()){
+            if (activeBookService.findActiveBookByUserAndBook(user.getLogin(), isbn).isPresent()) {
                 logger.info("user already has a book");
                 System.out.println("user already has a book ");
-                return new CommandResult("/controller?action=bookPage&already=true",true);
+                return new CommandResult("/controller?action=bookPage&already=true", true);
             }
 
 
-            if(!bookService.isAvailableBook(book.getIsbn())){
+            if (!bookService.isAvailableBook(book.getIsbn())) {
                 logger.info("There are not available book(#AddBookCommand)");
                 System.out.println("There are not available book(#AddBookCommand)");
-                return new CommandResult("/controller?action=bookPage&notAvailable=true",true);
+                return new CommandResult("/controller?action=bookPage&notAvailable=true", true);
             }
-            ActiveBook activeBook= new ActiveBook(book,user,new SubscriptionStatus(4), new Date(),new Date(),null);
+            ActiveBook activeBook = new ActiveBook(book, user, new SubscriptionStatus(4), new Date(), new Date(), null);
             activeBookService.createActiveBook(activeBook);
         } catch (ServiceException e) {
             e.printStackTrace();
             //log
             System.out.println("something went wronge");
-            return new CommandResult("/",true);
+            return new CommandResult("/", true);
 
         }
 //        req.setAttribute("active",true);
-        return new CommandResult("/controller?action=bookPage&isbn="+isbn,true);
+        return new CommandResult("/controller?action=bookPage&isbn=" + isbn, true);
     }
 }

@@ -65,7 +65,7 @@
 
 
     </form>
-    <c:if test="${sessionScope.exist_user == true&&sessionScope.user.role.roleId==3}"><a href="#" class="btn btn-primary mt-3 ms-auto me-5 d-flex" style="max-width: 100px">Add Book</a></c:if>
+    <c:if test="${sessionScope.exist_user == true&&sessionScope.user.role.roleId==3}"><a href="controller?action=AddBookPage" class="btn btn-primary mt-3 ms-auto me-5 d-flex" style="max-width: 100px">Add Book</a></c:if>
 
 
     <div class="row d-flex justify-content-center">

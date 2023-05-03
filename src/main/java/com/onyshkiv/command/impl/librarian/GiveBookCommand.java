@@ -20,7 +20,7 @@ public class GiveBookCommand implements Command {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String dateString = req.getParameter("end_date");
         Date date;
-        System.out.println(dateString);
+        //System.out.println(dateString);
         try {
            date = formatter.parse(dateString);
         }catch (ParseException e){

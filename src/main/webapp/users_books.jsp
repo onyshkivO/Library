@@ -60,6 +60,7 @@
                                             <td class="w-25"></td>
                                         </c:otherwise>
                                     </c:choose>
+                                    <td>  <a class="btn btn-outline-primary active" href="controller?action=giveBookBack&active_book_id=${active_book.activeBookId}" role="button">Return</a></td>
 
 
                                 </tr>

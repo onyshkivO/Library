@@ -135,6 +135,7 @@ public class BookService implements IBookService {
     }
     @Override
     public void createBook(Book book) throws ServiceException {
+        //todo перевірка чи є автори і публікації для цієї книги
         entityTransaction.initTransaction(bookDAO, authorDAO);
         try {
             bookDAO.create(book);

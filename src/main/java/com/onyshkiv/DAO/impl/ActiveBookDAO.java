@@ -242,7 +242,7 @@ public class ActiveBookDAO extends AbstractDAO<Integer, ActiveBook> {
             throw new DAOException(e);
         }
     }
-
+//todo переглянути петод updateActiveBookForGive, якраз приклад чи так робити чи в методі міняти вседістаючи перше екземпляр
     public void updateActiveBookForGive(Integer id, Date endDate, Double fine) throws DAOException {
         if (id == 0) {
             throw new IllegalArgumentException("ActiveBook is not created yet, the ActiveBook ID is 0.");
