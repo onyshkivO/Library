@@ -2,10 +2,10 @@ package com.onyshkiv.command.impl.admin;
 
 import com.onyshkiv.command.Command;
 import com.onyshkiv.command.CommandResult;
-import com.onyshkiv.command.impl.reader.AddBookCommand;
-import com.onyshkiv.entity.*;
+import com.onyshkiv.entity.Author;
+import com.onyshkiv.entity.Book;
+import com.onyshkiv.entity.Publication;
 import com.onyshkiv.service.ServiceException;
-import com.onyshkiv.service.impl.ActiveBookService;
 import com.onyshkiv.service.impl.AuthorService;
 import com.onyshkiv.service.impl.BookService;
 import com.onyshkiv.service.impl.PublicationService;
@@ -18,27 +18,24 @@ import org.apache.logging.log4j.Logger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-//todo переробити то на***
-import static com.onyshkiv.util.validation.Validation.*;
 
-public class CreateBookCommand implements Command {
-    private static final Logger logger = LogManager.getLogger(CreateBookCommand.class);
+import static com.onyshkiv.util.validation.Validation.validateIsbn;
+
+public class EditBookCommand implements Command {
+    private static final Logger logger = LogManager.getLogger(EditBookCommand.class);
     BookService bookService = BookService.getInstance();
     AuthorService authorService = AuthorService.getInstance();
     PublicationService publicationService = PublicationService.getInstance();
+
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) {
         boolean flag = false;
         HttpSession session = req.getSession();
         String isbnString = req.getParameter("isbn");
         session.setAttribute("isbn", isbnString);
-        if (!validateIsbn(isbnString)) {
-            session.removeAttribute("isbn");
-            session.setAttribute("incorrect_isbn", true);
-            flag = true;
-        }
+
         Integer isbn = Integer.valueOf(isbnString);
-        String name = req. getParameter("name");
+        String name = req.getParameter("name");
         session.setAttribute("name", name);
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -53,7 +50,7 @@ public class CreateBookCommand implements Command {
             Set<Author> authors = new HashSet<>();
             session.setAttribute("selected_authors", list);
 
-            for(String s : selectedAuthors){
+            for (String s : selectedAuthors) {
                 authors.add(authorService.findAuthorById(Integer.valueOf(s)).get());
             }
             session.setAttribute("selected_authors_real", authors);
@@ -62,40 +59,28 @@ public class CreateBookCommand implements Command {
             String yearOfPublicationString = req.getParameter("year_of_publication");
             session.setAttribute("year_of_publication", yearOfPublicationString);
             Date date;
+            String details = req.getParameter("details");
+            session.setAttribute("details", details);
             try {
                 date = formatter.parse(yearOfPublicationString);
-            }catch (ParseException e){
+            } catch (ParseException e) {
                 //log
-                req.setAttribute("bad_date_format",true);
-                return new CommandResult("/controller?action=AddBookPage");
+                req.setAttribute("bad_date_format", true);
+                return new CommandResult(String.format("/controller?action=editBookPage&isbn=%d", isbn), true);
             }
             session.setAttribute("date", date);
 
-            String details = req.getParameter("details");
-            session.setAttribute("details", details);
             if (flag)
-                return new CommandResult("/controller?action=AddBookPage",true);
+                return new CommandResult(String.format("/controller?action=editBookPage&isbn=%d", isbn), true);
+            Book book = new Book(isbn, name, date, publication, quantity, details, authors);
+            bookService.updateBook(book);
 
-
-
-
-
-
-            Book book = new Book(isbn,name,date,publication,quantity,details,authors);
-            bookService.createBook(book);
-//            System.out.println();
-//            System.out.println("isbn: "+book.getIsbn());
-//            System.out.println("name: "+book.getName());
-//            System.out.println("date: "+book.getDateOfPublication());
-//            System.out.println("publication: "+book.getPublication().getPublicationId()+" name "+book.getPublication().getPublicationId());
-//            System.out.println("quantity: "+book.getQuantity());
-//            System.out.println("details: "+book.getDetails());
-//            System.out.println("authors: "+book.getAuthors());
-
-        }catch (ServiceException e ){
+        } catch (ServiceException e) {
             //log
             session.setAttribute("already_exist_isbn", true);
-            return new CommandResult("/controller?action=AddBookPage",true);
+
+//            return new CommandResult("/controller?action=AddBookPage",true);
+            return new CommandResult(String.format("/controller?action=editBookPage&isbn=%d", isbn), true);//todo може щось не так, адже і так ми isbn пишемо в сесію
         }
         session.removeAttribute("isbn");
         session.removeAttribute("incorrect_isbn");
@@ -107,6 +92,6 @@ public class CreateBookCommand implements Command {
         session.removeAttribute("details");
         session.removeAttribute("selected_authors_real");
 
-        return new CommandResult("/controller?action=bookPage",true);
+        return new CommandResult("/controller?action=bookPage", true);
     }
 }

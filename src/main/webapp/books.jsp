@@ -63,9 +63,10 @@
         </div>
 
 
-
     </form>
-    <c:if test="${sessionScope.exist_user == true&&sessionScope.user.role.roleId==3}"><a href="controller?action=AddBookPage" class="btn btn-primary mt-3 ms-auto me-5 d-flex" style="max-width: 100px">Add Book</a></c:if>
+    <c:if test="${sessionScope.exist_user == true&&sessionScope.user.role.roleId==3}"><a
+            href="controller?action=AddBookPage" class="btn btn-primary mt-3 ms-auto me-5 d-flex"
+            style="max-width: 100px">Add Book</a></c:if>
 
 
     <div class="row d-flex justify-content-center">
@@ -76,7 +77,8 @@
             <c:otherwise>
                 <h2 class="my-4 d-flex justify-content-center">Available books</h2>
                 <c:forEach var="book" items="${books}">
-                    <div class="card col-lg-4 mx-2 my-1" style="width: 18rem;">
+                    <div class="card col-lg-4 mx-2 my-1 " style="width: 18rem;
+                    <c:if test="${book.quantity==0}">background-color: #b7b7b7 </c:if> ">
                         <div class="card-body">
                             <h5 class="card-title mb-3">${book.name}</h5>
                             <div class="d-flex justify-content-between " style="max-width: 280px">
@@ -97,11 +99,12 @@
                             </div>
                             <p class="card-text">${book.details}</p>
                             <c:if test="${sessionScope.exist_user == true&&sessionScope.user_role==1}">
-                                <a href="controller?action=addBook&isbn=${book.isbn}" class="btn btn-primary <c:if test="${sessionScope.user.userStatus.userStatusId==2}">disabled</c:if>" >Add</a>
+                                <a href="controller?action=addBook&isbn=${book.isbn}"
+                                   class="btn btn-primary <c:if test="${sessionScope.user.userStatus.userStatusId==2}">disabled</c:if>">Add</a>
                             </c:if>
                             <c:if test="${sessionScope.exist_user == true&&sessionScope.user_role==3}">
                                 <div class="d-flex justify-content-between">
-                                    <a href="#" class="btn btn-primary">Edit</a>
+                                    <a href="controller?action=editBookPage&isbn=${book.isbn}" class="btn btn-primary">Edit</a>
                                     <a href="#" class="btn btn-primary">Delete</a>
                                 </div>
                             </c:if>

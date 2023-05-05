@@ -27,7 +27,15 @@ public enum CommandType {
     CHANGEUSERSTATUSGET(new ChangeUserStatusCommand()),
     GIVEBOOKBACKGET(new GiveBookBackCommand()),
     ADDBOOKPAGEGET(new GetAddBookPageCommand()),
-    CREATEBOOKPOST(new CreateBookCommand());
+//    ADDBOOKPAGEPOST(new GetAddBookPageCommand()), //todo якось треба переробити
+    CREATEBOOKPOST(new CreateBookCommand()),
+    AUTHANDPUBGET(new GetAuthorsAndPublicationsCommand()),
+    CREATEAUTHORPOST(new CreateAuthorCommand()),
+    CREATEPUBLICATIONPOST(new CreatePublicationCommand()),
+    RENAMEPUBLICATIONPOST(new RenamePublicationCommand()),
+    RENAMEAUTHORPOST(new RenameAuthorCommand()),
+    EDITBOOKPAGEGET(new GetEditBookPageCommand()),
+    EDITBOOKPOST(new EditBookCommand());
     private Command command;
 
     CommandType(Command command){

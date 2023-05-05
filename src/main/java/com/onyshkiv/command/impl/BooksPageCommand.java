@@ -4,10 +4,12 @@ import com.onyshkiv.command.Command;
 import com.onyshkiv.command.CommandResult;
 import com.onyshkiv.entity.Author;
 import com.onyshkiv.entity.Book;
+import com.onyshkiv.entity.User;
 import com.onyshkiv.service.ServiceException;
 import com.onyshkiv.service.impl.BookService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,6 +23,8 @@ public class BooksPageCommand implements Command {
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) {
         List<Book> books;
+        HttpSession session = req.getSession();
+        User user = (User) session.getAttribute("user");
         String name = req.getParameter("name");
         String searchOption = req.getParameter("search_option");
         String sortOption = req.getParameter("sort_option");
@@ -32,21 +36,30 @@ public class BooksPageCommand implements Command {
 
         if (name != null && !name.equals("") && searchOption.equals("book_name")) {
             try {
-                books = bookService.findAllVailableBooksByName(name);
+                if (user.getRole().getRoleId() == 3)
+                    books = bookService.findAllBooks();
+                else books = bookService.findAllVailableBooksByName(name);
+
             } catch (ServiceException e) {
                 logger.error("Problem with service occurred!", e);
                 return new CommandResult("/controller?action=bookPage", true);
             }
         } else if (name != null && !name.equals("") && searchOption.equals("author_name")) {
             try {
-                books = bookService.findAllVailableBooksByAuthorName(name);
+                if (user.getRole().getRoleId() == 3)
+                    books = bookService.findAllBooks();
+                else
+                    books = bookService.findAllVailableBooksByAuthorName(name);
             } catch (ServiceException e) {
                 logger.error("Problem with service occurred!", e);
                 return new CommandResult("/controller?action=bookPage", true);
             }
         } else {
             try {
-                books = bookService.findAllAvailableBooks();
+                if (user.getRole().getRoleId() == 3)
+                    books = bookService.findAllBooks();
+                else
+                    books = bookService.findAllAvailableBooks();
             } catch (ServiceException e) {
                 logger.error("Problem with service occurred!", e);
                 return new CommandResult("/controller?action=bookPage", true);
@@ -78,11 +91,10 @@ public class BooksPageCommand implements Command {
                                 return comp;
                             }
                         }
-                        if (sortOptionOrder.equals("asc")){
-                            return firstAuthors.hasNext()?1:-1;
+                        if (sortOptionOrder.equals("asc")) {
+                            return firstAuthors.hasNext() ? 1 : -1;
                         }
-                        return secondAuthors.hasNext()?1:-1;
-
+                        return secondAuthors.hasNext() ? 1 : -1;
 
 
 //

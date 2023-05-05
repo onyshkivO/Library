@@ -8,6 +8,7 @@ public class Validation {
     private final static String PHONE_REGEX ="^(?:\\+38)?(?:\\(044\\)[ .-]?[0-9]{3}[ .-]?[0-9]{2}[ .-]?[0-9]{2}|044[ .-]?[0-9]{3}[ .-]?[0-9]{2}[ .-]?[0-9]{2}|044[0-9]{7})$";
     private final static String EMAIL_REGEX = "^([\\w\\-\\.]+)@([\\w\\-\\.]+)\\.([a-zA-Z]{2,5})$";
     private final static String NAME_REGEX = "^[a-zA-Zа-яА-Я\\\\s]{2,20}$";
+    private final static String ISBN_REGEX = "^(?=(?:\\D*\\d){10}(?:(?:\\D*\\d){3})?$)[\\d-]+$";
 
     public static boolean validateLogin (String login){
         return Pattern.matches(LOGIN_REGEX,login);
@@ -23,6 +24,9 @@ public class Validation {
 
     public static boolean validatePhone (String phone){
         return Pattern.matches(PHONE_REGEX,phone);
+    }
+    public static boolean validateIsbn (String isbn){
+        return Pattern.matches(ISBN_REGEX,isbn);
     }
 
 
