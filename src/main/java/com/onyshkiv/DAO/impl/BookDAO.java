@@ -58,11 +58,93 @@ public class BookDAO extends AbstractDAO<Integer, Book> {
         return books;
     }
 
-
-    public List<Book> findAllVailableBooks() throws DAOException {
+    public List<Book> findAllBooks(Integer booksPerPage,Integer offset,String sortOption, String orderOption) throws DAOException {
         List<Book> books = new ArrayList<>();
         try (
-                PreparedStatement statement = prepareStatement(con, SQLQuery.BookQuery.FIND_ALL_AVAILABLE_BOOKS, false);
+                PreparedStatement statement = prepareStatement(con, String.format(SQLQuery.BookQuery.FIND_ALL_BOOKS_V2,sortOption,orderOption), false,booksPerPage,offset);
+                ResultSet resultSet = statement.executeQuery()
+        ) {
+            while (resultSet.next()) {
+                Book result = map(resultSet);
+                PublicationDAO publicationDAO = PublicationDAO.getInstance();
+                publicationDAO.setConnection(con);
+                result.setPublication(publicationDAO.findEntityById(result.getPublication().getPublicationId()).orElse(null));
+
+                AuthorDAO authorDAO = AuthorDAO.getInstance();
+                authorDAO.setConnection(con);
+                result.setAuthors(authorDAO.getAllAuthorByBookISBN(result.getIsbn()));
+                books.add(result);
+            }
+        } catch (SQLException e) {
+            //log
+            logger.error(e.getMessage());
+            throw new DAOException(e);
+        }
+        return books;
+    }
+
+    public List<Book> findAllVailableBooks(String sortOption, String orderOption) throws DAOException {
+
+        List<Book> books = new ArrayList<>();
+        try (
+                PreparedStatement statement = prepareStatement(con, String.format(SQLQuery.BookQuery.FIND_ALL_AVAILABLE_BOOKS,sortOption,orderOption), false);
+                ResultSet resultSet = statement.executeQuery()
+        ) {
+            while (resultSet.next()) {
+                Book result = map(resultSet);
+                PublicationDAO publicationDAO = PublicationDAO.getInstance();
+                publicationDAO.setConnection(con);
+                result.setPublication(publicationDAO.findEntityById(result.getPublication().getPublicationId()).orElse(null));
+
+                AuthorDAO authorDAO = AuthorDAO.getInstance();
+                authorDAO.setConnection(con);
+                result.setAuthors(authorDAO.getAllAuthorByBookISBN(result.getIsbn()));
+                books.add(result);
+            }
+        } catch (SQLException e) {
+            //log
+            logger.error(e.getMessage());
+            throw new DAOException(e);
+        }
+        return books;
+    }
+
+
+    public Integer getNumberOfAvailableBooks() throws DAOException {
+        Integer num = 0;
+        try (PreparedStatement statement = prepareStatement(con, SQLQuery.BookQuery.NUMBER_AVAILABLE_BOOKS, false);
+             ResultSet resultSet = statement.executeQuery()) {
+            if (resultSet != null && resultSet.next()) {
+                num = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            //log
+            logger.error(e.getMessage());
+            throw new DAOException(e);
+        }
+        return num;
+    }
+
+    public Integer getNumberOfBooks() throws DAOException {
+        Integer num = 0;
+        try (PreparedStatement statement = prepareStatement(con, SQLQuery.BookQuery.NUMBER_BOOKS, false);
+             ResultSet resultSet = statement.executeQuery()) {
+            if (resultSet != null && resultSet.next()) {
+                num = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            //log
+            logger.error(e.getMessage());
+            throw new DAOException(e);
+        }
+        return num;
+    }
+
+    public List<Book> findAllVailableBooksByOption(String name, boolean isAuthorName, String sortOption, String orderOption) throws DAOException {
+        name = name == null || name.isBlank() ? "%" : name + "%";
+        List<Book> books = new ArrayList<>();
+        try (
+                PreparedStatement statement = prepareStatement(con, String.format(SQLQuery.BookQuery.FIND_AVAILABLE_BOOKS_BY_SOME_OPTION, isAuthorName ? "a" : "b", sortOption, orderOption), false, name);
                 ResultSet resultSet = statement.executeQuery()
         ) {
             while (resultSet.next()) {
@@ -85,10 +167,10 @@ public class BookDAO extends AbstractDAO<Integer, Book> {
     }
 
     public List<Book> findAllVailableBooksByName(String name) throws DAOException {
-        name = name==null||name.isBlank()?"%":name+"%";
+        name = name == null || name.isBlank() ? "%" : name + "%";
         List<Book> books = new ArrayList<>();
         try (
-                PreparedStatement statement = prepareStatement(con, SQLQuery.BookQuery.FIND_AVAILABLE_BOOKS_BY_NAME, false,name);
+                PreparedStatement statement = prepareStatement(con, SQLQuery.BookQuery.FIND_AVAILABLE_BOOKS_BY_NAME, false, name);
                 ResultSet resultSet = statement.executeQuery()
         ) {
             while (resultSet.next()) {
@@ -109,11 +191,12 @@ public class BookDAO extends AbstractDAO<Integer, Book> {
         }
         return books;
     }
+
     public List<Book> findAllVailableBooksByAuthorName(String name) throws DAOException {
-        name = name==null||name.isBlank()?"%":name+"%";
+        name = name == null || name.isBlank() ? "%" : name + "%";
         List<Book> books = new ArrayList<>();
         try (
-                PreparedStatement statement = prepareStatement(con, SQLQuery.BookQuery.FIND_AVAILABLE_BOOKS_BY_AUTHOR_NAME, false,name);
+                PreparedStatement statement = prepareStatement(con, SQLQuery.BookQuery.FIND_AVAILABLE_BOOKS_BY_AUTHOR_NAME, false, name);
                 ResultSet resultSet = statement.executeQuery()
         ) {
             while (resultSet.next()) {
@@ -244,17 +327,6 @@ public class BookDAO extends AbstractDAO<Integer, Book> {
             throw new DAOException(e);
         }
     }
-
-//    public boolean chechIsHaveAvaliableBook(Integer isbn) throws DAOException {
-//        try (PreparedStatement statement = prepareStatement(con, SQLQuery.BookQuery.IS_AVALIABLE_BOOK, false, isbn);
-//             ResultSet resultSet = statement.executeQuery()
-//        ) {
-//            return resultSet.next();
-//        } catch (SQLException e) {
-//            throw new DAOException(e);
-//        }
-//
-//    }
 
 
     private static Book map(ResultSet resultSet) throws SQLException {

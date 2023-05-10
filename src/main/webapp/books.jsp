@@ -6,11 +6,9 @@
 
 
 </head>
-<%--<body data-active="<%= request.getAttribute("isbn") %>">--%>
 <body>
 <%@ include file="header.jsp" %>
 <div class="container">
-
 
     <form class="mt-4  d-flex justify-content-between" action="controller" method="get">
         <div class="ms-5 ps-5" style="max-width: 400px">
@@ -35,18 +33,18 @@
             <h5>Sorting</h5>
             <div class="input-group d-flex">
                 <select class="form-select" id="sort_option" name="sort_option" style="min-width: 220px">
-                    <option value="book_name" <c:if test="${requestScope.sort_option == 'book_name'}">selected</c:if>>
+                    <option value="b.name" <c:if test="${requestScope.sort_option == 'b.name'}">selected</c:if>>
                         Book name
                     </option>
-                    <option value="author_name"
-                            <c:if test="${requestScope.sort_option == 'author_name'}">selected</c:if>>Author name
+                    <option value="a.name"
+                            <c:if test="${requestScope.sort_option == 'a.name'}">selected</c:if>>Author name
                     </option>
                     <option value="date_of_publication"
                             <c:if test="${requestScope.sort_option == 'date_of_publication'}">selected</c:if>>Date of
                         publication
                     </option>
-                    <option value="publication_name"
-                            <c:if test="${requestScope.sort_option == 'publication_name'}">selected</c:if>>Publication
+                    <option value="p.name"
+                            <c:if test="${requestScope.sort_option == 'p.name'}">selected</c:if>>Publication
                         name
                     </option>
                 </select>
@@ -77,37 +75,37 @@
             <c:otherwise>
                 <h2 class="my-4 d-flex justify-content-center">Available books</h2>
                 <c:forEach var="book" items="${books}">
-                    <div class="card col-lg-4 mx-2 my-1 " style="width: 18rem;
-                    <c:if test="${book.quantity==0}">background-color: #b7b7b7 </c:if> ">
-                        <div class="card-body">
-                            <h5 class="card-title mb-3">${book.name}</h5>
-                            <div class="d-flex justify-content-between " style="max-width: 280px">
-                                <h6>Authors</h6>
-                                <h6>Publication</h6>
+
+                    <div class="card my-2"
+                         style=" max-width: 1100px; <c:if test="${book.quantity==0}">background-color: #d9d9d9 </c:if>">
+                        <h4 class="card-header">${book.name}</h4>
+                        <div class="card-body row">
+                            <div class="col-3 align-self-center">
+                                <h6 class="card-title">isbn: ${book.isbn}</h6>
+                                <h6 class="card-text">Authors: <c:forEach var="author" items="${book.authors}">
+                                    ${author.name}
+                                </c:forEach></h6>
+                                <h6 class="card-text">publications : ${book.publication.name}</h6>
+                                <h6 class="card-text">Date of Publication : ${book.dateOfPublication}</h6>
                             </div>
-                            <div class="d-flex justify-content-between " style="max-width: 280px; ">
-                                <div style="max-width: 125px; ">
-                                    <p>
-                                        <c:forEach var="author" items="${book.authors}">
-                                            ${author.name},
-                                        </c:forEach>
-                                    </p>
-                                </div>
-                                <div style="max-width: 125px; " class="ms-1 ">
-                                    <p>${book.publication.name}</p>
-                                </div>
+                            <div class="col-8 align-self-center">
+                                <c:if test="${book.details!=null}">
+                                    <h5 class="card-title">Details</h5>
+                                    <p class="card-text">${book.details}</p></c:if>
+
                             </div>
-                            <p class="card-text">${book.details}</p>
-                            <c:if test="${sessionScope.exist_user == true&&sessionScope.user_role==1}">
-                                <a href="controller?action=addBook&isbn=${book.isbn}"
-                                   class="btn btn-primary <c:if test="${sessionScope.user.userStatus.userStatusId==2}">disabled</c:if>">Add</a>
-                            </c:if>
-                            <c:if test="${sessionScope.exist_user == true&&sessionScope.user_role==3}">
-                                <div class="d-flex justify-content-between">
-                                    <a href="controller?action=editBookPage&isbn=${book.isbn}" class="btn btn-primary">Edit</a>
-                                    <a href="#" class="btn btn-primary">Delete</a>
-                                </div>
-                            </c:if>
+                            <div class="col-1 align-self-center">
+                                <c:if test="${sessionScope.exist_user == true&&sessionScope.user_role==1}">
+                                    <a href="controller?action=addBook&isbn=${book.isbn}"
+                                       class="btn btn-primary <c:if test="${sessionScope.user.userStatus.userStatusId==2}">disabled</c:if>">Add</a>
+                                </c:if>
+                                <c:if test="${sessionScope.exist_user == true&&sessionScope.user_role==3}">
+                                    <a href="controller?action=editBookPage&isbn=${book.isbn}"
+                                       class="btn btn-primary mb-1 ">Edit</a><br>
+                                    <a href="#" class="btn btn-primary mt-1">Delete</a>
+                                </c:if>
+                            </div>
+
 
                         </div>
                     </div>
@@ -115,8 +113,60 @@
             </c:otherwise>
         </c:choose>
 
-
+        ${noOfPages}
     </div>
+    <nav aria-label="...">
+        <ul class="pagination">
+            <li class="page-item <c:if test="${page == 1}">disabled</c:if>">
+                <a class="page-link" href="controller?action=bookPage&page=${page - 1}&search_option=${search_option}&sort_option=${sort_option}&sort_option_order=${sort_option_order}&name=${name}" tabindex="-1">Previous</a>
+            </li>
+            <c:forEach begin="1" end="${noOfPages}" var="i">
+                <c:choose>
+                    <c:when test="${page eq i}">
+                        <li class="page-item active">
+                        <span class="page-link">
+                                ${i}
+                        </span>
+                        </li>
+
+                    </c:when>
+                    <c:otherwise>
+                        <li class="page-item"><a class="page-link" href="controller?action=bookPage&page=${i}&search_option=${search_option}&sort_option=${sort_option}&sort_option_order=${sort_option_order}&name=${name}">${i}</a>
+                        </li>
+                    </c:otherwise>
+                </c:choose>
+            </c:forEach>
+            <li class="page-item<c:if test="${page gt noOfPages}">disabled</c:if> ">
+                <a class="page-link" href="controller?action=bookPage&page=${page + 1}&search_option=${search_option}&sort_option=${sort_option}&sort_option_order=${sort_option_order}&name=${name}">Next</a>
+            </li>
+        </ul>
+    </nav>
+    <%--    &lt;%&ndash;For displaying Previous link except for the 1st page &ndash;%&gt;--%>
+    <%--    <c:if test="${page != 1}">--%>
+    <%--        <td><a href="controller?action=bookPage&page=${page - 1}">Previous</a></td>--%>
+    <%--    </c:if>--%>
+
+    <%--    &lt;%&ndash;For displaying Page numbers.--%>
+    <%--    The when condition does not display a link for the current page&ndash;%&gt;--%>
+    <%--    <table border="1" cellpadding="5" cellspacing="5">--%>
+    <%--        <tr>--%>
+    <%--            <c:forEach begin="1" end="${numOfPages}" var="i">--%>
+    <%--                <c:choose>--%>
+    <%--                    <c:when test="${page eq i}">--%>
+    <%--                        <td>${i}</td>--%>
+    <%--                    </c:when>--%>
+    <%--                    <c:otherwise>--%>
+    <%--                        <td><a href="controller?action=bookPage&page=${i}">${i}</a></td>--%>
+    <%--                    </c:otherwise>--%>
+    <%--                </c:choose>--%>
+    <%--            </c:forEach>--%>
+    <%--        </tr>--%>
+    <%--    </table>--%>
+
+    <%--    &lt;%&ndash;For displaying Next link &ndash;%&gt;--%>
+    <%--    <c:if test="${page lt numOfPages}">--%>
+    <%--        <td><a href="controller?action=bookPage&page=${page + 1}">Next</a></td>--%>
+    <%--    </c:if>--%>
 
 </div>
 

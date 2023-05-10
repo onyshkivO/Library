@@ -14,125 +14,138 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.*;
-import java.util.function.Consumer;
 
 public class BooksPageCommand implements Command {
     private static final Logger logger = LogManager.getLogger(BooksPageCommand.class);
-    BookService bookService = BookService.getInstance();
+    private BookService bookService = BookService.getInstance();
+    private static Map<String, String> filterOptions = new HashMap<>();
+
+    static {
+
+        filterOptions.put("search_option", "");
+    }
+
 
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) {
         List<Book> books;
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("user");
+
         String name = req.getParameter("name");
         String searchOption = req.getParameter("search_option");
         String sortOption = req.getParameter("sort_option");
         String sortOptionOrder = req.getParameter("sort_option_order");
-        System.out.println("SearchOption " + searchOption);
-        System.out.println("sortOption " + sortOption);
-        System.out.println("sortOptionOrder " + sortOptionOrder);
-        System.out.println(name);
+        String spage = req.getParameter("page");
+        Integer page = getPage(spage);
 
-        if (name != null && !name.equals("") && searchOption.equals("book_name")) {
-            try {
-                if (user.getRole().getRoleId() == 3)
-                    books = bookService.findAllBooks();
-                else books = bookService.findAllVailableBooksByName(name);
+        Integer recordsPerPage = 3;
+        Integer offset = (page - 1) * recordsPerPage;
+        Integer noOfPages = 0;
 
-            } catch (ServiceException e) {
-                logger.error("Problem with service occurred!", e);
-                return new CommandResult("/controller?action=bookPage", true);
+        try {
+            if (searchOption.equals("book_name")) {
+                if (user != null && user.getRole().getRoleId() == 3) {
+                    int noOfRecords = bookService.getNumberOfVailableBooksByName();
+                    noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
+                    books = bookService.findAllBooks(recordsPerPage, offset, sortOption, sortOptionOrder);
+                } else {
+                    int noOfRecords = bookService.getNumberOfVailableBooksByName();
+                    noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
+                    books = bookService.findAllVailableBooksByName(name, sortOption, sortOptionOrder);
+                }
+            } else {
+                if (user != null && user.getRole().getRoleId() == 3) {
+                    int noOfRecords = bookService.getNumberOfVailableBooksByAuthorName();
+                    noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
+                    books = bookService.findAllBooks(recordsPerPage, offset, sortOption, sortOptionOrder);
+                } else {
+                    int noOfRecords = bookService.getNumberOfVailableBooksByAuthorName();
+                    noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
+                    books = bookService.findAllVailableBooksByAuthorName(name, sortOption, sortOptionOrder);
+                }
             }
-        } else if (name != null && !name.equals("") && searchOption.equals("author_name")) {
-            try {
-                if (user.getRole().getRoleId() == 3)
-                    books = bookService.findAllBooks();
-                else
-                    books = bookService.findAllVailableBooksByAuthorName(name);
-            } catch (ServiceException e) {
-                logger.error("Problem with service occurred!", e);
-                return new CommandResult("/controller?action=bookPage", true);
-            }
-        } else {
-            try {
-                if (user.getRole().getRoleId() == 3)
-                    books = bookService.findAllBooks();
-                else
-                    books = bookService.findAllAvailableBooks();
-            } catch (ServiceException e) {
-                logger.error("Problem with service occurred!", e);
-                return new CommandResult("/controller?action=bookPage", true);
-            }
+        } catch (ServiceException e) {
+            logger.error("Problem with service occurred!", e);
+            return new CommandResult("/controller?action=bookPage", true);
         }
-        books.forEach(book -> book.getAuthors().stream().sorted(Comparator.comparing(Author::getName)));
-        if (sortOption == null) books.sort(Comparator.comparing(Book::getName));
-        else
-            switch (sortOption) {
-                case "book_name":
-                    System.out.println(sortOptionOrder.equals("asc"));
-                    if (sortOptionOrder.equals("asc"))
-                        books.sort(Comparator.comparing(Book::getName));
-                    else books.sort((o1, o2) -> o2.getName().compareTo(o1.getName()));
-                    break;
-                case "author_name":
-                    books.sort((o1, o2) -> {
 
 
-                        Iterator<Author> firstAuthors = o1.getAuthors().iterator();
-                        Iterator<Author> secondAuthors = o2.getAuthors().iterator();
-                        while (firstAuthors.hasNext() && secondAuthors.hasNext()) {
-                            int comp = 0;
-                            if (sortOptionOrder.equals("asc"))
-                                comp = firstAuthors.next().getName().compareTo(secondAuthors.next().getName());
-                            else
-                                comp = secondAuthors.next().getName().compareTo(firstAuthors.next().getName());
-                            if (comp != 0) {
-                                return comp;
-                            }
-                        }
-                        if (sortOptionOrder.equals("asc")) {
-                            return firstAuthors.hasNext() ? 1 : -1;
-                        }
-                        return secondAuthors.hasNext() ? 1 : -1;
-
-
+//        if (name != null && !name.equals("") && searchOption.equals("book_name")) {
+//            try {
+//                if (user != null && user.getRole().getRoleId() == 3) {
+//                    int noOfRecords = bookService.getNumberOfBooks();
+//                    noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
+//                    books = bookService.findAllBooks(recordsPerPage, offset, sortOption, sortOptionOrder);
+//                } else books = bookService.findAllVailableBooksByName(name, sortOption, sortOptionOrder);
 //
-//                        StringBuilder stringBuilder1 = new StringBuilder();
-//                        StringBuilder stringBuilder2 = new StringBuilder();
+//            } catch (ServiceException e) {
+//                logger.error("Problem with service occurred!", e);
+//                return new CommandResult("/controller?action=bookPage", true);
+//            }
+//        } else if (name != null && !name.equals("") && searchOption.equals("author_name")) {
+//            try {
+//                if (user != null && user.getRole().getRoleId() == 3) {
 //
-//                        while (firstAuthors.hasNext()) {
-//                            stringBuilder1.append(firstAuthors.next());
-//                        }
-//                        while (secondAuthors.hasNext()) {
-//                            stringBuilder2.append(secondAuthors.next());
-//                        }
+//                    int noOfRecords = bookService.getNumberOfBooks();
+//                    noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
+//                    System.out.println(noOfRecords);
+//                    System.out.println(noOfPages);
+//                    books = bookService.findAllBooks(recordsPerPage, offset, sortOption, sortOptionOrder);
+//                } else
+//                    books = bookService.findAllVailableBooksByAuthorName(name, sortOption, sortOptionOrder);
+//            } catch (ServiceException e) {
+//                logger.error("Problem with service occurred!", e);
+//                return new CommandResult("/controller?action=bookPage", true);
+//            }
+//        } else {
 //
-//                        return sortOptionOrder.equals("asc") ? stringBuilder1.toString().compareTo(stringBuilder2.toString()) :
-//                                stringBuilder2.toString().compareTo(stringBuilder1.toString());
+//            try {
+//                if (user != null && user.getRole().getRoleId() == 3) {
+//                    int noOfRecords = bookService.getNumberOfBooks();
+//                    noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
+//                    if (sortOptionOrder != null && !sortOptionOrder.equals("") && sortOption != null && !sortOption.equals("")) {
+//                        books = bookService.findAllBooks(recordsPerPage, offset, sortOption, sortOptionOrder);
+//                    } else books = bookService.findAllBooks(recordsPerPage, offset, "b.name", "asc");
+//                } else {
+//                    if (sortOptionOrder != null && !sortOptionOrder.equals("") && sortOption != null && !sortOption.equals("")) {
+//                        books = bookService.findAllAvailableBooks(sortOption, sortOptionOrder);
+//                    } else books = bookService.findAllAvailableBooks("b.name", "asc");
+//                }
+//            } catch (ServiceException e) {
+//                logger.error("Problem with service occurred!", e);
+//                return new CommandResult("/controller?action=bookPage", true);
+//            }
+//        }
 
-
-                    });//todo norm sorting
-                    break;
-                case "date_of_publication":
-                    if (sortOptionOrder.equals("asc"))
-                        books.sort(Comparator.comparing(Book::getDateOfPublication));
-                    else books.sort((o1, o2) -> o2.getDateOfPublication().compareTo(o1.getDateOfPublication()));
-                    break;
-                case "publication_name":
-                    if (sortOptionOrder.equals("asc"))
-                        books.sort(Comparator.comparing(o -> o.getPublication().getName()));
-                    else books.sort((o1, o2) -> o2.getPublication().getName().compareTo(o1.getPublication().getName()));
-                    break;
-
-            }
 
         req.setAttribute("books", books);
         req.setAttribute("search_option", searchOption);
         req.setAttribute("sort_option", sortOption);
         req.setAttribute("sort_option_order", sortOptionOrder);
         req.setAttribute("name", name);
+        req.setAttribute("page", page);
+        req.setAttribute("noOfPages", noOfPages);
+
 
         return new CommandResult("/books.jsp");
+    }
+
+    private Integer getPage(String pageNumberString) {
+
+        pageNumberString = pageNumberString == null ? "1" : pageNumberString;
+        Integer page = 1;
+        try {
+            page = Integer.parseInt(pageNumberString);
+        } catch (NumberFormatException e) {
+            logger.info("invalid page number format was received:" + pageNumberString);
+        }
+
+//        if (page < 1 || page > TOTAL_PAGES) {
+//            logger.info("invalid page number format was received:" + pageNumberString);
+//            page = 1;
+//        }
+
+        return page;
     }
 }
