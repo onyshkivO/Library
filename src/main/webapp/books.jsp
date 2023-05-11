@@ -33,19 +33,19 @@
             <h5>Sorting</h5>
             <div class="input-group d-flex">
                 <select class="form-select" id="sort_option" name="sort_option" style="min-width: 220px">
-                    <option value="b.name" <c:if test="${requestScope.sort_option == 'b.name'}">selected</c:if>>
+                    <option value="b.name" <c:if test="${requestScope.sort_option.equals('b.name')}">selected</c:if>>
                         Book name
                     </option>
-                    <option value="a.name"
-                            <c:if test="${requestScope.sort_option == 'a.name'}">selected</c:if>>Author name
+                    <option value="authors" <c:if test="${requestScope.sort_option == 'authors'}">selected</c:if>>
+                        Author name
                     </option>
                     <option value="date_of_publication"
-                            <c:if test="${requestScope.sort_option == 'date_of_publication'}">selected</c:if>>Date of
-                        publication
+                            <c:if test="${requestScope.sort_option == 'date_of_publication'}">selected</c:if>>
+                        Date of publication
                     </option>
                     <option value="p.name"
-                            <c:if test="${requestScope.sort_option == 'p.name'}">selected</c:if>>Publication
-                        name
+                            <c:if test="${requestScope.sort_option == 'p.name'}">selected</c:if>>
+                        Publication name
                     </option>
                 </select>
                 <select class="form-select" id="sort_option_order" name="sort_option_order" style="max-width: 140px">
@@ -113,12 +113,13 @@
             </c:otherwise>
         </c:choose>
 
-        ${noOfPages}
     </div>
     <nav aria-label="...">
         <ul class="pagination">
             <li class="page-item <c:if test="${page == 1}">disabled</c:if>">
-                <a class="page-link" href="controller?action=bookPage&page=${page - 1}&search_option=${search_option}&sort_option=${sort_option}&sort_option_order=${sort_option_order}&name=${name}" tabindex="-1">Previous</a>
+                <a class="page-link"
+                   href="controller?action=bookPage&page=${page - 1}&search_option=${search_option}&sort_option=${sort_option}&sort_option_order=${sort_option_order}&name=${name}"
+                   tabindex="-1">Previous</a>
             </li>
             <c:forEach begin="1" end="${noOfPages}" var="i">
                 <c:choose>
@@ -131,42 +132,18 @@
 
                     </c:when>
                     <c:otherwise>
-                        <li class="page-item"><a class="page-link" href="controller?action=bookPage&page=${i}&search_option=${search_option}&sort_option=${sort_option}&sort_option_order=${sort_option_order}&name=${name}">${i}</a>
+                        <li class="page-item"><a class="page-link"
+                                                 href="controller?action=bookPage&page=${i}&search_option=${search_option}&sort_option=${sort_option}&sort_option_order=${sort_option_order}&name=${name}">${i}</a>
                         </li>
                     </c:otherwise>
                 </c:choose>
             </c:forEach>
-            <li class="page-item<c:if test="${page gt noOfPages}">disabled</c:if> ">
-                <a class="page-link" href="controller?action=bookPage&page=${page + 1}&search_option=${search_option}&sort_option=${sort_option}&sort_option_order=${sort_option_order}&name=${name}">Next</a>
+            <li class="page-item <c:if test="${page == noOfPages}">disabled</c:if> ">
+                <a class="page-link"
+                   href="controller?action=bookPage&page=${page + 1}&search_option=${search_option}&sort_option=${sort_option}&sort_option_order=${sort_option_order}&name=${name}">Next</a>
             </li>
         </ul>
     </nav>
-    <%--    &lt;%&ndash;For displaying Previous link except for the 1st page &ndash;%&gt;--%>
-    <%--    <c:if test="${page != 1}">--%>
-    <%--        <td><a href="controller?action=bookPage&page=${page - 1}">Previous</a></td>--%>
-    <%--    </c:if>--%>
-
-    <%--    &lt;%&ndash;For displaying Page numbers.--%>
-    <%--    The when condition does not display a link for the current page&ndash;%&gt;--%>
-    <%--    <table border="1" cellpadding="5" cellspacing="5">--%>
-    <%--        <tr>--%>
-    <%--            <c:forEach begin="1" end="${numOfPages}" var="i">--%>
-    <%--                <c:choose>--%>
-    <%--                    <c:when test="${page eq i}">--%>
-    <%--                        <td>${i}</td>--%>
-    <%--                    </c:when>--%>
-    <%--                    <c:otherwise>--%>
-    <%--                        <td><a href="controller?action=bookPage&page=${i}">${i}</a></td>--%>
-    <%--                    </c:otherwise>--%>
-    <%--                </c:choose>--%>
-    <%--            </c:forEach>--%>
-    <%--        </tr>--%>
-    <%--    </table>--%>
-
-    <%--    &lt;%&ndash;For displaying Next link &ndash;%&gt;--%>
-    <%--    <c:if test="${page lt numOfPages}">--%>
-    <%--        <td><a href="controller?action=bookPage&page=${page + 1}">Next</a></td>--%>
-    <%--    </c:if>--%>
 
 </div>
 

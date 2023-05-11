@@ -90,69 +90,69 @@ public class BookService implements IBookService {
 //        return list;
 //    }
 
-    @Override
-    public List<Book> findAllBooks(Integer booksPerPage,Integer offset, String sortOption, String orderOption) throws ServiceException {
-        List<Book> list;
-        entityTransaction.init(bookDAO);
-        try {
-            list = bookDAO.findAllBooks(booksPerPage,offset,sortOption,orderOption);
-        } catch (DAOException e) {
-            //log
-            throw new ServiceException(e);
-        } finally {
-            entityTransaction.end(bookDAO);
-        }
-        return list;
-    }
+//    @Override
+//    public List<Book> findAllBooks(Integer booksPerPage,Integer offset, String sortOption, String orderOption) throws ServiceException {
+//        List<Book> list;
+//        entityTransaction.init(bookDAO);
+//        try {
+//            list = bookDAO.findAllBooks(booksPerPage,offset,sortOption,orderOption);
+//        } catch (DAOException e) {
+//            //log
+//            throw new ServiceException(e);
+//        } finally {
+//            entityTransaction.end(bookDAO);
+//        }
+//        return list;
+//    }
+
+//    @Override
+//    public List<Book> findAllAvailableBooks(String sortOption, String orderOption) throws ServiceException {
+//        List<Book> list;
+//        entityTransaction.init(bookDAO);
+//        try {
+//            list = bookDAO.findAllVailableBooks(sortOption,orderOption);
+//        } catch (DAOException e) {
+//            //log
+//            throw new ServiceException(e);
+//        } finally {
+//            entityTransaction.end(bookDAO);
+//        }
+//        return list;
+//    }
+//    public Integer getNumberOfAvailableBooks()throws ServiceException{
+//        Integer res;
+//        entityTransaction.init(bookDAO);
+//        try {
+//            res = bookDAO.getNumberOfAvailableBooks();
+//        } catch (DAOException e) {
+//            //log
+//            throw new ServiceException(e);
+//        } finally {
+//            entityTransaction.end(bookDAO);
+//        }
+//        return res;
+//    }
+//    public Integer getNumberOfBooks()throws ServiceException{
+//        Integer res;
+//        entityTransaction.init(bookDAO);
+//        try {
+//            res = bookDAO.getNumberOfBooks();
+//        } catch (DAOException e) {
+//            //log
+//            throw new ServiceException(e);
+//        } finally {
+//            entityTransaction.end(bookDAO);
+//        }
+//        return res;
+//    }
 
     @Override
-    public List<Book> findAllAvailableBooks(String sortOption, String orderOption) throws ServiceException {
-        List<Book> list;
-        entityTransaction.init(bookDAO);
-        try {
-            list = bookDAO.findAllVailableBooks(sortOption,orderOption);
-        } catch (DAOException e) {
-            //log
-            throw new ServiceException(e);
-        } finally {
-            entityTransaction.end(bookDAO);
-        }
-        return list;
-    }
-    public Integer getNumberOfAvailableBooks()throws ServiceException{
-        Integer res;
-        entityTransaction.init(bookDAO);
-        try {
-            res = bookDAO.getNumberOfAvailableBooks();
-        } catch (DAOException e) {
-            //log
-            throw new ServiceException(e);
-        } finally {
-            entityTransaction.end(bookDAO);
-        }
-        return res;
-    }
-    public Integer getNumberOfBooks()throws ServiceException{
-        Integer res;
-        entityTransaction.init(bookDAO);
-        try {
-            res = bookDAO.getNumberOfBooks();
-        } catch (DAOException e) {
-            //log
-            throw new ServiceException(e);
-        } finally {
-            entityTransaction.end(bookDAO);
-        }
-        return res;
-    }
-
-    @Override
-    public List<Book> findAllVailableBooksByName(String name,String sortOption, String orderOption) throws ServiceException {
+    public List<Book> findAllVailableBooksByName(String name, String sortOption, String orderOption,Integer booksPerPage,Integer offset) throws ServiceException {
         List<Book> list;
         entityTransaction.init(bookDAO);
         try {
 //            list = bookDAO.findAllVailableBooksByName(name);
-            list = bookDAO.findAllVailableBooksByOption(name,false,sortOption,orderOption);
+            list = bookDAO.findAllVailableBooksByOption(name,false,sortOption,orderOption,booksPerPage,offset);
         } catch (DAOException e) {
             //log
             throw new ServiceException(e);
@@ -162,11 +162,11 @@ public class BookService implements IBookService {
         return list;
     }
     @Override
-    public List<Book> findAllVailableBooksByAuthorName(String name,String sortOption, String orderOption) throws ServiceException {
+    public List<Book> findAllVailableBooksByAuthorName(String name, String sortOption, String orderOption,Integer booksPerPage,Integer offset) throws ServiceException {
         List<Book> list;
         entityTransaction.init(bookDAO);
         try {
-            list = bookDAO.findAllVailableBooksByOption(name,true,sortOption,orderOption);
+            list = bookDAO.findAllVailableBooksByOption(name,true,sortOption,orderOption,booksPerPage,offset);
         } catch (DAOException e) {
             //log
             throw new ServiceException(e);
@@ -175,6 +175,95 @@ public class BookService implements IBookService {
         }
         return list;
     }
+    @Override
+    public List<Book> findAllBooksByName(String name, String sortOption, String orderOption,Integer booksPerPage,Integer offset) throws ServiceException {
+        List<Book> list;
+        entityTransaction.init(bookDAO);
+        try {
+            list = bookDAO.findAllBooksByOption(name,false,sortOption,orderOption,booksPerPage,offset);
+        } catch (DAOException e) {
+            //log
+            throw new ServiceException(e);
+        } finally {
+            entityTransaction.end(bookDAO);
+        }
+        return list;
+    }
+    @Override
+    public List<Book> findAllBooksByAuthorName(String name, String sortOption, String orderOption,Integer booksPerPage,Integer offset) throws ServiceException {
+        List<Book> list;
+        entityTransaction.init(bookDAO);
+        try {
+            list = bookDAO.findAllBooksByOption(name,true,sortOption,orderOption,booksPerPage,offset);
+        } catch (DAOException e) {
+            //log
+            throw new ServiceException(e);
+        } finally {
+            entityTransaction.end(bookDAO);
+        }
+        return list;
+    }
+
+    @Override
+    public Integer findNumberOfAllVailableBooksByName(String name) throws ServiceException {
+        Integer res;
+        entityTransaction.init(bookDAO);
+        try {
+            res = bookDAO.getNumberOfAvailableBooksByOption(name,false);
+        } catch (DAOException e) {
+            //log
+            throw new ServiceException(e);
+        } finally {
+            entityTransaction.end(bookDAO);
+        }
+        return res;
+    }
+
+    @Override
+    public Integer findNumberOfAllVailableBooksByAuthorName(String name) throws ServiceException {
+        Integer res;
+        entityTransaction.init(bookDAO);
+        try {
+            res = bookDAO.getNumberOfAvailableBooksByOption(name,true);
+        } catch (DAOException e) {
+            //log
+            throw new ServiceException(e);
+        } finally {
+            entityTransaction.end(bookDAO);
+        }
+        return res;
+    }
+
+    @Override
+    public Integer findNumberOfAllBooksByName(String name) throws ServiceException {
+        Integer res;
+        entityTransaction.init(bookDAO);
+        try {
+            res = bookDAO.getNumberOfBooksByOption(name,false);
+        } catch (DAOException e) {
+            //log
+            throw new ServiceException(e);
+        } finally {
+            entityTransaction.end(bookDAO);
+        }
+        return res;
+    }
+
+    @Override
+    public Integer findNumberOfAllBooksByAuthorName(String name) throws ServiceException {
+        Integer res;
+        entityTransaction.init(bookDAO);
+        try {
+            res = bookDAO.getNumberOfBooksByOption(name,true);
+        } catch (DAOException e) {
+            //log
+            throw new ServiceException(e);
+        } finally {
+            entityTransaction.end(bookDAO);
+        }
+        return res;
+    }
+
     @Override
     public void createBook(Book book) throws ServiceException {
         entityTransaction.initTransaction(bookDAO, authorDAO);

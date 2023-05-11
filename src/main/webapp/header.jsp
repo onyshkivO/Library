@@ -22,7 +22,7 @@
                     <a class="nav-link" aria-current="page" href="/Library">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="controller?action=bookPage">Books</a>
+                    <a class="nav-link" href="controller?action=bookPage&page=1">Books</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Contacts</a>

@@ -52,31 +52,49 @@ public abstract class SQLQuery {
                 "        where quantity>0 order by %s %s";
 
 
-        public static final String FIND_AVAILABLE_BOOKS_BY_SOME_OPTION ="SELECT distinct isbn, b.name,date_of_publication, publication_id, quantity, details\n" +
-                "from book b\n" +
-                "left join  book_has_authors  on b_isbn = isbn\n" +
-                "left join  authors a on a_id = authors_id\n" +
+        public static final String FIND_AVAILABLE_BOOKS_BY_SOME_OPTION ="SELECT b.isbn, b.name, b.date_of_publication, b.publication_id, b.quantity, details, GROUP_CONCAT(a.name ORDER BY a.name ASC SEPARATOR '') AS authors\n" +
+                "        FROM book b\n" +
+                "        left JOIN book_has_authors bha ON b.isbn = bha.b_isbn\n" +
+                "        left JOIN authors a ON bha.a_id = a.authors_id\n" +
                 "left join  publication p using(publication_id)\n" +
-                "where quantity>0 AND %s.name like ? order by %s %s";
-        public static final String FIND_BOOKS_BY_SOME_OPTION ="SELECT distinct isbn, b.name,date_of_publication, publication_id, quantity, details\n" +
-                "from book b\n" +
-                "left join  book_has_authors  on b_isbn = isbn\n" +
-                "left join  authors a on a_id = authors_id\n" +
-                "left join  publication p using(publication_id)\n" +
-                "where %s.name like ? order by %s %s";
+                "        where quantity>0 AND %s.name like ?\n" +
+                "        GROUP BY b.isbn\n" +
+                "        order by %s %s limit ? offset ?";
+//        public static final String FIND_AVAILABLE_BOOKS_BY_SOME_OPTION ="SELECT distinct isbn, b.name,date_of_publication, publication_id, quantity, details\n" +
+//                "from book b\n" +
+//                "left join  book_has_authors  on b_isbn = isbn\n" +
+//                "left join  authors a on a_id = authors_id\n" +
+//                "left join  publication p using(publication_id)\n" +
+//                "where quantity>0 AND %s.name like ? order by %s %s limit ? offset ?";
+
+//        public static final String FIND_BOOKS_BY_SOME_OPTION ="SELECT distinct isbn, b.name,date_of_publication, publication_id, quantity, details\n" +
+//                "from book b\n" +
+//                "left join  book_has_authors  on b_isbn = isbn\n" +
+//                "left join  authors a on a_id = authors_id\n" +
+//                "left join  publication p using(publication_id)\n" +
+//                "where %s.name like ? order by %s %s limit ? offset ?";
+        public static final String FIND_BOOKS_BY_SOME_OPTION ="SELECT b.isbn, b.name, b.date_of_publication, b.publication_id, b.quantity,  details, GROUP_CONCAT(a.name ORDER BY a.name ASC SEPARATOR '') AS authors\n" +
+        "        FROM book b\n" +
+        "        left JOIN book_has_authors bha ON b.isbn = bha.b_isbn\n" +
+        "        left JOIN authors a ON bha.a_id = a.authors_id\n" +
+        "left join  publication p using(publication_id)\n" +
+        "        where %s.name like ?\n" +
+        "        GROUP BY b.isbn\n" +
+        "        order by %s %s limit ? offset ?";
+
 
         public static final String FIND_NUMBER_OF_AVAILABLE_BOOKS_BY_SOME_OPTION ="SELECT COUNT(*) FROM (SELECT distinct isbn, b.name,date_of_publication, publication_id, quantity, details\n" +
                 "from book b\n" +
                 "left join  book_has_authors  on b_isbn = isbn\n" +
                 "left join  authors a on a_id = authors_id\n" +
                 "left join  publication p using(publication_id)\n" +
-                "where quantity>0 AND %s.name like ? order by %s %s) as number";
+                "where quantity>0 AND %s.name like ?) as number";
         public static final String FIND_NUMBER_OF_BOOKS_BY_SOME_OPTION ="SELECT COUNT(*) FROM (SELECT distinct isbn, b.name,date_of_publication, publication_id, quantity, details\n" +
                 "from book b\n" +
                 "left join  book_has_authors  on b_isbn = isbn\n" +
                 "left join  authors a on a_id = authors_id\n" +
                 "left join  publication p using(publication_id)\n" +
-                "where %s.name like ? order by %s %s) as numbers";
+                "where %s.name like ?) as numbers";
 
 
 

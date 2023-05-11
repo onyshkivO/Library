@@ -18,11 +18,13 @@ import java.util.*;
 public class BooksPageCommand implements Command {
     private static final Logger logger = LogManager.getLogger(BooksPageCommand.class);
     private BookService bookService = BookService.getInstance();
-    private static Map<String, String> filterOptions = new HashMap<>();
+    private static Map<String, String> sortOptions = new HashMap<>();
 
     static {
-
-        filterOptions.put("search_option", "");
+        sortOptions.put("date_of_publication", "date_of_publication");
+        sortOptions.put("b.name", "b.name");
+        sortOptions.put("authors", "authors");
+        sortOptions.put("p.name", "p.name");
     }
 
 
@@ -31,38 +33,43 @@ public class BooksPageCommand implements Command {
         List<Book> books;
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("user");
-
         String name = req.getParameter("name");
+
         String searchOption = req.getParameter("search_option");
+        searchOption = (searchOption!=null&&searchOption.equals("author_name")) ?"author_name":"book_name";
+
         String sortOption = req.getParameter("sort_option");
+        sortOption = sortOptions.getOrDefault(sortOption,"b.name");
+
         String sortOptionOrder = req.getParameter("sort_option_order");
+        sortOptionOrder =(sortOptionOrder!=null&&sortOptionOrder.equals("desc"))?"desc":"asc";
         String spage = req.getParameter("page");
         Integer page = getPage(spage);
 
         Integer recordsPerPage = 3;
         Integer offset = (page - 1) * recordsPerPage;
-        Integer noOfPages = 0;
+        Integer noOfPages;
 
         try {
             if (searchOption.equals("book_name")) {
                 if (user != null && user.getRole().getRoleId() == 3) {
-                    int noOfRecords = bookService.getNumberOfVailableBooksByName();
+                    int noOfRecords = bookService.findNumberOfAllBooksByName(name);
                     noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
-                    books = bookService.findAllBooks(recordsPerPage, offset, sortOption, sortOptionOrder);
+                    books = bookService.findAllBooksByName(name, sortOption, sortOptionOrder, recordsPerPage, offset);
                 } else {
-                    int noOfRecords = bookService.getNumberOfVailableBooksByName();
+                    int noOfRecords = bookService.findNumberOfAllVailableBooksByName(name);
                     noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
-                    books = bookService.findAllVailableBooksByName(name, sortOption, sortOptionOrder);
+                    books = bookService.findAllVailableBooksByName(name, sortOption, sortOptionOrder, recordsPerPage, offset);
                 }
             } else {
                 if (user != null && user.getRole().getRoleId() == 3) {
-                    int noOfRecords = bookService.getNumberOfVailableBooksByAuthorName();
+                    int noOfRecords = bookService.findNumberOfAllBooksByAuthorName(name);
                     noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
-                    books = bookService.findAllBooks(recordsPerPage, offset, sortOption, sortOptionOrder);
+                    books = bookService.findAllBooksByAuthorName(name, sortOption, sortOptionOrder, recordsPerPage, offset);
                 } else {
-                    int noOfRecords = bookService.getNumberOfVailableBooksByAuthorName();
+                    int noOfRecords = bookService.findNumberOfAllVailableBooksByAuthorName(name);
                     noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
-                    books = bookService.findAllVailableBooksByAuthorName(name, sortOption, sortOptionOrder);
+                    books = bookService.findAllVailableBooksByAuthorName(name, sortOption, sortOptionOrder, recordsPerPage, offset);
                 }
             }
         } catch (ServiceException e) {
