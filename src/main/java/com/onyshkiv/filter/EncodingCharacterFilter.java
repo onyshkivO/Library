@@ -1,14 +1,19 @@
 package com.onyshkiv.filter;
 
 import jakarta.servlet.*;
+import jakarta.servlet.annotation.WebFilter;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+
+@WebFilter("/*")
 
 public class EncodingCharacterFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        servletRequest.setCharacterEncoding("UTF-8");
-        servletResponse.setCharacterEncoding("UTF-8");
+        servletRequest.setCharacterEncoding(StandardCharsets.UTF_8.name());
+        servletResponse.setCharacterEncoding(StandardCharsets.UTF_8.name());
+        System.out.println("FILTER!!!!!!!!!!!!!!!!!!!!!");
         filterChain.doFilter(servletRequest, servletResponse);
     }
 }

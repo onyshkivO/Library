@@ -77,6 +77,8 @@ public class Role extends Entity{
         return Objects.hash(name);
     }
 
+
+
     @Override
     public String toString() {
         return "Role{" +

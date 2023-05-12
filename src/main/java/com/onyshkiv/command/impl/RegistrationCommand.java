@@ -21,7 +21,7 @@ public class RegistrationCommand implements Command {
 
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) {
-        String page = "/registration.jsp";
+
 
         boolean flag = false;
 
@@ -71,10 +71,12 @@ public class RegistrationCommand implements Command {
         }
 
 
-        if (flag)
-            return new CommandResult(page);
+
 
         Role role = new Role(req.getParameter("role"));
+        if (flag)
+            return role.getRoleId()==1? new CommandResult("/registration.jsp"): new CommandResult("/register_librarian.jsp");
+        if(role.getRoleId()==2&&(((User)req.getSession().getAttribute("user"))==null||((User)req.getSession().getAttribute("user")).getRole().getRoleId()!=3)) return new CommandResult("/",true);
         User user = new User(login, email, pass, role, STATUS, firstName, lastName, phone);
         try {
             userService.createUser(user);

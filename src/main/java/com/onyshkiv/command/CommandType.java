@@ -8,34 +8,34 @@ import com.onyshkiv.command.impl.reader.AddBookCommand;
 import com.onyshkiv.command.impl.reader.GetUserBookCommand;
 
 public enum CommandType {
-    SIGNUPPOST(new RegistrationCommand()),
-    SIGNINPOST(new LoginCommand()),
-    SIGNOUTGET(new SignOutCommand()),
-    USERBOOKSGET(new GetUserBookCommand()),
-    BOOKPAGEGET(new BooksPageCommand()),
-    ADDBOOKGET(new AddBookCommand()),
-    EDITPROFILEPOST(new EditProfileCommand()),
-    CHANGEPASSWORDPOST(new ChangePasswordCommand()),
-    GETORDERSGET(new OrdersPageCommand()),
+    SIGNUPPOST(new RegistrationCommand()), // common
+    SIGNINPOST(new LoginCommand()),// common
+    SIGNOUTGET(new SignOutCommand()),// common
+    USERBOOKSGET(new GetUserBookCommand()),// reader
+    BOOKPAGEGET(new BooksPageCommand()),// common
+    ADDBOOKGET(new AddBookCommand()),// reader
+    EDITPROFILEPOST(new EditProfileCommand()),// common
+    CHANGEPASSWORDPOST(new ChangePasswordCommand()),// common
+    GETORDERSGET(new OrdersPageCommand()),// librarian
     //GIVEBOOKPOST(new GiveBookCommand());
-    GIVEBOOKGET(new GiveBookCommand()),
-    GETUSERSBOOKGET(new GetUsersBooksCommand()),
-    GETLIBRARIANSGET(new GetLibrariansCommand()),
-    GETREADERSGET(new GetReadersCommand()),
-    DELETEUSERGET(new DeleteUserCommand()),
-    USERINFOGET(new GetUserInfoCommand()),
-    CHANGEUSERSTATUSGET(new ChangeUserStatusCommand()),
-    GIVEBOOKBACKGET(new GiveBookBackCommand()),
-    ADDBOOKPAGEGET(new GetAddBookPageCommand()),
+    GIVEBOOKGET(new GiveBookCommand()),// librarian
+    GETUSERSBOOKGET(new GetUsersBooksCommand()),// librarian
+    GETLIBRARIANSGET(new GetLibrariansCommand()),// admin
+    GETREADERSGET(new GetReadersCommand()),// admin
+    DELETEUSERGET(new DeleteUserCommand()),// admin(delete librarian)
+    USERINFOGET(new GetUserInfoCommand()), // librarian and admin
+    CHANGEUSERSTATUSGET(new ChangeUserStatusCommand()), // admin
+    GIVEBOOKBACKGET(new GiveBookBackCommand()),// librarian
+    ADDBOOKPAGEGET(new GetAddBookPageCommand()),// admin
 //    ADDBOOKPAGEPOST(new GetAddBookPageCommand()), //todo якось треба переробити
-    CREATEBOOKPOST(new CreateBookCommand()),
-    AUTHANDPUBGET(new GetAuthorsAndPublicationsCommand()),
-    CREATEAUTHORPOST(new CreateAuthorCommand()),
-    CREATEPUBLICATIONPOST(new CreatePublicationCommand()),
-    RENAMEPUBLICATIONPOST(new RenamePublicationCommand()),
-    RENAMEAUTHORPOST(new RenameAuthorCommand()),
-    EDITBOOKPAGEGET(new GetEditBookPageCommand()),
-    EDITBOOKPOST(new EditBookCommand());
+    CREATEBOOKPOST(new CreateBookCommand()),// admin
+    AUTHANDPUBGET(new GetAuthorsAndPublicationsCommand()),// admin
+    CREATEAUTHORPOST(new CreateAuthorCommand()),//admin
+    CREATEPUBLICATIONPOST(new CreatePublicationCommand()),//admin
+    RENAMEPUBLICATIONPOST(new RenamePublicationCommand()),//admin
+    RENAMEAUTHORPOST(new RenameAuthorCommand()),//admin
+    EDITBOOKPAGEGET(new GetEditBookPageCommand()),//admin
+    EDITBOOKPOST(new EditBookCommand());//admin
     private Command command;
 
     CommandType(Command command){
