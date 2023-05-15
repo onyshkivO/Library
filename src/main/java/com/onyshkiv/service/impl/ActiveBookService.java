@@ -3,6 +3,7 @@ package com.onyshkiv.service.impl;
 import com.onyshkiv.DAO.DAOException;
 import com.onyshkiv.DAO.EntityTransaction;
 import com.onyshkiv.DAO.impl.ActiveBookDAO;
+import com.onyshkiv.DAO.impl.BookDAO;
 import com.onyshkiv.entity.ActiveBook;
 import com.onyshkiv.entity.Book;
 import com.onyshkiv.service.IActiveBookService;
@@ -19,6 +20,7 @@ public class ActiveBookService implements IActiveBookService {
     final static Logger logger = LogManager.getLogger(ActiveBookService.class);
     private ActiveBookDAO activeBookDAO;
     private BookService bookService;
+    private BookDAO bookDAO;
 
     private EntityTransaction entityTransaction;
     private static ActiveBookService instance;
@@ -34,6 +36,7 @@ public class ActiveBookService implements IActiveBookService {
     private ActiveBookService() {
         bookService = BookService.getInstance();
         activeBookDAO = ActiveBookDAO.getInstance();
+        bookDAO = BookDAO.getInstance();
         entityTransaction = new EntityTransaction();
     }
 
@@ -58,7 +61,7 @@ public class ActiveBookService implements IActiveBookService {
         Optional<ActiveBook> optional;
         entityTransaction.init(activeBookDAO);
         try {
-            optional = activeBookDAO.findActiveBookByUserAndBook(login,isbn);
+            optional = activeBookDAO.findActiveBookByUserAndBook(login, isbn);
         } catch (DAOException e) {
             //log
             throw new ServiceException(e);
@@ -82,8 +85,9 @@ public class ActiveBookService implements IActiveBookService {
         }
         return list;
     }
+
     @Override
-    public List<ActiveBook> findActiveBooksOrders()throws ServiceException {
+    public List<ActiveBook> findActiveBooksOrders() throws ServiceException {
         List<ActiveBook> list;
         entityTransaction.init(activeBookDAO);
         try {
@@ -95,7 +99,10 @@ public class ActiveBookService implements IActiveBookService {
             entityTransaction.end(activeBookDAO);
         }
         return list;
-    };
+    }
+
+    ;
+
     @Override
     public List<ActiveBook> findBooksByUserLogin(String login) throws ServiceException {
         List<ActiveBook> list;
@@ -161,7 +168,7 @@ public class ActiveBookService implements IActiveBookService {
     public void updateActiveBookForGive(Integer id, Date endDate, Double fine) throws ServiceException {
         entityTransaction.init(activeBookDAO);
         try {
-            activeBookDAO.updateActiveBookForGive(id,endDate,fine);
+            activeBookDAO.updateActiveBookForGive(id, endDate, fine);
         } catch (DAOException e) {
             //log
             throw new ServiceException(e);
@@ -171,11 +178,33 @@ public class ActiveBookService implements IActiveBookService {
     }
 
     @Override
+    public void updateActiveBookForGiveBack(Integer id) throws ServiceException {
+        entityTransaction.initTransaction(activeBookDAO, bookDAO);
+        try {
+            ActiveBook activeBook = activeBookDAO.findEntityById(id).get();
+            Optional<Book> bookOptional = bookDAO.findEntityById(activeBook.getBook().getIsbn());
+            if (bookOptional.isPresent()) {
+                Book book = bookOptional.get();
+                book.setQuantity(book.getQuantity() + 1);
+                bookDAO.update(book);
+            }
+            activeBookDAO.updateActiveBookForGiveBack(id);
+            entityTransaction.commit();
+        } catch (DAOException e) {
+            //log
+            entityTransaction.rollback();
+            throw new ServiceException(e);
+        } finally {
+            entityTransaction.endTransaction(activeBookDAO, bookDAO);
+        }
+    }
+
+    @Override
     public void deleteActiveBook(ActiveBook activeBook) throws ServiceException {
         entityTransaction.init(activeBookDAO);
         try {
             Book book = activeBook.getBook();
-            book.setQuantity(book.getQuantity() +1);
+            book.setQuantity(book.getQuantity() + 1);
             bookService.updateBook(book);
             activeBookDAO.delete(activeBook);
         } catch (DAOException e) {

@@ -23,6 +23,7 @@ public interface IActiveBookService {
 
     void updateActiveBook(ActiveBook activeBook) throws ServiceException;
     void updateActiveBookForGive(Integer id, Date endDate, Double fine) throws ServiceException;
+     void updateActiveBookForGiveBack(Integer id) throws ServiceException;
 
     void deleteActiveBook(ActiveBook activeBook) throws ServiceException;
 }

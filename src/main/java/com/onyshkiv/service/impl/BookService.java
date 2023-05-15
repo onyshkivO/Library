@@ -332,4 +332,20 @@ public class BookService implements IBookService {
         }
         return false;
     }
+    @Override
+    public void hideBook(Integer isbn) throws ServiceException {
+        entityTransaction.initTransaction(bookDAO, authorDAO);
+        try {
+            bookDAO.hide(isbn);
+            authorDAO.removeAuthorBookTableConnection(isbn);
+            entityTransaction.commit();
+        } catch (DAOException e) {
+            //log
+            entityTransaction.rollback();
+            throw new ServiceException(e);
+        } finally {
+            entityTransaction.endTransaction(bookDAO, authorDAO);
+        }
+
+    }
 }

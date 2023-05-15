@@ -382,6 +382,16 @@ public class BookDAO extends AbstractDAO<Integer, Book> {
             throw new DAOException(e);
         }
     }
+    public void hide(Integer isbn) throws DAOException {
+        try (PreparedStatement statement = prepareStatement(con, SQLQuery.BookQuery.HIDE_BOOK, false, isbn)) {
+            int affectedRows = statement.executeUpdate();
+            if (affectedRows == 0) {
+                throw new DAOException("Hide book failed, no rows affected.");
+            }
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        }
+    }
 
 
     private static Book map(ResultSet resultSet) throws SQLException {

@@ -19,7 +19,7 @@ public interface IBookService {
 
 
 
-
+    void hideBook(Integer isbn) throws ServiceException;
     Integer findNumberOfAllVailableBooksByName(String name) throws ServiceException;
     Integer findNumberOfAllVailableBooksByAuthorName(String name) throws ServiceException;
     Integer findNumberOfAllBooksByName(String name) throws ServiceException;

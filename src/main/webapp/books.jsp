@@ -102,7 +102,10 @@
                                 <c:if test="${sessionScope.exist_user == true&&sessionScope.user_role==3}">
                                     <a href="controller?action=editBookPage&isbn=${book.isbn}"
                                        class="btn btn-primary mb-1 ">Edit</a><br>
-                                    <a href="#" class="btn btn-primary mt-1">Delete</a>
+                                    <form action="controller?action=deleteBook" method="post">
+                                        <input type="hidden" name="isbn" value="${book.isbn}">
+                                        <input  type="submit" value="Delete">
+                                    </form>
                                 </c:if>
                             </div>
 

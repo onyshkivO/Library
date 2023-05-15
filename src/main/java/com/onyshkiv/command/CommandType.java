@@ -35,7 +35,8 @@ public enum CommandType {
     RENAMEPUBLICATIONPOST(new RenamePublicationCommand()),//admin
     RENAMEAUTHORPOST(new RenameAuthorCommand()),//admin
     EDITBOOKPAGEGET(new GetEditBookPageCommand()),//admin
-    EDITBOOKPOST(new EditBookCommand());//admin
+    EDITBOOKPOST(new EditBookCommand()), //admin
+    DELETEBOOKPOST(new DeleteBookCommand());//admin
     private Command command;
 
     CommandType(Command command){

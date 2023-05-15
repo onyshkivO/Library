@@ -4,6 +4,8 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
+
+
 -- -----------------------------------------------------
 -- Schema library_final_project_test
 -- -----------------------------------------------------
@@ -92,6 +94,7 @@ CREATE TABLE IF NOT EXISTS `library_final_project_test`.`book` (
   `publication_id` INT NOT NULL,
   `quantity` INT NOT NULL DEFAULT 1,
   `details` VARCHAR(5000) NULL,
+  `is_active` boolean default true,
   PRIMARY KEY (`isbn`),
   UNIQUE INDEX `isbn_UNIQUE` (`isbn` ASC) VISIBLE,
   INDEX `fk_book_publication1_idx` (`publication_id` ASC) VISIBLE,
@@ -203,12 +206,12 @@ VALUES
 ('waiting');
 
 Insert into book values
-(1,'book1','11-11-11',1,5,null),
-(2,'book2','11-11-11',1,5,null),
-(3,'book_for_m2m','11-11-11',2,5,null),
-(4,'book_for_updating','11-11-11',2,5,null),
-(5,'book_for_deleting','11-11-11',2,5,null),
-(6,'book_for_deleting2','11-11-11',2,5,null);
+(1,'book1','11-11-11',1,5,null,true),
+(2,'book2','11-11-11',1,5,null,true),
+(3,'book_for_m2m','11-11-11',2,5,null,true),
+(4,'book_for_updating','11-11-11',2,5,null,true),
+(5,'book_for_deleting','11-11-11',2,5,null,true),
+(6,'book_for_deleting2','11-11-11',2,5,null,true);
 
 
 insert into publication values

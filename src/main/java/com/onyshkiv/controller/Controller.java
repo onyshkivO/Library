@@ -23,7 +23,7 @@ public class Controller extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("das");
+
 
         CommandFactory commandFactory = CommandFactory.getInstance();
         Command comand = commandFactory.defineCommand(request);

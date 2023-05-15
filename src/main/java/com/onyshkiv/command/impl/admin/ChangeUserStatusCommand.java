@@ -16,7 +16,6 @@ public class ChangeUserStatusCommand implements Command {
     UserService userService = UserService.getInstance();
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) {
-        System.out.println("user status");
         String login = req.getParameter("login");
         try{
             User user = userService.findUserByLogin(login).get();

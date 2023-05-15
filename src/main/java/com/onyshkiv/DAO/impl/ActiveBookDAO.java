@@ -265,6 +265,20 @@ public class ActiveBookDAO extends AbstractDAO<Integer, ActiveBook> {
             throw new DAOException(e);
         }
     }
+    public void updateActiveBookForGiveBack(Integer id) throws DAOException {
+        if (id == 0) {
+            throw new IllegalArgumentException("ActiveBook is not created yet, the ActiveBook ID is 0.");
+        }
+        try (PreparedStatement statement = prepareStatement(con, SQLQuery.ActiveBookQuery.UPDATE_BOOK_BEFORE_GIVE_BACK, false, id)) {
+            int affectedRows = statement.executeUpdate();
+            if (affectedRows == 0) {
+                throw new DAOException("Updating active_book failed, no rows affected.");
+            }
+        } catch (SQLException e) {
+
+            throw new DAOException(e);
+        }
+    }
 
 
     @Override

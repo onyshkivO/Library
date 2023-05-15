@@ -28,28 +28,28 @@ public abstract class SQLQuery {
 
     public static class BookQuery {
         public static final String FIND_ALL_BOOKS = "SELECT isbn, name,date_of_publication, publication_id, quantity, details\n" +
-                "FROM book";
+                "FROM book WHERE is_active = true";
         //        public static final String FIND_ALL_AVAILABLE_BOOKS = "SELECT isbn, name,date_of_publication, publication_id, quantity, details\n" +
 //                "FROM book WHERE quantity>0 LIMIT ? OFFSET ? ORDER BY ";
-        public static final String NUMBER_AVAILABLE_BOOKS = "SELECT COUNt(1)\n" +
-                "FROM book WHERE quantity>0";
-        public static final String NUMBER_BOOKS = "SELECT COUNt(1)\n" +
-                "FROM book";
-        public static final String FIND_ALL_BOOKS_V2 = "SELECT distinct isbn, b.name,date_of_publication, publication_id, quantity, details\n" +
-                "        from book b\n" +
-                "        left join  book_has_authors  on b_isbn = isbn\n" +
-                "        left join  authors a on a_id = authors_id\n" +
-                "        left join  publication p  using(publication_id)\n" +
-                "        order by %s %s LIMIT ? OFFSET ?";
-
-
-
-        public static final String FIND_ALL_AVAILABLE_BOOKS ="SELECT distinct isbn, b.name,date_of_publication, publication_id, quantity, details\n" +
-                "        from book b\n" +
-                "        left join  book_has_authors  on b_isbn = isbn\n" +
-                "        left join  authors a on a_id = authors_id\n" +
-                "        left join  publication p  using(publication_id)\n" +
-                "        where quantity>0 order by %s %s";
+//        public static final String NUMBER_AVAILABLE_BOOKS = "SELECT COUNt(1)\n" +
+//                "FROM book WHERE quantity>0 AND is_active = true";
+//        public static final String NUMBER_BOOKS = "SELECT COUNt(1)\n" +
+//                "FROM book WHERE is_active = true";
+//        public static final String FIND_ALL_BOOKS_V2 = "SELECT distinct isbn, b.name,date_of_publication, publication_id, quantity, details\n" +
+//                "        from book b\n" +
+//                "        left join  book_has_authors  on b_isbn = isbn\n" +
+//                "        left join  authors a on a_id = authors_id\n" +
+//                "        left join  publication p  using(publication_id)\n" +
+//                "        order by %s %s LIMIT ? OFFSET ?";
+//
+//
+//
+//        public static final String FIND_ALL_AVAILABLE_BOOKS ="SELECT distinct isbn, b.name,date_of_publication, publication_id, quantity, details\n" +
+//                "        from book b\n" +
+//                "        left join  book_has_authors  on b_isbn = isbn\n" +
+//                "        left join  authors a on a_id = authors_id\n" +
+//                "        left join  publication p  using(publication_id)\n" +
+//                "        where quantity>0 order by %s %s";
 
 
         public static final String FIND_AVAILABLE_BOOKS_BY_SOME_OPTION ="SELECT b.isbn, b.name, b.date_of_publication, b.publication_id, b.quantity, details, GROUP_CONCAT(a.name ORDER BY a.name ASC SEPARATOR '') AS authors\n" +
@@ -57,7 +57,7 @@ public abstract class SQLQuery {
                 "        left JOIN book_has_authors bha ON b.isbn = bha.b_isbn\n" +
                 "        left JOIN authors a ON bha.a_id = a.authors_id\n" +
                 "left join  publication p using(publication_id)\n" +
-                "        where quantity>0 AND %s.name like ?\n" +
+                "        where quantity>0 AND is_active = true AND %s.name like ?\n" +
                 "        GROUP BY b.isbn\n" +
                 "        order by %s %s limit ? offset ?";
 //        public static final String FIND_AVAILABLE_BOOKS_BY_SOME_OPTION ="SELECT distinct isbn, b.name,date_of_publication, publication_id, quantity, details\n" +
@@ -78,7 +78,7 @@ public abstract class SQLQuery {
         "        left JOIN book_has_authors bha ON b.isbn = bha.b_isbn\n" +
         "        left JOIN authors a ON bha.a_id = a.authors_id\n" +
         "left join  publication p using(publication_id)\n" +
-        "        where %s.name like ?\n" +
+        "        where is_active = true AND %s.name like ?\n" +
         "        GROUP BY b.isbn\n" +
         "        order by %s %s limit ? offset ?";
 
@@ -88,13 +88,13 @@ public abstract class SQLQuery {
                 "left join  book_has_authors  on b_isbn = isbn\n" +
                 "left join  authors a on a_id = authors_id\n" +
                 "left join  publication p using(publication_id)\n" +
-                "where quantity>0 AND %s.name like ?) as number";
+                "where quantity>0 AND is_active = true AND %s.name like ?) as number";
         public static final String FIND_NUMBER_OF_BOOKS_BY_SOME_OPTION ="SELECT COUNT(*) FROM (SELECT distinct isbn, b.name,date_of_publication, publication_id, quantity, details\n" +
                 "from book b\n" +
                 "left join  book_has_authors  on b_isbn = isbn\n" +
                 "left join  authors a on a_id = authors_id\n" +
                 "left join  publication p using(publication_id)\n" +
-                "where %s.name like ?) as numbers";
+                "where is_active = true AND %s.name like ?) as numbers";
 
 
 
@@ -104,14 +104,14 @@ public abstract class SQLQuery {
                 "left join  book_has_authors  on b_isbn = isbn\n" +
                 "left join  authors a on a_id = authors_id\n" +
                 "left join  publication p using(publication_id)\n" +
-                "where quantity>0 AND b.name like ? order by ";
+                "where quantity>0 AND is_active = true AND  b.name like ? order by ";
 
         public static final String FIND_AVAILABLE_BOOKS_BY_AUTHOR_NAME ="SELECT distinct isbn, b.name,date_of_publication, publication_id, quantity, details\n" +
                 "from book b\n" +
                 "left join  book_has_authors  on b_isbn = isbn\n" +
                 "left join  authors a on a_id = authors_id\n" +
                 "left join  publication p using(publication_id)\n" +
-                "where quantity>0 AND a.name like ? order by ";
+                "where quantity>0 AND is_active = true AND a.name like ? order by ";
 
 
 //        public static final String FIND_AVAILABLE_BOOKS_BY_NAME = "SELECT isbn, name,date_of_publication, publication_id, quantity, details\n" +
@@ -132,11 +132,12 @@ public abstract class SQLQuery {
 
         public static final String FIND_BOOK_BY_ISBN = "SELECT isbn, name,date_of_publication, publication_id, quantity, details\n" +
                 "FROM book\n" +
-                "WHERE isbn =?";
+                "WHERE isbn =? AND is_active = true";
         public static final String INSERT_BOOK = "INSERT INTO book(isbn,name,date_of_publication,publication_id,quantity,details) VALUES(?,?,?,?,?,?)";
         public static final String UPDATE_BOOK = "UPDATE book SET name=?,date_of_publication=?,publication_id=?,quantity=?,details=? WHERE isbn=?";
         public static final String DELETE_BOOK = "DELETE FROM book WHERE isbn = ?";
-        public static final String IS_AVALIABLE_BOOK = "SELECT name FROM book WHERE quantity>0 AND isbn=?";
+        public static final String HIDE_BOOK = "UPDATE book SET is_active = false WHERE isbn = ?";
+        public static final String IS_AVALIABLE_BOOK = "SELECT name FROM book WHERE quantity>0 AND is_active = true AND isbn=?";
     }
 
     public static class UserQuery {
@@ -179,6 +180,8 @@ public abstract class SQLQuery {
                 "WHERE active_book_id=?";
         public static final String UPDATE_BOOK_BEFORE_GIVE = "UPDATE active_book SET subscription_status_id=?,start_date=?,end_date=?,fine=? " +
                 "WHERE active_book_id=?";
+        public static final String UPDATE_BOOK_BEFORE_GIVE_BACK = "UPDATE active_book SET subscription_status_id=2 " +
+                "WHERE active_book_id = ?";
         public static final String UPDATE_ACTIVE_BOOKS_USER = "UPDATE active_book SET user_login=? WHERE user_login=?";
         public static final String DELETE_ACTIVE_BOOK = "DELETE FROM active_book WHERE active_book_id =?";
     }
