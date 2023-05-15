@@ -104,7 +104,7 @@
                                        class="btn btn-primary mb-1 ">Edit</a><br>
                                     <form action="controller?action=deleteBook" method="post">
                                         <input type="hidden" name="isbn" value="${book.isbn}">
-                                        <input  type="submit" value="Delete">
+                                        <input  type="submit" class="btn btn-primary mb-1 " value="Delete">
                                     </form>
                                 </c:if>
                             </div>

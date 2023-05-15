@@ -27,8 +27,6 @@ public class DeleteBookCommand implements Command {
             logger.error("Problem with book service occurred!(#DeleteBookCommand)", e);
             return new CommandResult("/controller?action=bookPage&page=1", true);
         }
-
-
         return new CommandResult("/controller?action=bookPage&page=1", true);
     }
 }
