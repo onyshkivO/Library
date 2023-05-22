@@ -6,11 +6,11 @@
 </head>
 <body>
 <%@ include file="header.jsp" %>
-<div class="btn-group mx-5 ps-5" role="group" aria-label="First group">
-    <a class="btn btn-outline-primary" href="user_profile.jsp" role="button">My Profile</a>
-    <a class="btn btn-outline-primary active" href="controller?action=getLibrarians" role="button">Librarians</a>
-    <a class="btn btn-outline-primary" href="controller?action=getReaders" role="button">Users</a>
-</div>
+<%--<div class="btn-group mx-5 ps-5" role="group" aria-label="First group">--%>
+<%--    <a class="btn btn-outline-primary" href="user_profile.jsp" role="button">My Profile</a>--%>
+<%--    <a class="btn btn-outline-primary active" href="controller?action=getLibrarians" role="button">Librarians</a>--%>
+<%--    <a class="btn btn-outline-primary" href="controller?action=getReaders" role="button">Users</a>--%>
+<%--</div>--%>
 
 <div class="container">
     <div class="d-grid gap-2">

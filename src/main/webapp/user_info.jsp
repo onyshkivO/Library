@@ -3,27 +3,32 @@
 <html>
 <head>
     <title>User info</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+            crossorigin="anonymous"></script>
     <link href="style.css" rel="stylesheet">
 </head>
 
 <body>
 <%@ include file="header.jsp" %>
-<div class="btn-group ms-5 ps-5" role="group" aria-label="First group">
-    <a class="btn btn-outline-primary" href="user_profile.jsp" role="button">My Profile</a>
-    <c:if test="${sessionScope.user_role == 2}">
-        <a class="btn btn-outline-primary" href="controller?action=getOrders" role="button">Orders</a>
-        <a class="btn btn-outline-primary" href="controller?action=getUsersBook" role="button">Users books</a>
-    </c:if>
-    <c:if test="${sessionScope.user_role == 3}">
-        <a class="btn btn-outline-primary" href="controller?action=getLibrarians" role="button">Librarians</a>
-        <a class="btn btn-outline-primary" href="controller?action=getReaders" role="button">Users</a>
-    </c:if>
+<%--<div class="btn-group ms-5 ps-5" role="group" aria-label="First group">--%>
+<%--    <a class="btn btn-outline-primary" href="user_profile.jsp" role="button">My Profile</a>--%>
+<%--    <c:if test="${sessionScope.user_role == 2}">--%>
+<%--        <a class="btn btn-outline-primary" href="controller?action=getOrders" role="button">Orders</a>--%>
+<%--        <a class="btn btn-outline-primary" href="controller?action=getUsersBook" role="button">Users books</a>--%>
+<%--    </c:if>--%>
+<%--    <c:if test="${sessionScope.user_role == 3}">--%>
+<%--        <a class="btn btn-outline-primary" href="controller?action=getLibrarians" role="button">Librarians</a>--%>
+<%--        <a class="btn btn-outline-primary" href="controller?action=getReaders" role="button">Users</a>--%>
+<%--    </c:if>--%>
 
 
-</div>
+<%--</div>--%>
 
-<div class="d-flex ">
-    <div class="container-fluid mt-3 ms-5 me-0 ps-5" style="width: 500px;">
+<div class=" d-flex justify-content-center" >
+    <div class=" mt-3 ms-5 me-0 ps-5" style="width: 500px;">
         <c:if test="${user.userStatus.userStatusId==2}"><h2 class="text-danger"> This account are blocked!</h2></c:if>
         <p class="fs-4 fw-semibold">Login:</p>
         <p class="fs-5">${requestScope.user.login}</p>
@@ -42,7 +47,7 @@
     </div>
     <c:choose>
         <c:when test="${user_books.isEmpty() != true}">
-            <div class="container ms-0 mt-5 bg-secondary-subtle border border-dark-subtle rounded-3" style="max-width: 50%">
+            <div class="  ms-0 mt-5 bg-secondary-subtle border border-dark-subtle rounded-3 " style="width: 807px"   >
                 <h2 class="text-center mt-2 mb-3 ">User's books</h2>
                 <hr>
                 <div class="card-body">

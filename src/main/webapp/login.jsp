@@ -28,10 +28,6 @@
                         </c:if>
 
 
-                        <c:if test="${bad_input == true}">
-                            <p class="text-danger lh-2 ms-1">Wrong data</p>
-                        </c:if>
-
                         <div class="form-group ">
                             <label for="login" class="text-info text-black" >Login:</label><br>
                             <input type="text" name="login" id="login" class="form-control" value="${login}" required>

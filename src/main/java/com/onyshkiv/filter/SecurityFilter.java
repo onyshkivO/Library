@@ -19,7 +19,7 @@ public class SecurityFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        map.put(new Role(1), List.of("signup", "signin", "signout", "userbook", "bookpage", "addbook", "editprofile", "changepassword"));
+        map.put(new Role(1), List.of("signup", "signin", "signout", "userbooks", "bookpage", "addbook", "editprofile", "changepassword"));
         map.put(new Role(2), List.of("signup", "signin", "signout", "bookpage", "editprofile", "changepassword", "getorders", "givebook", "signup", "getusersbook", "userinfo", "givebookback"));
         map.put(new Role(3), List.of("signup", "signin", "signout", "bookpage", "editprofile", "changepassword", "getlibrarians", "getreaders", "deleteuser", "userinfo", "changeuserstatus", "addbookpage", "createbook", "authandpub", "createauthor", "createpublication", "renameauthor", "renamepublication", "editbookpage", "editbook","deletebook"));
     }

@@ -77,55 +77,6 @@ public class BooksPageCommand implements Command {
             return new CommandResult("/controller?action=bookPage", true);
         }
 
-
-//        if (name != null && !name.equals("") && searchOption.equals("book_name")) {
-//            try {
-//                if (user != null && user.getRole().getRoleId() == 3) {
-//                    int noOfRecords = bookService.getNumberOfBooks();
-//                    noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
-//                    books = bookService.findAllBooks(recordsPerPage, offset, sortOption, sortOptionOrder);
-//                } else books = bookService.findAllVailableBooksByName(name, sortOption, sortOptionOrder);
-//
-//            } catch (ServiceException e) {
-//                logger.error("Problem with service occurred!", e);
-//                return new CommandResult("/controller?action=bookPage", true);
-//            }
-//        } else if (name != null && !name.equals("") && searchOption.equals("author_name")) {
-//            try {
-//                if (user != null && user.getRole().getRoleId() == 3) {
-//
-//                    int noOfRecords = bookService.getNumberOfBooks();
-//                    noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
-//                    System.out.println(noOfRecords);
-//                    System.out.println(noOfPages);
-//                    books = bookService.findAllBooks(recordsPerPage, offset, sortOption, sortOptionOrder);
-//                } else
-//                    books = bookService.findAllVailableBooksByAuthorName(name, sortOption, sortOptionOrder);
-//            } catch (ServiceException e) {
-//                logger.error("Problem with service occurred!", e);
-//                return new CommandResult("/controller?action=bookPage", true);
-//            }
-//        } else {
-//
-//            try {
-//                if (user != null && user.getRole().getRoleId() == 3) {
-//                    int noOfRecords = bookService.getNumberOfBooks();
-//                    noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
-//                    if (sortOptionOrder != null && !sortOptionOrder.equals("") && sortOption != null && !sortOption.equals("")) {
-//                        books = bookService.findAllBooks(recordsPerPage, offset, sortOption, sortOptionOrder);
-//                    } else books = bookService.findAllBooks(recordsPerPage, offset, "b.name", "asc");
-//                } else {
-//                    if (sortOptionOrder != null && !sortOptionOrder.equals("") && sortOption != null && !sortOption.equals("")) {
-//                        books = bookService.findAllAvailableBooks(sortOption, sortOptionOrder);
-//                    } else books = bookService.findAllAvailableBooks("b.name", "asc");
-//                }
-//            } catch (ServiceException e) {
-//                logger.error("Problem with service occurred!", e);
-//                return new CommandResult("/controller?action=bookPage", true);
-//            }
-//        }
-
-
         req.setAttribute("books", books);
         req.setAttribute("search_option", searchOption);
         req.setAttribute("sort_option", sortOption);
@@ -148,10 +99,6 @@ public class BooksPageCommand implements Command {
             logger.info("invalid page number format was received:" + pageNumberString);
         }
 
-//        if (page < 1 || page > TOTAL_PAGES) {
-//            logger.info("invalid page number format was received:" + pageNumberString);
-//            page = 1;
-//        }
 
         return page;
     }

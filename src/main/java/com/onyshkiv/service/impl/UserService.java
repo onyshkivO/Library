@@ -36,11 +36,10 @@ public class UserService implements IUserService {
     public Optional<User> findUserByLogin(String login) throws ServiceException {
         Optional<User> optional;
         entityTransaction.init(userDAO);
-
         try {
             optional = userDAO.findEntityById(login);
         } catch (DAOException e) {
-            //log
+            logger.error("Problem with user Dao occurred!(#UserService->findUserByLogin)",e);
             throw new ServiceException(e);
         } finally {
             entityTransaction.end(userDAO);

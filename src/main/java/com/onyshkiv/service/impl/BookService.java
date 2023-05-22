@@ -5,15 +5,19 @@ import com.onyshkiv.DAO.EntityTransaction;
 import com.onyshkiv.DAO.impl.AuthorDAO;
 import com.onyshkiv.DAO.impl.BookDAO;
 import com.onyshkiv.DAO.impl.PublicationDAO;
+import com.onyshkiv.command.impl.BooksPageCommand;
 import com.onyshkiv.entity.Author;
 import com.onyshkiv.entity.Book;
 import com.onyshkiv.service.IBookService;
 import com.onyshkiv.service.ServiceException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import java.util.Optional;
 
 public class BookService implements IBookService {
+    private static final Logger logger = LogManager.getLogger(BookService.class);
     private BookDAO bookDAO;
     private PublicationDAO publicationDAO;
     private AuthorDAO authorDAO;
@@ -151,10 +155,9 @@ public class BookService implements IBookService {
         List<Book> list;
         entityTransaction.init(bookDAO);
         try {
-//            list = bookDAO.findAllVailableBooksByName(name);
             list = bookDAO.findAllVailableBooksByOption(name,false,sortOption,orderOption,booksPerPage,offset);
         } catch (DAOException e) {
-            //log
+            logger.error("Problem with DAO occurred!", e);
             throw new ServiceException(e);
         } finally {
             entityTransaction.end(bookDAO);

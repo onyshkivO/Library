@@ -7,12 +7,14 @@ import com.onyshkiv.entity.*;
 import com.onyshkiv.service.ServiceException;
 import com.onyshkiv.service.impl.ActiveBookService;
 import com.onyshkiv.service.impl.BookService;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Arrays;
 import java.util.Date;
 
 public class AddBookCommand implements Command {

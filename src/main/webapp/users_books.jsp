@@ -20,11 +20,11 @@
 </head>
 <body>
 <%@ include file="header.jsp" %>
-<div class="btn-group mx-5 ps-5" role="group" aria-label="First group">
-    <a class="btn btn-outline-primary" href="user_profile.jsp" role="button">My Profile</a>
-    <a class="btn btn-outline-primary" href="controller?action=getOrders" role="button">Orders</a>
-    <a class="btn btn-outline-primary active" href="controller?action=getUsersBook" role="button">Users books</a>
-</div>
+<%--<div class="btn-group mx-5 ps-5" role="group" aria-label="First group">--%>
+<%--    <a class="btn btn-outline-primary" href="user_profile.jsp" role="button">My Profile</a>--%>
+<%--    <a class="btn btn-outline-primary" href="controller?action=getOrders" role="button">Orders</a>--%>
+<%--    <a class="btn btn-outline-primary active" href="controller?action=getUsersBook" role="button">Users books</a>--%>
+<%--</div>--%>
 <div class="container">
 
 

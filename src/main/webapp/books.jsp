@@ -4,11 +4,11 @@
     <title>Title</title>
     <link href="style.css" rel="stylesheet">
 
-
 </head>
 <body>
 <%@ include file="header.jsp" %>
 <div class="container">
+
 
     <form class="mt-4  d-flex justify-content-between" action="controller" method="get">
         <div class="ms-5 ps-5" style="max-width: 400px">
@@ -97,7 +97,7 @@
                             <div class="col-1 align-self-center">
                                 <c:if test="${sessionScope.exist_user == true&&sessionScope.user_role==1}">
                                     <a href="controller?action=addBook&isbn=${book.isbn}"
-                                       class="btn btn-primary <c:if test="${sessionScope.user.userStatus.userStatusId==2}">disabled</c:if>">Add</a>
+                                       class="btn btn-primary <c:if test="${sessionScope.user.userStatus.userStatusId==2}">disabled</c:if>">Order</a>
                                 </c:if>
                                 <c:if test="${sessionScope.exist_user == true&&sessionScope.user_role==3}">
                                     <a href="controller?action=editBookPage&isbn=${book.isbn}"
@@ -117,7 +117,7 @@
         </c:choose>
 
     </div>
-    <nav aria-label="...">
+    <nav aria-label="..." class="ms-5 ps-5" >
         <ul class="pagination">
             <li class="page-item <c:if test="${page == 1}">disabled</c:if>">
                 <a class="page-link"

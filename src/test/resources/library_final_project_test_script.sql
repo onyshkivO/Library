@@ -4,8 +4,6 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
-
-
 -- -----------------------------------------------------
 -- Schema library_final_project_test
 -- -----------------------------------------------------
@@ -179,8 +177,8 @@ CREATE TABLE IF NOT EXISTS `library_final_project_test`.`active_book` (
   CONSTRAINT `fk_active_book_book1`
     FOREIGN KEY (`book_isbn`)
     REFERENCES `library_final_project_test`.`book` (`isbn`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE cascade
+    ON UPDATE cascade,
   CONSTRAINT `fk_active_book_user`
     FOREIGN KEY (`user_login`)
     REFERENCES `library_final_project_test`.`user` (`login`)
