@@ -35,14 +35,18 @@ public class AddBookCommand implements Command {
             if (activeBookService.findActiveBookByUserAndBook(user.getLogin(), isbn).isPresent()) {
                 logger.info("user already has a book");
                 System.out.println("user already has a book ");
-                return new CommandResult("/controller?action=bookPage&already=true", true);
+                resp.addCookie(new Cookie("already","true"));
+//                return new CommandResult("/controller?action=bookPage&already=true&page=1", true);
+                return new CommandResult("/controller?action=bookPage&page=1", true);
             }
 
 
             if (!bookService.isAvailableBook(book.getIsbn())) {
                 logger.info("There are not available book(#AddBookCommand)");
                 System.out.println("There are not available book(#AddBookCommand)");
-                return new CommandResult("/controller?action=bookPage&notAvailable=true", true);
+                resp.addCookie(new Cookie("notAvailable","true"));
+//                return new CommandResult("/controller?action=bookPage&notAvailable=true&page=1", true);
+                return new CommandResult("/controller?action=bookPage&page=1", true);
             }
             ActiveBook activeBook = new ActiveBook(book, user, new SubscriptionStatus(4), new Date(), new Date(), null);
             activeBookService.createActiveBook(activeBook);
@@ -54,6 +58,7 @@ public class AddBookCommand implements Command {
 
         }
 //        req.setAttribute("active",true);
-        return new CommandResult("/controller?action=bookPage&isbn=" + isbn, true);
+        resp.addCookie(new Cookie("success","true"));
+        return new CommandResult("/controller?action=bookPage&page=1", true);
     }
 }
