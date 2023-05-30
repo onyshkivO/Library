@@ -10,13 +10,14 @@ import com.onyshkiv.service.impl.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import static com.onyshkiv.util.validation.Validation.*;
 
 public class RegistrationCommand implements Command {
+    private static final Logger logger = LogManager.getLogger(RegistrationCommand.class);
     private final UserService userService = UserService.getInstance();
-    private final Role READER_ROLE = new Role(1);
-    private final Role LIABRARIAN_ROLE = new Role(2);
     private final UserStatus STATUS = new UserStatus(1);
 
     @Override
@@ -59,38 +60,50 @@ public class RegistrationCommand implements Command {
         String phone = req.getParameter("phone");
         req.setAttribute("phone", phone);
         if (!validatePhone(phone)) {
-            phone = null;
+            req.removeAttribute("phone");
+            req.setAttribute("incorrect_phone", true);
+            flag = true;
         }
 
         String pass = req.getParameter("password");
+
         req.setAttribute("password", pass);
-        if (pass.length() < 3) {
+        if (!validatePassword(pass)) {
             req.removeAttribute("password");
             req.setAttribute("incorrect_password", true);
             flag = true;
         }
 
 
-
-
         Role role = new Role(req.getParameter("role"));
-        if (flag)
-            return role.getRoleId()==1? new CommandResult("/registration.jsp"): new CommandResult("/register_librarian.jsp");
-        if(role.getRoleId()==2&&(((User)req.getSession().getAttribute("user"))==null||((User)req.getSession().getAttribute("user")).getRole().getRoleId()!=3)) return new CommandResult("/",true);
+
+        if (flag) {
+            logger.info("Invalid data to register(#RegistrationCommand)");
+            return role.getRoleId() == 1 ? new CommandResult("/registration.jsp") : new CommandResult("/register_librarian.jsp");
+        }
+        if (role.getRoleId() == 2 && (((User) req.getSession().getAttribute("user")) == null || ((User) req.getSession().getAttribute("user")).getRole().getRoleId() != 3))
+            return new CommandResult("/", true);
         User user = new User(login, email, pass, role, STATUS, firstName, lastName, phone);
         try {
+            if(userService.findUserByLogin(login).isPresent()){
+                logger.info("Login already exist(#RegistrationCommand)");
+                req.setAttribute("already_exist_login", true);
+                return role.getRoleId() == 1 ? new CommandResult("/registration.jsp") : new CommandResult("/register_librarian.jsp");
+            }
+
             userService.createUser(user);
-            if(role.getRoleId()==1) {
+            if (role.getRoleId() == 1) {
                 HttpSession session = req.getSession();
                 session.setAttribute("user", user);
                 session.setAttribute("user_role", user.getRole().getRoleId());
                 session.setAttribute("exist_user", true);
             }
+            logger.info("User successfully registered(#RegistrationCommand)");
         } catch (ServiceException e) {
-            //log
-            req.setAttribute("already_exist_login", true);
-            return role.getRoleId()==1? new CommandResult("/registration.jsp"): new CommandResult("/register_librarian.jsp");
+            logger.error("Problem with user service occurred!(#RegistrationCommand)", e);
+            //req.setAttribute("already_exist_login", true);
+            return role.getRoleId() == 1 ? new CommandResult("/registration.jsp") : new CommandResult("/register_librarian.jsp");//todo error page redirect
         }
-        return role.getRoleId()==1? new CommandResult("/user_profile.jsp",true): new CommandResult("/controller?action=getLibrarians",true);
+        return role.getRoleId() == 1 ? new CommandResult("/user_profile.jsp", true) : new CommandResult("/controller?action=getLibrarians", true);
     }
 }

@@ -20,22 +20,41 @@
             <div class="form-group">
               <label for="login" class="text-info text-black">Login:</label><br>
               <input type="text" name="login" id="login" class="form-control" required value="${sessionScope.user.login}">
+              <c:if test="${incorrect_login == true}">
+              <p class="text-danger lh-1 ms-1" >Incorrect login</p>
+              </c:if>
+
+              <c:if test="${already_exist_login == true}">
+                <p class="text-danger lh-1 ms-1">User login already exist</p>
+              </c:if>
             </div>
             <div class="form-group">
               <label for="email" class="text-info text-black">E-mail:</label><br>
               <input type="email" name="email" id="email" class="form-control" required  value="${sessionScope.user.email}">
+              <c:if test="${incorrect_Email == true}">
+                <p class="text-danger lh-1 ms-1">Incorrect Email</p>
+              </c:if>
             </div>
              <div class="form-group">
               <label for="first_name" class="text-info text-black">First name:</label><br>
               <input type="text" name="first_name" id="first_name" class="form-control" value="${sessionScope.user.firstName}" required>
+               <c:if test="${incorrect_firstName == true}">
+                 <p class="text-danger lh-1 ms-1">Incorrect lirst Name</p>
+               </c:if>
             </div>
             <div class="form-group">
               <label for="last_name" class="text-info text-black">Last name:</label><br>
               <input type="text" name="last_name" id="last_name" class="form-control" value="${sessionScope.user.lastName}" required>
+              <c:if test="${incorrect_lastName == true}">
+                <p class="text-danger lh-1 ms-1">Incorrect last name</p>
+              </c:if>
             </div>
             <div class="form-group">
               <label for="phone" class="text-info text-black">Phone:</label><br>
               <input type="tel" name="phone" id="phone" class="form-control" value="${sessionScope.user.phone}">
+              <c:if test="${incorrect_phone == true}">
+                <p class="text-danger lh-1 ms-1">Incorrect phone</p>
+              </c:if>
             </div>
             <div class="d-grid gap-3 col-6 mt-3 mx-auto">
               <input type="submit" name="submit" class="btn btn-outline-primary" value="Submit">

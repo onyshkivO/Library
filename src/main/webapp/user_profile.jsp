@@ -40,7 +40,7 @@
         <p class="fs-5">${sessionScope.user.phone}</p>
     </c:if>
     <c:if test="${sessionScope.user.phone==null||sessionScope.user.phone.isEmpty()}">
-    <p class="fs-5">Ведіть ваш номер, щоб його бачити</p>
+    <p class="fs-5">Enter your number to see it</p>
     </c:if>
     <div class="d-grid gap-2 col-6 mt-3">
     <a class="btn btn-outline-primary <c:if test="${sessionScope.user.userStatus.userStatusId==2}">disabled</c:if>" href="edit_profile.jsp" role="button">Edit profile</a>

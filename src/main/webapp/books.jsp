@@ -2,6 +2,8 @@
 <html>
 <head>
     <title>Title</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
     <link href="style.css" rel="stylesheet">
 
 </head>
@@ -9,22 +11,22 @@
 <%@ include file="header.jsp" %>
 <div class="container">
 
-
     <form class="mt-4  d-flex justify-content-between" action="controller" method="get">
+        <input type="hidden" class="form-control" name="action" value="bookPage">
         <div class="ms-5 ps-5" style="max-width: 400px">
             <h5>Searching</h5>
             <div class="input-group me-5 pe-5 d-flex">
                 <input type="text" class="form-control" name="name" value="${requestScope.name}">
                 <select class="form-select" id="inputGroupSelect01" name="search_option">
                     <option value="book_name"
-                            <c:if test="${requestScope.search_option == 'book_name'}">selected</c:if>><%-- todo хз, може ця перевірка не дуже равильна--%>
+                            <c:if test="${requestScope.search_option == 'book_name'}">selected</c:if>>
                         Book name
                     </option>
                     <option value="author_name"
                             <c:if test="${requestScope.search_option == 'author_name'}">selected</c:if>>Author name
                     </option>
                 </select>
-                <input type="hidden" class="form-control" name="action" value="bookPage">
+
             </div>
         </div>
         <button type="submit" class="btn btn-outline-primary mt-auto">Search</button>
@@ -150,6 +152,6 @@
 
 </div>
 
-<script src="js/window.js"></script>
+<script charset="UTF-8"  src="js/window.js"></script>
 </body>
 </html>

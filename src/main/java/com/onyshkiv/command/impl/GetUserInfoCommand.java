@@ -18,18 +18,26 @@ public class GetUserInfoCommand implements Command {
     private static final Logger logger = LogManager.getLogger(GetUserInfoCommand.class);
     UserService userService = UserService.getInstance();
     ActiveBookService activeBookService = ActiveBookService.getInstance();
+
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) {
         String login = req.getParameter("login");
         List<ActiveBook> activeBooks;
-        try{
-            User user = userService.findUserByLogin(login).get();
+        User user = null;
+        try {
+            try {
+                user = userService.findUserByLogin(login).get();
+            } catch (NullPointerException e) {
+                System.out.println("Треба щось робити з гет");
+            }
+
             activeBooks = activeBookService.findBooksByUserLogin(user.getLogin());
             req.setAttribute("user_books", activeBooks);
-            req.setAttribute("user",user);
+            req.setAttribute("user", user);
+            logger.info(String.format("search for %s info(#GetUserInfoCommand)", login));
         } catch (ServiceException e) {
-            logger.error("Problem with user service occurred!(#GetUserInfoCommand->findUserByLogin)", e);
-            return new CommandResult("/", true); //todo another redirect
+            logger.error("Problem with user service occurred!(#GetUserInfoCommand)", e);
+            return new CommandResult("/", true); //todo another redirect to error
         }
         return new CommandResult("/user_info.jsp");
     }
