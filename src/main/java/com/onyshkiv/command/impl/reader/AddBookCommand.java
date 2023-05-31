@@ -2,7 +2,6 @@ package com.onyshkiv.command.impl.reader;
 
 import com.onyshkiv.command.Command;
 import com.onyshkiv.command.CommandResult;
-import com.onyshkiv.command.impl.admin.GetReadersCommand;
 import com.onyshkiv.entity.*;
 import com.onyshkiv.service.ServiceException;
 import com.onyshkiv.service.impl.ActiveBookService;
@@ -13,8 +12,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Optional;
 
