@@ -13,6 +13,7 @@
 
     <form class="mt-4  d-flex justify-content-between" action="controller" method="get">
         <input type="hidden" class="form-control" name="action" value="bookPage">
+        <input type="hidden" class="form-control" name="page" value="1">
         <div class="ms-5 ps-5" style="max-width: 400px">
             <h5>Searching</h5>
             <div class="input-group me-5 pe-5 d-flex">
@@ -98,8 +99,12 @@
                             </div>
                             <div class="col-1 align-self-center">
                                 <c:if test="${sessionScope.exist_user == true&&sessionScope.user_role==1}">
-                                    <a href="controller?action=addBook&isbn=${book.isbn}"
-                                       class="btn btn-primary <c:if test="${sessionScope.user.userStatus.userStatusId==2}">disabled</c:if>">Order</a>
+                                    <form class="<c:if test="${sessionScope.user.userStatus.userStatusId==2}">disabled</c:if>" action="controller?action=addBook" method="post">
+                                        <input type="hidden" name="isbn" value="${book.isbn}">
+                                        <input  type="submit" class="btn btn-primary mb-1 " value="Order">
+                                    </form>
+<%--                                    <a href="controller?action=addBook&isbn=${book.isbn}"--%>
+<%--                                       class="btn btn-primary <c:if test="${sessionScope.user.userStatus.userStatusId==2}">disabled</c:if>">Order</a>--%>
                                 </c:if>
                                 <c:if test="${sessionScope.exist_user == true&&sessionScope.user_role==3}">
                                     <a href="controller?action=editBookPage&isbn=${book.isbn}"

@@ -2,7 +2,6 @@ package com.onyshkiv.command.impl;
 
 import com.onyshkiv.command.Command;
 import com.onyshkiv.command.CommandResult;
-import com.onyshkiv.entity.Author;
 import com.onyshkiv.entity.Book;
 import com.onyshkiv.entity.User;
 import com.onyshkiv.service.ServiceException;
@@ -36,19 +35,19 @@ public class BooksPageCommand implements Command {
         String name = req.getParameter("name");
 
         String searchOption = req.getParameter("search_option");
-        searchOption = (searchOption!=null&&searchOption.equals("author_name")) ?"author_name":"book_name";
+        searchOption = (searchOption != null && searchOption.equals("author_name")) ? "author_name" : "book_name";
 
         String sortOption = req.getParameter("sort_option");
-        sortOption = sortOptions.getOrDefault(sortOption,"b.name");
+        sortOption = sortOptions.getOrDefault(sortOption, "b.name");
 
         String sortOptionOrder = req.getParameter("sort_option_order");
-        sortOptionOrder =(sortOptionOrder!=null&&sortOptionOrder.equals("desc"))?"desc":"asc";
+        sortOptionOrder = (sortOptionOrder != null && sortOptionOrder.equals("desc")) ? "desc" : "asc";
         String spage = req.getParameter("page");
         Integer page = getPage(spage);
 
-        Integer recordsPerPage = 3;
+        int recordsPerPage = 3;
         Integer offset = (page - 1) * recordsPerPage;
-        Integer noOfPages;
+        int noOfPages;
 
         try {
             if (searchOption.equals("book_name")) {
@@ -61,6 +60,7 @@ public class BooksPageCommand implements Command {
                     noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
                     books = bookService.findAllVailableBooksByName(name, sortOption, sortOptionOrder, recordsPerPage, offset);
                 }
+                logger.info(String.format("Admin user successfully get books page(Search by %s,Order by %s %s)(#BooksPageCommand)",searchOption,sortOption,sortOptionOrder));
             } else {
                 if (user != null && user.getRole().getRoleId() == 3) {
                     int noOfRecords = bookService.findNumberOfAllBooksByAuthorName(name);
@@ -71,10 +71,11 @@ public class BooksPageCommand implements Command {
                     noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
                     books = bookService.findAllVailableBooksByAuthorName(name, sortOption, sortOptionOrder, recordsPerPage, offset);
                 }
+                logger.info(String.format("Reader user successfully get books page(Search by %s,Order by %s %s)(#BooksPageCommand)",searchOption,sortOption,sortOptionOrder));
             }
         } catch (ServiceException e) {
-            logger.error("Problem with service occurred!", e);
-            return new CommandResult("/controller?action=bookPage", true);
+            logger.error("Problem with Book service occurred!(#BooksPageCommand)", e);
+            return new CommandResult("/controller?action=bookPage&page=1", true);
         }
 
         req.setAttribute("books", books);
@@ -92,7 +93,7 @@ public class BooksPageCommand implements Command {
     private Integer getPage(String pageNumberString) {
 
         pageNumberString = pageNumberString == null ? "1" : pageNumberString;
-        Integer page = 1;
+        int page = 1;
         try {
             page = Integer.parseInt(pageNumberString);
         } catch (NumberFormatException e) {

@@ -16,6 +16,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Optional;
 
 public class AddBookCommand implements Command {
     private static final Logger logger = LogManager.getLogger(AddBookCommand.class);
@@ -28,37 +29,35 @@ public class AddBookCommand implements Command {
         User user = (User) session.getAttribute("user");
         Integer isbn = Integer.valueOf(req.getParameter("isbn"));
 
-
         try {
-            Book book = bookService.findBookById(isbn).get();
-
+            Optional<Book> bookOptional = bookService.findBookById(isbn);
+            if (bookOptional.isEmpty()) {
+                logger.info("There are not available book(Optional = null)(#AddBookCommand)");
+                resp.addCookie(new Cookie("notAvailable", "true"));
+                return new CommandResult("/controller?action=bookPage&page=1", true);
+            }
+            Book book = bookOptional.get();
             if (activeBookService.findActiveBookByUserAndBook(user.getLogin(), isbn).isPresent()) {
                 logger.info("user already has a book");
                 System.out.println("user already has a book ");
-                resp.addCookie(new Cookie("already","true"));
-//                return new CommandResult("/controller?action=bookPage&already=true&page=1", true);
+                resp.addCookie(new Cookie("already", "true"));
                 return new CommandResult("/controller?action=bookPage&page=1", true);
             }
-
-
             if (!bookService.isAvailableBook(book.getIsbn())) {
                 logger.info("There are not available book(#AddBookCommand)");
                 System.out.println("There are not available book(#AddBookCommand)");
-                resp.addCookie(new Cookie("notAvailable","true"));
-//                return new CommandResult("/controller?action=bookPage&notAvailable=true&page=1", true);
+                resp.addCookie(new Cookie("notAvailable", "true"));
                 return new CommandResult("/controller?action=bookPage&page=1", true);
             }
             ActiveBook activeBook = new ActiveBook(book, user, new SubscriptionStatus(4), new Date(), new Date(), null);
             activeBookService.createActiveBook(activeBook);
         } catch (ServiceException e) {
-            e.printStackTrace();
-            //log
-            System.out.println("something went wronge");
+            logger.error("Problem with active book or book service occurred!", e);
             return new CommandResult("/", true);
 
         }
-//        req.setAttribute("active",true);
-        resp.addCookie(new Cookie("success","true"));
+        logger.info(String.format("User %s successfully ordered book with isbn %d", user.getLogin(), isbn));
+        resp.addCookie(new Cookie("success", "true"));
         return new CommandResult("/controller?action=bookPage&page=1", true);
     }
 }

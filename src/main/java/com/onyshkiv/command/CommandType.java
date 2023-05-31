@@ -13,7 +13,7 @@ public enum CommandType {
     SIGNOUTGET(new SignOutCommand()),// common
     USERBOOKSGET(new GetUserBookCommand()),// reader
     BOOKPAGEGET(new BooksPageCommand()),// common
-    ADDBOOKGET(new AddBookCommand()),// reader
+    ADDBOOKPOST(new AddBookCommand()),// reader
     EDITPROFILEPOST(new EditProfileCommand()),// common
     CHANGEPASSWORDPOST(new ChangePasswordCommand()),// common
     GETORDERSGET(new OrdersPageCommand()),// librarian
