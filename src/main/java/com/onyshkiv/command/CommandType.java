@@ -18,7 +18,7 @@ public enum CommandType {
     CHANGEPASSWORDPOST(new ChangePasswordCommand()),// common
     GETORDERSGET(new OrdersPageCommand()),// librarian
     //GIVEBOOKPOST(new GiveBookCommand());
-    GIVEBOOKGET(new GiveBookCommand()),// librarian
+    GIVEBOOKPOST(new GiveBookCommand()),// librarian
     GETUSERSBOOKGET(new GetUsersBooksCommand()),// librarian
     GETLIBRARIANSGET(new GetLibrariansCommand()),// admin
     GETREADERSGET(new GetReadersCommand()),// admin

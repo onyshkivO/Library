@@ -110,7 +110,6 @@ public class ActiveBookDAO extends AbstractDAO<Integer, ActiveBook> {
              ResultSet resultSet = statement.executeQuery()
         ) {
             while (resultSet.next()) {
-                System.out.println(1);
                 ActiveBook activeBook = map(resultSet);
                 BookDAO bookDAO = BookDAO.getInstance();
                 bookDAO.setConnection(con);

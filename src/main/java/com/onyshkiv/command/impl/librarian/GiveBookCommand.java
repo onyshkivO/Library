@@ -6,13 +6,17 @@ import com.onyshkiv.service.ServiceException;
 import com.onyshkiv.service.impl.ActiveBookService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class GiveBookCommand implements Command {
+    private static final Logger logger = LogManager.getLogger(GiveBookCommand.class);
     ActiveBookService activeBookService = ActiveBookService.getInstance();
+
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) {
         Integer activeBookId = Integer.valueOf(req.getParameter("id"));
@@ -20,23 +24,21 @@ public class GiveBookCommand implements Command {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String dateString = req.getParameter("end_date");
         Date date;
-        //System.out.println(dateString);
         try {
-           date = formatter.parse(dateString);
-        }catch (ParseException e){
-            //log
-            req.setAttribute("bad_date_format",true);
-            return new CommandResult("/controller?action=getOrders");
+            date = formatter.parse(dateString);
+        } catch (ParseException e) {
+            logger.error(String.format("bad date format %s", dateString));
+            return new CommandResult("/controller?action=getOrders", true);
         }
-        Double fine = Double.valueOf(req.getParameter("fine"));
+        Double fine = Double.valueOf(req.getParameter("fine").replace(',', '.'));
+        System.out.println(fine);
         try {
             activeBookService.updateActiveBookForGive(activeBookId, date, fine);
-        }catch (ServiceException e){
-            //log
-            e.printStackTrace();
-            req.setAttribute("wronge",true);
-            return new CommandResult("/controller?action=getOrders");
+            logger.info(String.format("Active book %d was successfully given to user", activeBookId));
+        } catch (ServiceException e) {
+            logger.error("Problem with active Book service occurred!", e);
+            return new CommandResult("/controller?action=getOrders", true);
         }
-        return new CommandResult("/controller?action=getOrders",true);
+        return new CommandResult("/controller?action=getOrders", true);
     }
 }

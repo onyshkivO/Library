@@ -2,12 +2,8 @@ package com.onyshkiv.command.impl.admin;
 
 import com.onyshkiv.command.Command;
 import com.onyshkiv.command.CommandResult;
-import com.onyshkiv.command.impl.librarian.DeleteUserCommand;
-import com.onyshkiv.entity.Book;
-import com.onyshkiv.entity.User;
 import com.onyshkiv.service.ServiceException;
 import com.onyshkiv.service.impl.BookService;
-import com.onyshkiv.service.impl.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;

@@ -1,4 +1,4 @@
-package com.onyshkiv.command.impl.librarian;
+package com.onyshkiv.command.impl.admin;
 
 import com.onyshkiv.command.Command;
 import com.onyshkiv.command.CommandResult;
