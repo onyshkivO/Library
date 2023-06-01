@@ -151,7 +151,7 @@ public class ActiveBookDAO extends AbstractDAO<Integer, ActiveBook> {
     }
 
     //todo можливо спростити, щоб не виводилося все
-    public Optional<ActiveBook> findActiveBookByUserAndBook(String login,Integer isbn) throws DAOException {
+    public Optional<ActiveBook> findActiveBookByUserAndBook(String login,String isbn) throws DAOException {
         ActiveBook activeBook = null;
         Optional<ActiveBook> activeBookOptional;
         try (
@@ -241,7 +241,7 @@ public class ActiveBookDAO extends AbstractDAO<Integer, ActiveBook> {
             throw new DAOException(e);
         }
     }
-//todo переглянути петод updateActiveBookForGive, якраз приклад чи так робити чи в методі міняти вседістаючи перше екземпляр
+
     public void updateActiveBookForGive(Integer id, Date endDate, Double fine) throws DAOException {
         if (id == 0) {
             throw new IllegalArgumentException("ActiveBook is not created yet, the ActiveBook ID is 0.");
@@ -297,7 +297,7 @@ public class ActiveBookDAO extends AbstractDAO<Integer, ActiveBook> {
         ActiveBook result = new ActiveBook();
         result.setActiveBookId(resultSet.getInt("active_book_id"));
         Book book = new Book();
-        book.setIsbn(resultSet.getInt("book_isbn"));
+        book.setIsbn(resultSet.getString("book_isbn"));
         result.setBook(book);
         User user = new User();
         user.setLogin(resultSet.getString("user_login"));

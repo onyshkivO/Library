@@ -15,29 +15,38 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
+import java.util.Optional;
 
 public class GetEditBookPageCommand implements Command {
     private static final Logger logger = LogManager.getLogger(GetEditBookPageCommand.class);
     BookService bookService = BookService.getInstance();
     PublicationService publicationService = PublicationService.getInstance();
     AuthorService authorService = AuthorService.getInstance();
+
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) {
-        Integer isbn = Integer.valueOf(req.getParameter("isbn"));
+        String isbn = req.getParameter("isbn");
         List<Publication> publications;
         List<Author> authors;
         try {
-            Book book = bookService.findBookById(isbn).get();//todo something with .get everywhere
+            Optional<Book> optionalBook = bookService.findBookById(isbn);
+            if (optionalBook.isEmpty()) {
+                logger.info(String.format("There are not book with isbn %s", isbn));
+                return new CommandResult("/", true);
+            }
+            Book book = optionalBook.get();
+
             publications = publicationService.findAllPublication();
             authors = authorService.findAllAuthors();
-            req.setAttribute("book",book);
-            req.setAttribute("publications",publications);
-            req.setAttribute("authors",authors);
+            req.setAttribute("book", book);
+            req.setAttribute("publications", publications);
+            req.setAttribute("authors", authors);
 
-        }catch (ServiceException e){
-            logger.error("Problem with book publication service occurred!(#GetEditBookPageCommand)", e);
-            return new CommandResult("/", true); //todo another redirect maybe page for 404 or 505 error
+        } catch (ServiceException e) {
+            logger.error("Problem with book, publication or author service occurred!", e);
+            return new CommandResult("/", true);
         }
+        logger.info("Admin successfully get edit book page");
         return new CommandResult("/edit_book.jsp");
     }
 }

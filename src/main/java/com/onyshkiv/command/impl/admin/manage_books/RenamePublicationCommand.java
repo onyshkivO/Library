@@ -15,15 +15,16 @@ public class RenamePublicationCommand implements Command {
     PublicationService publicationService = PublicationService.getInstance();
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) {
-        Integer id = Integer.valueOf(req.getParameter("publication_id"));
+        int id = Integer.parseInt(req.getParameter("publication_id"));
         String name = req.getParameter("new_publication_name");
         Publication publication = new Publication(id,name);
         try{
             publicationService.updatePublication(publication);
         }catch (ServiceException e ){
             logger.error("Problem with publication service occurred!(#RenamePublicationCommand)", e);
-            //todo page for error
+            return new CommandResult("/controller?action=AuthAndPub",true);
         }
+        logger.info(String.format("Admin successfully renamed publication with %d to %s", id, name));
         return new CommandResult("/controller?action=AuthAndPub",true);
     }
 }

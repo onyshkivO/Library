@@ -6,12 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IBookService {
-    Optional<Book> findBookById(Integer id) throws ServiceException;
-//    List<Book> findAllBooks() throws ServiceException;
-//     List<Book> findAllBooks(Integer booksPerPage,Integer offset, String sortOption, String orderOption) throws ServiceException;
-//    List<Book> findAllBooks(String sortOption, String orderOption) throws ServiceException;
-//    List<Book> findAllAvailableBooks(String sortOption, String orderOption) throws ServiceException;
-//    Integer getNumberOfAvailableBooks()throws ServiceException;
+    Optional<Book> findBookById(String id) throws ServiceException;
     List<Book> findAllVailableBooksByName(String name, String sortOption, String orderOption,Integer booksPerPage,Integer offset) throws ServiceException;
     List<Book> findAllVailableBooksByAuthorName(String name, String sortOption, String orderOption,Integer booksPerPage,Integer offset) throws ServiceException;
     List<Book> findAllBooksByName(String name, String sortOption, String orderOption,Integer booksPerPage,Integer offset) throws ServiceException;
@@ -19,7 +14,7 @@ public interface IBookService {
 
 
 
-    void hideBook(Integer isbn) throws ServiceException;
+    void hideBook(String isbn) throws ServiceException;
     Integer findNumberOfAllVailableBooksByName(String name) throws ServiceException;
     Integer findNumberOfAllVailableBooksByAuthorName(String name) throws ServiceException;
     Integer findNumberOfAllBooksByName(String name) throws ServiceException;
@@ -29,6 +24,6 @@ public interface IBookService {
     void updateBook(Book book) throws ServiceException;
     void deleteBook(Book book) throws ServiceException;
 
-    boolean isAvailableBook(Integer isbn) throws ServiceException;
+    boolean isAvailableBook(String isbn) throws ServiceException;
 
 }

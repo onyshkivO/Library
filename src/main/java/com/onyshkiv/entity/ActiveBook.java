@@ -2,7 +2,6 @@ package com.onyshkiv.entity;
 
 import java.util.Date;
 import java.util.Objects;
-import java.util.Set;
 
 public class ActiveBook extends Entity{
     private int activeBookId;

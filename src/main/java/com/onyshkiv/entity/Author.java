@@ -2,7 +2,6 @@ package com.onyshkiv.entity;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Comparator;
 import java.util.Objects;
 
 public class Author extends Entity implements Comparable {

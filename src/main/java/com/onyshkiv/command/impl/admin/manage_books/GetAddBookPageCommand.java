@@ -37,10 +37,11 @@ public class GetAddBookPageCommand implements Command {
             logger.error("Problem with authors/publication service occurred!(#GetAddBookPageCommand)", e);
             return new CommandResult("/", true); //todo another redirect
         }
+        logger.info("Admin successfully get add book page");
         return new CommandResult("/add_book.jsp");
     }
 
-    private void transferDataBad(HttpServletRequest req){
+    private void transferDataBad(HttpServletRequest req) {
         HttpSession session = req.getSession();
         req.setAttribute("isbn", session.getAttribute("isbn"));
         session.removeAttribute("isbn");

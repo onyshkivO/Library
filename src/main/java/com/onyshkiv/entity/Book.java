@@ -5,7 +5,7 @@ import java.util.Objects;
 import java.util.Set;
 
 public class Book extends Entity{
-    private int isbn;
+    private String isbn;
     private String name;
     private Date dateOfPublication;
     private Publication publication;
@@ -14,7 +14,7 @@ public class Book extends Entity{
     private Set<Author> authors;
     public Book() {}
 
-    public Book(int isbn, String name, Date dateOfPublication, Publication publication, int quantity, String details, Set<Author> authors) {
+    public Book(String isbn, String name, Date dateOfPublication, Publication publication, int quantity, String details, Set<Author> authors) {
         this.isbn = isbn;
         this.name = name;
         this.dateOfPublication = dateOfPublication;
@@ -24,7 +24,7 @@ public class Book extends Entity{
         this.authors = authors;
     }
 
-    public int getIsbn() {
+    public String getIsbn() {
         return isbn;
     }
 
@@ -52,7 +52,7 @@ public class Book extends Entity{
         return authors;
     }
 
-    public void setIsbn(int isbn) {
+    public void setIsbn(String isbn) {
         this.isbn = isbn;
     }
 
@@ -84,13 +84,15 @@ public class Book extends Entity{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         Book book = (Book) o;
-        return isbn == book.isbn;
+
+        return isbn.equals(book.isbn);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(isbn);
+        return isbn.hashCode();
     }
 
     @Override

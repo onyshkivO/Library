@@ -15,14 +15,15 @@ public class DeleteBookCommand implements Command {
 
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) {
-        Integer isbn = Integer.valueOf(req.getParameter("isbn"));
+        String isbn = req.getParameter("isbn");
         try {
             bookService.hideBook(isbn);
-            logger.info(String.format("Book with isbn %d has been hiden.", isbn));
+            logger.info(String.format("Book with isbn %s has been hidden.", isbn));
         } catch (ServiceException e) {
-            logger.error("Problem with book service occurred!(#DeleteBookCommand)", e);
+            logger.error("Problem with book service occurred!", e);
             return new CommandResult("/controller?action=bookPage&page=1", true);
         }
+        logger.info(String.format("Book with isbn %s was successfully hidden", isbn));
         return new CommandResult("/controller?action=bookPage&page=1", true);
     }
 }

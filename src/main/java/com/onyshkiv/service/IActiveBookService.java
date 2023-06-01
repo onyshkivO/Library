@@ -17,7 +17,7 @@ public interface IActiveBookService {
 
     List<ActiveBook> findBooksByUserLogin(String login) throws ServiceException;
     List<ActiveBook> findAllUsersActiveBooks() throws ServiceException;
-    Optional<ActiveBook> findActiveBookByUserAndBook(String login,Integer isbn) throws ServiceException;
+    Optional<ActiveBook> findActiveBookByUserAndBook(String login,String isbn) throws ServiceException;
 
     void createActiveBook(ActiveBook activeBook) throws ServiceException;
 

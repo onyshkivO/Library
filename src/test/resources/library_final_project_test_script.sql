@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS `library_final_project_test`.`publication` (
 DROP TABLE IF EXISTS `library_final_project_test`.`book` ;
 
 CREATE TABLE IF NOT EXISTS `library_final_project_test`.`book` (
-  `isbn` INT NOT NULL,
+  `isbn` VARCHAR(30) NOT NULL,
   `name` VARCHAR(255) NOT NULL,
   `date_of_publication` DATE NOT NULL,
   `publication_id` INT NOT NULL,
@@ -120,7 +120,7 @@ CREATE TABLE IF NOT EXISTS `library_final_project_test`.`authors` (
 DROP TABLE IF EXISTS `library_final_project_test`.`book_has_authors` ;
 
 CREATE TABLE IF NOT EXISTS `library_final_project_test`.`book_has_authors` (
-  `b_isbn` INT NOT NULL,
+  `b_isbn` VARCHAR(30) NOT NULL,
   `a_id` INT NOT NULL,
   PRIMARY KEY (`b_isbn`, `a_id`),
   INDEX `fk_book_has_authors_authors1_idx` (`a_id` ASC) VISIBLE,
@@ -158,7 +158,7 @@ DROP TABLE IF EXISTS `library_final_project_test`.`active_book` ;
 
 CREATE TABLE IF NOT EXISTS `library_final_project_test`.`active_book` (
   `active_book_id` INT NOT NULL AUTO_INCREMENT,
-  `book_isbn` INT NOT NULL,
+  `book_isbn` VARCHAR(30) NOT NULL,
   `user_login` VARCHAR(45) NOT NULL,
   `subscription_status_id` INT NOT NULL,
   `start_date` DATE NOT NULL DEFAULT (date_format(now(),'%y-%m-%d')),
@@ -204,12 +204,12 @@ VALUES
 ('waiting');
 
 Insert into book values
-(1,'book1','11-11-11',1,5,null,true),
-(2,'book2','11-11-11',1,5,null,true),
-(3,'book_for_m2m','11-11-11',2,5,null,true),
-(4,'book_for_updating','11-11-11',2,5,null,true),
-(5,'book_for_deleting','11-11-11',2,5,null,true),
-(6,'book_for_deleting2','11-11-11',2,5,null,true);
+('1','book1','11-11-11',1,5,null,true),
+('2','book2','11-11-11',1,5,null,true),
+('3','book_for_m2m','11-11-11',2,5,null,true),
+('4','book_for_updating','11-11-11',2,5,null,true),
+('5','book_for_deleting','11-11-11',2,5,null,true),
+('6','book_for_deleting2','11-11-11',2,5,null,true);
 
 
 insert into publication values
@@ -227,9 +227,9 @@ values
 (default,'author_for_m2m');
 
 insert into book_has_authors values
-(1,2),
-(1,1),
-(2,2);
+('1',2),
+('1',1),
+('2',2);
 Insert into user values
 ('admin','123@gmail.com','$argon2id$v=19$m=15360,t=2,p=1$vAgNIdLCePlvli1xUckGgnEc0phIdIca/7J55Szl8DE$JmHKkv2NpJgw7mhNwwcYWoICa0BANR7tUIZvk8b7YmpHkX1MQxNvVcwPOLRy5hLFLC28DagGAF8zJRIljmZyqQ',3,1,'Admin','Admin',default),
 ('user1', '123@gmail.com','$argon2id$v=19$m=15360,t=2,p=1$vAgNIdLCePlvli1xUckGgnEc0phIdIca/7J55Szl8DE$JmHKkv2NpJgw7mhNwwcYWoICa0BANR7tUIZvk8b7YmpHkX1MQxNvVcwPOLRy5hLFLC28DagGAF8zJRIljmZyqQ',1,1,'Ostap','Patso',default),
@@ -241,11 +241,12 @@ Insert into user values
 ('librarian1', '123@gmail.com', '$argon2id$v=19$m=15360,t=2,p=1$vAgNIdLCePlvli1xUckGgnEc0phIdIca/7J55Szl8DE$JmHKkv2NpJgw7mhNwwcYWoICa0BANR7tUIZvk8b7YmpHkX1MQxNvVcwPOLRy5hLFLC28DagGAF8zJRIljmZyqQ', '2', '1', 'Librarian', 'Librarian', '+380988544456');
 
 Insert Into active_book values
-(default,1,'user1',1,'2022-11-20','2022-12-15',null),
-(default,2,'user1',1,'2022-11-20','2022-12-15',null),
-(default,1,'userLibr1',1,'2022-11-20','2022-12-15',null),
-(default,3,'user1',1,'11-11-11','12-11-11',null),
-(default,2,'userLibr2',1,'11-11-11','12-11-11',null);
+(default,'1','user1',1,'2022-11-20','2022-12-15',null),
+(default,'2','user1',1,'2022-11-20','2022-12-15',null),
+(default,'1','userLibr1',1,'2022-11-20','2022-12-15',null),
+(default,'3','user1',1,'11-11-11','12-11-11',null),
+(default,'2','userLibr2',1,'11-11-11','12-11-11',null);
+
 
 SET FOREIGN_KEY_CHECKS=1;
 

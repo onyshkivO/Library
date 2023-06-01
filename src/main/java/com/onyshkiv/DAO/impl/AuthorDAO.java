@@ -137,7 +137,7 @@ public class AuthorDAO extends AbstractDAO<Integer, Author> {
         }
     }
 
-    public Set<Author> getAllAuthorByBookISBN(Integer isbn) throws DAOException {
+    public Set<Author> getAllAuthorByBookISBN(String isbn) throws DAOException {
         Set<Author> result = new HashSet<>();
         try (
                 PreparedStatement statement = prepareStatement(con, SQLQuery.AuthorQuery.M2M_BOOKS_AUTHORS, false, isbn);
@@ -155,7 +155,7 @@ public class AuthorDAO extends AbstractDAO<Integer, Author> {
 
     }
 
-    public void setAuthorBookTableConnection(Integer bookIsbn, Integer authorId) throws DAOException {
+    public void setAuthorBookTableConnection(String bookIsbn, Integer authorId) throws DAOException {
         try (PreparedStatement statement = prepareStatement(con, SQLQuery.AuthorQuery.M2M_INSERT_BOOK_AND_AUTHOR, false, bookIsbn, authorId)) {
             int affectedRows = statement.executeUpdate();
             if (affectedRows == 0) {
@@ -166,7 +166,7 @@ public class AuthorDAO extends AbstractDAO<Integer, Author> {
         }
     }
 
-    public void removeAuthorBookTableConnection(Integer bookIsbn) throws DAOException {
+    public void removeAuthorBookTableConnection(String bookIsbn) throws DAOException {
         try (PreparedStatement statement = prepareStatement(con, SQLQuery.AuthorQuery.M2M_REMOVE_BOOK_AND_AUTHOR, false, bookIsbn)) {
             statement.executeUpdate();
         } catch (SQLException e) {

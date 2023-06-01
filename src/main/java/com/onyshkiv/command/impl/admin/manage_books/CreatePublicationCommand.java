@@ -13,16 +13,18 @@ import org.apache.logging.log4j.Logger;
 public class CreatePublicationCommand implements Command {
     private static final Logger logger = LogManager.getLogger(CreatePublicationCommand.class);
     PublicationService publicationService = PublicationService.getInstance();
+
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) {
-        String name =req.getParameter("publication_name");
+        String name = req.getParameter("publication_name");
         Publication publication = new Publication(name);
-        try{
+        try {
             publicationService.createPublication(publication);
-        }catch (ServiceException e ){
+        } catch (ServiceException e) {
             logger.error("Problem with publication service occurred!(#CreatePublicationCommand)", e);
-            //todo page for error
+            return new CommandResult("/controller?action=AuthAndPub", true);
         }
-        return new CommandResult("/controller?action=AuthAndPub",true);
+        logger.info(String.format("Admin successfully added new Publication %s", name));
+        return new CommandResult("/controller?action=AuthAndPub", true);
     }
 }

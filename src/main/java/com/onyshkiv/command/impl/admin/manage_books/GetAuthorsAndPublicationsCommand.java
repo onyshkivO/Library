@@ -18,19 +18,21 @@ public class GetAuthorsAndPublicationsCommand implements Command {
     private static final Logger logger = LogManager.getLogger(GetAuthorsAndPublicationsCommand.class);
     AuthorService authorService = AuthorService.getInstance();
     PublicationService publicationService = PublicationService.getInstance();
+
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) {
         List<Author> authors;
         List<Publication> publications;
-        try{
+        try {
             authors = authorService.findAllAuthors();
             publications = publicationService.findAllPublication();
-            req.setAttribute("authors",authors);
-            req.setAttribute("publications",publications);
-        }catch (ServiceException e ) {
+            req.setAttribute("authors", authors);
+            req.setAttribute("publications", publications);
+        } catch (ServiceException e) {
             logger.error("Problem with author publication service occurred!(#GetAuthorsAndPublicationsCommand)", e);
-            return new CommandResult("/", true); //todo another redirect maybe page for 404 or 505 error
+            return new CommandResult("/", true);
         }
+        logger.info("Admin successfully get authors and publications page");
         return new CommandResult("/authors_publications.jsp");
     }
 }

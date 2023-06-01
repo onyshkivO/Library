@@ -29,27 +29,6 @@ public abstract class SQLQuery {
     public static class BookQuery {
         public static final String FIND_ALL_BOOKS = "SELECT isbn, name,date_of_publication, publication_id, quantity, details\n" +
                 "FROM book WHERE is_active = true";
-        //        public static final String FIND_ALL_AVAILABLE_BOOKS = "SELECT isbn, name,date_of_publication, publication_id, quantity, details\n" +
-//                "FROM book WHERE quantity>0 LIMIT ? OFFSET ? ORDER BY ";
-//        public static final String NUMBER_AVAILABLE_BOOKS = "SELECT COUNt(1)\n" +
-//                "FROM book WHERE quantity>0 AND is_active = true";
-//        public static final String NUMBER_BOOKS = "SELECT COUNt(1)\n" +
-//                "FROM book WHERE is_active = true";
-//        public static final String FIND_ALL_BOOKS_V2 = "SELECT distinct isbn, b.name,date_of_publication, publication_id, quantity, details\n" +
-//                "        from book b\n" +
-//                "        left join  book_has_authors  on b_isbn = isbn\n" +
-//                "        left join  authors a on a_id = authors_id\n" +
-//                "        left join  publication p  using(publication_id)\n" +
-//                "        order by %s %s LIMIT ? OFFSET ?";
-//
-//
-//
-//        public static final String FIND_ALL_AVAILABLE_BOOKS ="SELECT distinct isbn, b.name,date_of_publication, publication_id, quantity, details\n" +
-//                "        from book b\n" +
-//                "        left join  book_has_authors  on b_isbn = isbn\n" +
-//                "        left join  authors a on a_id = authors_id\n" +
-//                "        left join  publication p  using(publication_id)\n" +
-//                "        where quantity>0 order by %s %s";
 
 
         public static final String FIND_AVAILABLE_BOOKS_BY_SOME_OPTION ="SELECT b.isbn, b.name, b.date_of_publication, b.publication_id, b.quantity, details, GROUP_CONCAT(a.name ORDER BY a.name ASC SEPARATOR '') AS authors\n" +
@@ -60,19 +39,7 @@ public abstract class SQLQuery {
                 "        where quantity>0 AND is_active = true AND %s.name like ?\n" +
                 "        GROUP BY b.isbn\n" +
                 "        order by %s %s limit ? offset ?";
-//        public static final String FIND_AVAILABLE_BOOKS_BY_SOME_OPTION ="SELECT distinct isbn, b.name,date_of_publication, publication_id, quantity, details\n" +
-//                "from book b\n" +
-//                "left join  book_has_authors  on b_isbn = isbn\n" +
-//                "left join  authors a on a_id = authors_id\n" +
-//                "left join  publication p using(publication_id)\n" +
-//                "where quantity>0 AND %s.name like ? order by %s %s limit ? offset ?";
 
-//        public static final String FIND_BOOKS_BY_SOME_OPTION ="SELECT distinct isbn, b.name,date_of_publication, publication_id, quantity, details\n" +
-//                "from book b\n" +
-//                "left join  book_has_authors  on b_isbn = isbn\n" +
-//                "left join  authors a on a_id = authors_id\n" +
-//                "left join  publication p using(publication_id)\n" +
-//                "where %s.name like ? order by %s %s limit ? offset ?";
         public static final String FIND_BOOKS_BY_SOME_OPTION ="SELECT b.isbn, b.name, b.date_of_publication, b.publication_id, b.quantity,  details, GROUP_CONCAT(a.name ORDER BY a.name ASC SEPARATOR '') AS authors\n" +
         "        FROM book b\n" +
         "        left JOIN book_has_authors bha ON b.isbn = bha.b_isbn\n" +
@@ -112,20 +79,6 @@ public abstract class SQLQuery {
                 "left join  authors a on a_id = authors_id\n" +
                 "left join  publication p using(publication_id)\n" +
                 "where quantity>0 AND is_active = true AND a.name like ? order by ";
-
-
-//        public static final String FIND_AVAILABLE_BOOKS_BY_NAME = "SELECT isbn, name,date_of_publication, publication_id, quantity, details\n" +
-//                "FROM book WHERE quantity>0 AND name LIKE ? ORDER BY ";
-
-//        public static final String FIND_AVAILABLE_BOOKS_BY_AUTHOR_NAME = "SELECT isbn, name,date_of_publication, publication_id, quantity, details " +
-//                "FROM book WHERE quantity>0 AND isbn in " +
-//                "(select b_isbn from book_has_authors where a_id in " +
-//                "(SELECT authors_id from authors where name like ?)) ORDER BY ";
-//        public static final String FIND_AVAILABLE_BOOKS_BY_AUTHOR_NAME ="SELECT distinct isbn, b.name,date_of_publication, publication_id, quantity, details\n" +
-//                "        from book b\n" +
-//                "        left join  book_has_authors  on b_isbn = isbn\n" +
-//                "        left join  authors a on a_id = authors_id\n" +
-//                "        where quantity>0 AND a.name like 'a%' order by ";
 
 
 

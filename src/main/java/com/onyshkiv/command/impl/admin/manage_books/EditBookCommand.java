@@ -29,10 +29,9 @@ public class EditBookCommand implements Command {
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) {
         boolean flag = false;
         HttpSession session = req.getSession();
-        String isbnString = req.getParameter("isbn");
-        session.setAttribute("isbn", isbnString);
+        String isbn = req.getParameter("isbn");
+        session.setAttribute("isbn", isbn);
 
-        Integer isbn = Integer.valueOf(isbnString);
         String name = req.getParameter("name");
         session.setAttribute("name", name);
 
@@ -64,12 +63,12 @@ public class EditBookCommand implements Command {
             } catch (ParseException e) {
                 //log
                 req.setAttribute("bad_date_format", true);
-                return new CommandResult(String.format("/controller?action=editBookPage&isbn=%d", isbn), true);
+                return new CommandResult(String.format("/controller?action=editBookPage&isbn=%s", isbn), true);
             }
             session.setAttribute("date", date);
 
             if (flag)
-                return new CommandResult(String.format("/controller?action=editBookPage&isbn=%d", isbn), true);
+                return new CommandResult(String.format("/controller?action=editBookPage&isbn=%s", isbn), true);
             Book book = new Book(isbn, name, date, publication, quantity, details, authors);
             bookService.updateBook(book);
 
@@ -78,7 +77,7 @@ public class EditBookCommand implements Command {
             session.setAttribute("already_exist_isbn", true);
 
 //            return new CommandResult("/controller?action=AddBookPage",true);
-            return new CommandResult(String.format("/controller?action=editBookPage&isbn=%d", isbn), true);//todo може щось не так, адже і так ми isbn пишемо в сесію
+            return new CommandResult(String.format("/controller?action=editBookPage&isbn=%s", isbn), true);//todo може щось не так, адже і так ми isbn пишемо в сесію
         }
         session.removeAttribute("isbn");
         session.removeAttribute("incorrect_isbn");

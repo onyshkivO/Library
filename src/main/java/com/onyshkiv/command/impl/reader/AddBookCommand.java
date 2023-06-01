@@ -24,7 +24,7 @@ public class AddBookCommand implements Command {
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("user");
-        Integer isbn = Integer.valueOf(req.getParameter("isbn"));
+        String isbn = req.getParameter("isbn");
 
         try {
             Optional<Book> bookOptional = bookService.findBookById(isbn);
@@ -50,7 +50,7 @@ public class AddBookCommand implements Command {
             activeBookService.createActiveBook(activeBook);
         } catch (ServiceException e) {
             logger.error("Problem with active book or book service occurred!", e);
-            return new CommandResult("/", true);
+            return new CommandResult("/controller?action=bookPage&page=1", true);
 
         }
         logger.info(String.format("User %s successfully ordered book with isbn %d", user.getLogin(), isbn));

@@ -16,14 +16,15 @@ public class CreateAuthorCommand implements Command {
 
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) {
-        String name =req.getParameter("author_name");
+        String name = req.getParameter("author_name");
         Author author = new Author(name);
-        try{
+        try {
             authorService.createAuthor(author);
-        }catch (ServiceException e ){
+        } catch (ServiceException e) {
             logger.error("Problem with author service occurred!(#CreateAuthorCommand)", e);
-            //todo page for error
+            return new CommandResult("/controller?action=AuthAndPub", true);
         }
-        return new CommandResult("/controller?action=AuthAndPub",true);
+        logger.info(String.format("Admin successfully added new Author %s", name));
+        return new CommandResult("/controller?action=AuthAndPub", true);
     }
 }

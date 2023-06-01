@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class BookDAO extends AbstractDAO<Integer, Book> {
+public class BookDAO extends AbstractDAO<String, Book> {
     private static final Logger logger = LogManager.getLogger(BookDAO.class);
     private static BookDAO instance;
 
@@ -57,88 +57,6 @@ public class BookDAO extends AbstractDAO<Integer, Book> {
         }
         return books;
     }
-
-//    public List<Book> findAllBooks(Integer booksPerPage,Integer offset,String sortOption, String orderOption) throws DAOException {
-//        List<Book> books = new ArrayList<>();
-//        try (
-//                PreparedStatement statement = prepareStatement(con, String.format(SQLQuery.BookQuery.FIND_ALL_BOOKS_V2,sortOption,orderOption), false,booksPerPage,offset);
-//                ResultSet resultSet = statement.executeQuery()
-//        ) {
-//            while (resultSet.next()) {
-//                Book result = map(resultSet);
-//                PublicationDAO publicationDAO = PublicationDAO.getInstance();
-//                publicationDAO.setConnection(con);
-//                result.setPublication(publicationDAO.findEntityById(result.getPublication().getPublicationId()).orElse(null));
-//
-//                AuthorDAO authorDAO = AuthorDAO.getInstance();
-//                authorDAO.setConnection(con);
-//                result.setAuthors(authorDAO.getAllAuthorByBookISBN(result.getIsbn()));
-//                books.add(result);
-//            }
-//        } catch (SQLException e) {
-//            //log
-//            logger.error(e.getMessage());
-//            throw new DAOException(e);
-//        }
-//        return books;
-//    }
-//
-//    public List<Book> findAllVailableBooks(String sortOption, String orderOption) throws DAOException {
-//
-//        List<Book> books = new ArrayList<>();
-//        try (
-//                PreparedStatement statement = prepareStatement(con, String.format(SQLQuery.BookQuery.FIND_ALL_AVAILABLE_BOOKS,sortOption,orderOption), false);
-//                ResultSet resultSet = statement.executeQuery()
-//        ) {
-//            while (resultSet.next()) {
-//                Book result = map(resultSet);
-//                PublicationDAO publicationDAO = PublicationDAO.getInstance();
-//                publicationDAO.setConnection(con);
-//                result.setPublication(publicationDAO.findEntityById(result.getPublication().getPublicationId()).orElse(null));
-//
-//                AuthorDAO authorDAO = AuthorDAO.getInstance();
-//                authorDAO.setConnection(con);
-//                result.setAuthors(authorDAO.getAllAuthorByBookISBN(result.getIsbn()));
-//                books.add(result);
-//            }
-//        } catch (SQLException e) {
-//            //log
-//            logger.error(e.getMessage());
-//            throw new DAOException(e);
-//        }
-//        return books;
-//    }
-
-
-//    public Integer getNumberOfAvailableBooks() throws DAOException {
-//        Integer num = 0;
-//        try (PreparedStatement statement = prepareStatement(con, SQLQuery.BookQuery.NUMBER_AVAILABLE_BOOKS, false);
-//             ResultSet resultSet = statement.executeQuery()) {
-//            if (resultSet != null && resultSet.next()) {
-//                num = resultSet.getInt(1);
-//            }
-//        } catch (SQLException e) {
-//            //log
-//            logger.error(e.getMessage());
-//            throw new DAOException(e);
-//        }
-//        return num;
-//    }
-//
-//    public Integer getNumberOfBooks() throws DAOException {
-//        Integer num = 0;
-//        try (PreparedStatement statement = prepareStatement(con, SQLQuery.BookQuery.NUMBER_BOOKS, false);
-//             ResultSet resultSet = statement.executeQuery()) {
-//            if (resultSet != null && resultSet.next()) {
-//                num = resultSet.getInt(1);
-//            }
-//        } catch (SQLException e) {
-//            //log
-//            logger.error(e.getMessage());
-//            throw new DAOException(e);
-//        }
-//        return num;
-//    }
 
     public List<Book> findAllVailableBooksByOption(String name, boolean isAuthorName, String sortOption, String orderOption,Integer booksPerPage,Integer offset) throws DAOException {
         name = name == null || name.isBlank() ? "%" : name + "%";
@@ -221,61 +139,9 @@ public class BookDAO extends AbstractDAO<Integer, Book> {
         return num;
     }
 
-//    public List<Book> findAllVailableBooksByName(String name) throws DAOException {
-//        name = name == null || name.isBlank() ? "%" : name + "%";
-//        List<Book> books = new ArrayList<>();
-//        try (
-//                PreparedStatement statement = prepareStatement(con, SQLQuery.BookQuery.FIND_AVAILABLE_BOOKS_BY_NAME, false, name);
-//                ResultSet resultSet = statement.executeQuery()
-//        ) {
-//            while (resultSet.next()) {
-//                Book result = map(resultSet);
-//                PublicationDAO publicationDAO = PublicationDAO.getInstance();
-//                publicationDAO.setConnection(con);
-//                result.setPublication(publicationDAO.findEntityById(result.getPublication().getPublicationId()).orElse(null));
-//
-//                AuthorDAO authorDAO = AuthorDAO.getInstance();
-//                authorDAO.setConnection(con);
-//                result.setAuthors(authorDAO.getAllAuthorByBookISBN(result.getIsbn()));
-//                books.add(result);
-//            }
-//        } catch (SQLException e) {
-//            //log
-//            logger.error(e.getMessage());
-//            throw new DAOException(e);
-//        }
-//        return books;
-//    }
-//
-//    public List<Book> findAllVailableBooksByAuthorName(String name) throws DAOException {
-//        name = name == null || name.isBlank() ? "%" : name + "%";
-//        List<Book> books = new ArrayList<>();
-//        try (
-//                PreparedStatement statement = prepareStatement(con, SQLQuery.BookQuery.FIND_AVAILABLE_BOOKS_BY_AUTHOR_NAME, false, name);
-//                ResultSet resultSet = statement.executeQuery()
-//        ) {
-//            while (resultSet.next()) {
-//                Book result = map(resultSet);
-//                PublicationDAO publicationDAO = PublicationDAO.getInstance();
-//                publicationDAO.setConnection(con);
-//                result.setPublication(publicationDAO.findEntityById(result.getPublication().getPublicationId()).orElse(null));
-//
-//                AuthorDAO authorDAO = AuthorDAO.getInstance();
-//                authorDAO.setConnection(con);
-//                result.setAuthors(authorDAO.getAllAuthorByBookISBN(result.getIsbn()));
-//                books.add(result);
-//            }
-//        } catch (SQLException e) {
-//            //log
-//            logger.error(e.getMessage());
-//            throw new DAOException(e);
-//        }
-//        return books;
-//    }
-
     //++++++++++++++++++++++
     @Override
-    public Optional<Book> findEntityById(Integer id) throws DAOException {
+    public Optional<Book> findEntityById(String id) throws DAOException {
         Book result = null;
         Optional<Book> bookOptional;
         try (
@@ -320,11 +186,6 @@ public class BookDAO extends AbstractDAO<Integer, Book> {
             if (affectedRows == 0) {
                 throw new DAOException("Creating book failed, no rows affected.");
             }
-            // AuthorDAO authorDAO = AuthorDAO.getInstance();
-            // authorDAO.setConnection(con);
-            // for (Author a : model.getAuthors()) {
-            //      authorDAO.setAuthorBookTableConnection(model.getIsbn(), a.getAuthorId());
-            //  }
         } catch (SQLException e) {
             throw new DAOException(e);
         }
@@ -334,8 +195,8 @@ public class BookDAO extends AbstractDAO<Integer, Book> {
     //++++++++++++++++++++++
     @Override
     public void update(Book model) throws DAOException {
-        if (model.getIsbn() == 0) {
-            throw new IllegalArgumentException("Book is not created yet, the Book isbn is 0.");
+        if (model.getIsbn() == null) {
+            throw new IllegalArgumentException("Book is not created yet, the Book isbn is null.");
         }
 
         Object[] values = {
@@ -353,12 +214,6 @@ public class BookDAO extends AbstractDAO<Integer, Book> {
                 throw new DAOException("Updating book failed, no rows affected.");
             }
 
-            // AuthorDAO authorDAO = AuthorDAO.getInstance();
-            //  authorDAO.setConnection(con);
-            // authorDAO.removeAuthorBookTableConnection(model.getIsbn());
-            // for (Author a : model.getAuthors()) {
-            //     authorDAO.setAuthorBookTableConnection(model.getIsbn(), a.getAuthorId());
-            // }
 
         } catch (SQLException e) {
             throw new DAOException(e);
@@ -369,20 +224,17 @@ public class BookDAO extends AbstractDAO<Integer, Book> {
     @Override
     public void delete(Book model) throws DAOException {
         try (PreparedStatement statement = prepareStatement(con, SQLQuery.BookQuery.DELETE_BOOK, false, model.getIsbn())) {
-            // AuthorDAO authorDAO = AuthorDAO.getInstance();
-            //authorDAO.setConnection(con);
-            // authorDAO.removeAuthorBookTableConnection(model.getIsbn());
             int affectedRows = statement.executeUpdate();
             if (affectedRows == 0) {
                 throw new DAOException("Deleting book failed, no rows affected.");
             } else {
-                model.setIsbn(0);
+                model.setIsbn(null);
             }
         } catch (SQLException e) {
             throw new DAOException(e);
         }
     }
-    public void hide(Integer isbn) throws DAOException {
+    public void hide(String isbn) throws DAOException {
         try (PreparedStatement statement = prepareStatement(con, SQLQuery.BookQuery.HIDE_BOOK, false, isbn)) {
             int affectedRows = statement.executeUpdate();
             if (affectedRows == 0) {
@@ -398,7 +250,7 @@ public class BookDAO extends AbstractDAO<Integer, Book> {
         Book result = new Book();
 
         Publication publication = new Publication();
-        result.setIsbn(resultSet.getInt(1));
+        result.setIsbn(resultSet.getString(1));
         result.setName(resultSet.getString(2));
         publication.setPublicationId(resultSet.getInt(4));
 

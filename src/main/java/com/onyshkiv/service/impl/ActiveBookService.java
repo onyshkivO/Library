@@ -57,7 +57,7 @@ public class ActiveBookService implements IActiveBookService {
     }
 
     @Override
-    public Optional<ActiveBook> findActiveBookByUserAndBook(String login, Integer isbn) throws ServiceException {
+    public Optional<ActiveBook> findActiveBookByUserAndBook(String login, String isbn) throws ServiceException {
         Optional<ActiveBook> optional;
         entityTransaction.init(activeBookDAO);
         try {
