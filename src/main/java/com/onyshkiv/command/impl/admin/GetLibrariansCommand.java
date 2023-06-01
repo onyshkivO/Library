@@ -15,16 +15,18 @@ import java.util.List;
 public class GetLibrariansCommand implements Command {
     private static final Logger logger = LogManager.getLogger(GetLibrariansCommand.class);
     UserService userService = UserService.getInstance();
+
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) {
         List<User> librarians;
-        try{
+        try {
             librarians = userService.findLibrarians();
         } catch (ServiceException e) {
-            logger.error("Problem with user service occurred!(findLibrarians)", e);
+            logger.error("Problem with user service occurred!", e);
             return new CommandResult("/", true); //todo another redirect
         }
-        req.setAttribute("users",librarians);
+        req.setAttribute("users", librarians);
+        logger.info("Admin successfully get librarians page");
         return new CommandResult("/librarians.jsp");
     }
 }

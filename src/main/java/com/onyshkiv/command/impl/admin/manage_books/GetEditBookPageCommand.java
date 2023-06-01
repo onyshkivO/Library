@@ -1,8 +1,9 @@
-package com.onyshkiv.command.impl.admin;
+package com.onyshkiv.command.impl.admin.manage_books;
 
 import com.onyshkiv.command.Command;
 import com.onyshkiv.command.CommandResult;
 import com.onyshkiv.entity.Author;
+import com.onyshkiv.entity.Book;
 import com.onyshkiv.entity.Publication;
 import com.onyshkiv.service.ServiceException;
 import com.onyshkiv.service.impl.AuthorService;
@@ -15,23 +16,28 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
-public class GetAuthorsAndPublicationsCommand implements Command {
-    private static final Logger logger = LogManager.getLogger(GetAuthorsAndPublicationsCommand.class);
-    AuthorService authorService = AuthorService.getInstance();
+public class GetEditBookPageCommand implements Command {
+    private static final Logger logger = LogManager.getLogger(GetEditBookPageCommand.class);
+    BookService bookService = BookService.getInstance();
     PublicationService publicationService = PublicationService.getInstance();
+    AuthorService authorService = AuthorService.getInstance();
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) {
-        List<Author> authors;
+        Integer isbn = Integer.valueOf(req.getParameter("isbn"));
         List<Publication> publications;
-        try{
-            authors = authorService.findAllAuthors();
+        List<Author> authors;
+        try {
+            Book book = bookService.findBookById(isbn).get();//todo something with .get everywhere
             publications = publicationService.findAllPublication();
-            req.setAttribute("authors",authors);
+            authors = authorService.findAllAuthors();
+            req.setAttribute("book",book);
             req.setAttribute("publications",publications);
-        }catch (ServiceException e ) {
-            logger.error("Problem with author publication service occurred!(#GetAuthorsAndPublicationsCommand)", e);
+            req.setAttribute("authors",authors);
+
+        }catch (ServiceException e){
+            logger.error("Problem with book publication service occurred!(#GetEditBookPageCommand)", e);
             return new CommandResult("/", true); //todo another redirect maybe page for 404 or 505 error
         }
-        return new CommandResult("/authors_publications.jsp");
+        return new CommandResult("/edit_book.jsp");
     }
 }

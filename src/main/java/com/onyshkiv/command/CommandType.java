@@ -3,6 +3,7 @@ package com.onyshkiv.command;
 
 import com.onyshkiv.command.impl.*;
 import com.onyshkiv.command.impl.admin.*;
+import com.onyshkiv.command.impl.admin.manage_books.*;
 import com.onyshkiv.command.impl.librarian.*;
 import com.onyshkiv.command.impl.reader.AddBookCommand;
 import com.onyshkiv.command.impl.reader.GetUserBookCommand;

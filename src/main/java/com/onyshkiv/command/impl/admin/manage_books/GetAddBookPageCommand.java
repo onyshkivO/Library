@@ -1,7 +1,8 @@
-package com.onyshkiv.command.impl.admin;
+package com.onyshkiv.command.impl.admin.manage_books;
 
 import com.onyshkiv.command.Command;
 import com.onyshkiv.command.CommandResult;
+import com.onyshkiv.command.impl.admin.GetLibrariansCommand;
 import com.onyshkiv.entity.Author;
 import com.onyshkiv.entity.Publication;
 import com.onyshkiv.service.ServiceException;

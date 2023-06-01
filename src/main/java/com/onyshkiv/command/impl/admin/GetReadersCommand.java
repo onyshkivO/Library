@@ -15,16 +15,18 @@ import java.util.List;
 public class GetReadersCommand implements Command {
     private static final Logger logger = LogManager.getLogger(GetReadersCommand.class);
     UserService userService = UserService.getInstance();
+
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) {
         List<User> readers;
-        try{
+        try {
             readers = userService.findReaders();
         } catch (ServiceException e) {
             logger.error("Problem with user service occurred!(#GetReadersCommand)", e);
             return new CommandResult("/", true); //todo another redirect
         }
-        req.setAttribute("users",readers);
+        req.setAttribute("users", readers);
+        logger.info("Admin successfully get readers page");
         return new CommandResult("/readers.jsp");
     }
 }
