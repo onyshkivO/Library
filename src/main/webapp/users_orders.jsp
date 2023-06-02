@@ -9,7 +9,7 @@
 <body>
 <%@ include file="header.jsp" %>
 <div class="container">
-    <c:if test="${orders.size()==0}"><h2>There are no new orders</h2></c:if>
+    <c:if test="${orders.size()==0}"><h2 class="d-flex justify-content-center mt-5">There are not new orders</h2></c:if>
     <c:forEach var="subscription" items="${orders}">
         <div class="row order">
             <div class="card  my-2 col align-self-center " style="max-width: 900px">

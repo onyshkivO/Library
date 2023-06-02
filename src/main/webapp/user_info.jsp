@@ -29,7 +29,7 @@
 
 <div class=" d-flex justify-content-center" >
     <div class=" mt-3 ms-5 me-0 ps-5" style="width: 500px;">
-        <c:if test="${user.userStatus.userStatusId==2}"><h2 class="text-danger"> This account are blocked!</h2></c:if>
+        <c:if test="${user.userStatus.userStatusId==2}"><h2 class="text-danger"> This account is blocked!</h2></c:if>
         <p class="fs-4 fw-semibold">Login:</p>
         <p class="fs-5">${requestScope.user.login}</p>
         <p class="fs-4 fw-semibold">Email:</p>

@@ -16,7 +16,7 @@
         <div id="login-row" class="row justify-content-center align-items-center ">
             <div id="login-column" class="col-md-6">
                 <div id="login-box" class="col-md-12">
-                    <form id="login-form" class="form" action="controller?action=signin" method="post">
+                    <form id="login-form" class="form mt-5" action="controller?action=signin" method="post">
                         <h3 class="text-center text-info  text-black">Login</h3>
                         <c:if test="${incorrect_user == true}">
                         <p class="text-danger lh-2 ms-1">Incorrect user login</p>

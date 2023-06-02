@@ -19,6 +19,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+
 public class EditBookCommand implements Command {
     private static final Logger logger = LogManager.getLogger(EditBookCommand.class);
     BookService bookService = BookService.getInstance();
@@ -29,7 +30,9 @@ public class EditBookCommand implements Command {
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) {
         boolean flag = false;
         HttpSession session = req.getSession();
+
         String isbn = req.getParameter("isbn");
+        isbn = isbn.replace("-", "");
         session.setAttribute("isbn", isbn);
 
         String name = req.getParameter("name");
@@ -37,47 +40,70 @@ public class EditBookCommand implements Command {
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            Publication publication;
+            Publication publication = null;
             Integer publicationId = Integer.valueOf(req.getParameter("publication"));
-            publication = publicationService.findPublicationById(publicationId).get();
-            session.setAttribute("publication_id", publication.getPublicationId());
-
+            Optional<Publication> optionalPublication = publicationService.findPublicationById(publicationId);
+            if (optionalPublication.isEmpty()) {
+                logger.info(String.format("There are not publication with id %d", publicationId));
+                flag = true;
+            } else {
+                publication = optionalPublication.get();
+                session.setAttribute("publication_id", publication.getPublicationId());
+            }
             String[] selectedAuthors = req.getParameterValues("authors");
             List<String> list = Arrays.asList(selectedAuthors);
             Set<Author> authors = new HashSet<>();
             session.setAttribute("selected_authors", list);
-
+            Optional<Author> optionalAuthor;
             for (String s : selectedAuthors) {
-                authors.add(authorService.findAuthorById(Integer.valueOf(s)).get());
+                optionalAuthor = authorService.findAuthorById(Integer.valueOf(s));
+                if (optionalAuthor.isEmpty()) continue;
+                authors.add(optionalAuthor.get());
             }
-            session.setAttribute("selected_authors_real", authors);
-            Integer quantity = Integer.valueOf(req.getParameter("quantity"));
+            if (authors.isEmpty()) {
+                logger.info(String.format("There are not authors with ids %s", Arrays.toString(selectedAuthors)));
+                flag = true;
+            } else {
+                session.setAttribute("selected_authors_real", authors);
+            }
+            int quantity = Integer.parseInt(req.getParameter("quantity"));
             session.setAttribute("quantity", quantity);
+
             String yearOfPublicationString = req.getParameter("year_of_publication");
             session.setAttribute("year_of_publication", yearOfPublicationString);
-            Date date;
-            String details = req.getParameter("details");
-            session.setAttribute("details", details);
+
+            Date date = null;
             try {
                 date = formatter.parse(yearOfPublicationString);
+                session.setAttribute("date", date);
             } catch (ParseException e) {
-                //log
-                req.setAttribute("bad_date_format", true);
+                logger.error(String.format("bad date format %s", yearOfPublicationString));
+                session.removeAttribute("date");
+                flag = false;
+            }
+
+
+            String details = req.getParameter("details");
+            session.setAttribute("details", details);
+            if (flag) {
+                logger.info("Invalid data to update book");
                 return new CommandResult(String.format("/controller?action=editBookPage&isbn=%s", isbn), true);
             }
-            session.setAttribute("date", date);
 
-            if (flag)
+            if (bookService.findBookById(isbn).isEmpty()) {
+                logger.info("ISBN doesnt  exist");
+                session.setAttribute("doesnt_exist_isbn", true);
                 return new CommandResult(String.format("/controller?action=editBookPage&isbn=%s", isbn), true);
+            }
+
+
             Book book = new Book(isbn, name, date, publication, quantity, details, authors);
             bookService.updateBook(book);
 
         } catch (ServiceException e) {
-            //log
-            session.setAttribute("already_exist_isbn", true);
+            logger.error("Problem with book publication author service occurred!", e);
 
-//            return new CommandResult("/controller?action=AddBookPage",true);
-            return new CommandResult(String.format("/controller?action=editBookPage&isbn=%s", isbn), true);//todo може щось не так, адже і так ми isbn пишемо в сесію
+            return new CommandResult(String.format("/controller?action=editBookPage&isbn=%s", isbn), true);
         }
         session.removeAttribute("isbn");
         session.removeAttribute("incorrect_isbn");
@@ -88,7 +114,7 @@ public class EditBookCommand implements Command {
         session.removeAttribute("year_of_publication");
         session.removeAttribute("details");
         session.removeAttribute("selected_authors_real");
-
+        logger.info(String.format("Admin successfully updated books with isbn %s", isbn));
         return new CommandResult("/controller?action=bookPage", true);
     }
 }

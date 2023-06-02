@@ -6,7 +6,8 @@
 <body>
 <%@ include file="header.jsp" %>
 
-<div class="container"><a class="btn btn-outline-primary active mt-3 " href="controller?action=AddBookPage"  role="button">Go back</a></div>
+<%--<div class="container"><a class="btn btn-outline-primary active mt-3 " href="controller?action=AddBookPage"  role="button">Go back</a></div>--%>
+<div class="container"><a class="btn btn-outline-primary active mt-3 " onclick="goBack()"  role="button">Go back</a></div>
 <div class="container text-center mt-4">
     <div class="row">
 
@@ -151,5 +152,11 @@
         </div>
     </div>
     </c:forEach>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
 </body>
 </html>

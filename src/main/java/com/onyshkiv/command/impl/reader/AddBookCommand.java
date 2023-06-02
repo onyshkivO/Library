@@ -53,7 +53,7 @@ public class AddBookCommand implements Command {
             return new CommandResult("/controller?action=bookPage&page=1", true);
 
         }
-        logger.info(String.format("User %s successfully ordered book with isbn %d", user.getLogin(), isbn));
+        logger.info(String.format("User %s successfully ordered book with isbn %s", user.getLogin(), isbn));
         resp.addCookie(new Cookie("success", "true"));
         return new CommandResult("/controller?action=bookPage&page=1", true);
     }

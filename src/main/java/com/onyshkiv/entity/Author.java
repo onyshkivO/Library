@@ -33,17 +33,20 @@ public class Author extends Entity implements Comparable {
     }
 
     public void setAuthorId(int authorId){this.authorId=authorId;}
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         Author author = (Author) o;
-        return name.equals(author.name);
+
+        return authorId == author.authorId;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name);
+        return authorId;
     }
 
     @Override

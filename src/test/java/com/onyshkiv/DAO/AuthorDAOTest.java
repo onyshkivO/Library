@@ -162,20 +162,20 @@ class AuthorDAOTest {
         Set<Author> expected = new HashSet<>();
         expected.add(new Author(1,"author1"));
         expected.add(new Author(2,"author2"));
-        Set<Author> actual = authorDAO.getAllAuthorByBookISBN(1);
+        Set<Author> actual = authorDAO.getAllAuthorByBookISBN("1");
         assertArrayEquals(expected.toArray(),actual.toArray());
     }
 
     @Test
     void getAllAuthorByBookISBN_Empty() throws DAOException {
-        Set<Author> actual = authorDAO.getAllAuthorByBookISBN(12);
+        Set<Author> actual = authorDAO.getAllAuthorByBookISBN("12");
         assertArrayEquals(actual.toArray(),new Object[]{});
     }
 
     @Test
     void setAuthorBookTableConnection_CorrectData() throws DAOException {
-        assertDoesNotThrow(()->authorDAO.setAuthorBookTableConnection(3,5));
-        Set<Author> authors = authorDAO.getAllAuthorByBookISBN(3);
+        assertDoesNotThrow(()->authorDAO.setAuthorBookTableConnection("3",5));
+        Set<Author> authors = authorDAO.getAllAuthorByBookISBN("3");
         Set<Author> expected = new HashSet<>();
         expected.add(new Author(5, "author_for_m2m"));
         assertArrayEquals(authors.toArray(),expected.toArray());
@@ -183,13 +183,13 @@ class AuthorDAOTest {
 
     @Test
     void setAuthorBookTableConnection_IncorrectData() {
-        assertThrows(DAOException.class,()->authorDAO.setAuthorBookTableConnection(12,1));
+        assertThrows(DAOException.class,()->authorDAO.setAuthorBookTableConnection("12",1));
     }
 
     @Test
     void removeAuthorBookTableConnection_CorrectData() throws DAOException {
-        assertDoesNotThrow(()->authorDAO.removeAuthorBookTableConnection(2));
-        Set<Author> authors = authorDAO.getAllAuthorByBookISBN(2);
+        assertDoesNotThrow(()->authorDAO.removeAuthorBookTableConnection("2"));
+        Set<Author> authors = authorDAO.getAllAuthorByBookISBN("2");
         assertArrayEquals(authors.toArray(),new Object[]{});
     }
 

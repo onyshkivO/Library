@@ -104,14 +104,14 @@ class BookDAOTest {
         Set<Author> authors1 = new HashSet<>();
         authors1.add(new Author(1,"author1"));
         authors1.add(new Author(2,"author2"));
-        Book book1 = new Book(1, "book1",new SimpleDateFormat( "dd.MM.yyyy" ).parse( "11.11.2011" ),new Publication(1,"publication1"),1,null,authors1);
+        Book book1 = new Book("1", "book1",new SimpleDateFormat( "dd.MM.yyyy" ).parse( "11.11.2011" ),new Publication(1,"publication1"),1,null,authors1);
 
         Set<Author> authors2 = new HashSet<>();
         authors2.add(new Author(2,"author2"));
-        Book book2 = new Book(2,"book2",new SimpleDateFormat( "dd.MM.yyyy" ).parse( "11.11.2011" ),new Publication(1,"publication1"),2,null,authors2);
+        Book book2 = new Book("2","book2",new SimpleDateFormat( "dd.MM.yyyy" ).parse( "11.11.2011" ),new Publication(1,"publication1"),2,null,authors2);
 
 
-        Book book3 = new Book(3,"book_for_m2m", new SimpleDateFormat( "dd.MM.yyyy" ).parse( "11.11.2011" ),new Publication(2,"publication2"),1,null,new HashSet<>());
+        Book book3 = new Book("3","book_for_m2m", new SimpleDateFormat( "dd.MM.yyyy" ).parse( "11.11.2011" ),new Publication(2,"publication2"),1,null,new HashSet<>());
         return Stream.of(
                 Arguments.of(book1),
                 Arguments.of(book2),
@@ -120,7 +120,7 @@ class BookDAOTest {
 
     @Test
     void findEntityById_NoEntries() throws DAOException {
-        Book book = bookDAO.findEntityById(13).orElse(null);
+        Book book = bookDAO.findEntityById("13").orElse(null);
         assertNull(book);
     }
 
@@ -144,14 +144,14 @@ class BookDAOTest {
         Set<Author> authors1 = new HashSet<>();
         authors1.add(new Author(1,"author1"));
         authors1.add(new Author(2,"author2"));
-        Book book1 = new Book(12, "createdBook",new SimpleDateFormat( "dd.MM.yyyy" ).parse( "11.11.2011" ),new Publication(1,"publication1"),12,"something",authors1);
+        Book book1 = new Book("12", "createdBook",new SimpleDateFormat( "dd.MM.yyyy" ).parse( "11.11.2011" ),new Publication(1,"publication1"),12,"something",authors1);
         return Stream.of(
                 Arguments.of(book1));
     }
 
     @Test
     void createBookWithIncorrectData_DAOExceptionThrows() throws ParseException {
-        Book book = new Book(1,"bookIncorrect",new SimpleDateFormat( "dd.MM.yyyy" ).parse( "11.11.2011" ),new Publication(1,"publication1"),12,"something",new HashSet<>());
+        Book book = new Book("1","bookIncorrect",new SimpleDateFormat( "dd.MM.yyyy" ).parse( "11.11.2011" ),new Publication(1,"publication1"),12,"something",new HashSet<>());
         assertThrows(DAOException.class, () -> bookDAO.create(book));
     }
 
@@ -174,20 +174,20 @@ class BookDAOTest {
         Set<Author> authors1 = new HashSet<>();
         authors1.add(new Author(1,"author1"));
         authors1.add(new Author(2,"author2"));
-        Book book1 = new Book(4,"book_for_updating",new SimpleDateFormat( "dd.MM.yyyy" ).parse( "11.11.2011" ),new Publication(1,"publication1"),1,"Something",authors1);
+        Book book1 = new Book("4","book_for_updating",new SimpleDateFormat( "dd.MM.yyyy" ).parse( "11.11.2011" ),new Publication(1,"publication1"),1,"Something",authors1);
         return Stream.of(
                 Arguments.of(book1));
     }
 
     @Test
     void updateUserWithIncorrectData_IllegalArgumentExceptionThrows() throws ParseException {
-        Book book = new Book(0,"bookIncorrect",new SimpleDateFormat( "dd.MM.yyyy" ).parse( "11.11.2011" ),new Publication(1,"publication1"),12,"something",new HashSet<>());
+        Book book = new Book(null,"bookIncorrect",new SimpleDateFormat( "dd.MM.yyyy" ).parse( "11.11.2011" ),new Publication(1,"publication1"),12,"something",new HashSet<>());
         assertThrows(IllegalArgumentException.class, () -> bookDAO.update(book));
     }
 
     @Test
     void updateBookWithIncorrectData_DAOExceptionThrows() throws ParseException {
-        Book book = new Book(1341,"bookIncorrect",new SimpleDateFormat( "dd.MM.yyyy" ).parse( "11.11.2011" ),new Publication(1,"publication1"),12,"something",new HashSet<>());
+        Book book = new Book("1341","bookIncorrect",new SimpleDateFormat( "dd.MM.yyyy" ).parse( "11.11.2011" ),new Publication(1,"publication1"),12,"something",new HashSet<>());
         assertThrows(DAOException.class, () -> bookDAO.update(book));
     }
 
@@ -200,14 +200,14 @@ class BookDAOTest {
     }
 
     private static Stream<Arguments> deletedBookData() throws ParseException {
-        Book book1 = new Book(5,"book_for_deleting",new SimpleDateFormat( "dd.MM.yyyy" ).parse( "11.11.2011" ),new Publication(2,"publication2"),1,null,new HashSet<>());
+        Book book1 = new Book("5","book_for_deleting",new SimpleDateFormat( "dd.MM.yyyy" ).parse( "11.11.2011" ),new Publication(2,"publication2"),1,null,new HashSet<>());
         return Stream.of(
                 Arguments.of(book1));
     }
 
     @Test
     void deleteUserWithIncorrectData_DAOExceptionThrows() throws ParseException {
-        Book book = new Book(11231,"incorrectDAta",new SimpleDateFormat( "dd.MM.yyyy" ).parse( "11.11.2011" ),new Publication(2,"publication2"),1,null,new HashSet<>());
+        Book book = new Book("11231","incorrectDAta",new SimpleDateFormat( "dd.MM.yyyy" ).parse( "11.11.2011" ),new Publication(2,"publication2"),1,null,new HashSet<>());
         assertThrows(DAOException.class, () -> bookDAO.delete(book));
     }
 

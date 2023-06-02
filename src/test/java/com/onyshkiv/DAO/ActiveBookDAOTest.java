@@ -82,7 +82,7 @@ class ActiveBookDAOTest {
         Set<Author> authors1 = new HashSet<>();
         authors1.add(new Author(1,"author1"));
         authors1.add(new Author(2,"author2"));
-        Book book1 = new Book(1, "book1",new SimpleDateFormat( "dd.MM.yyyy" ).parse( "11.11.2011" ),new Publication(1,"publication1"),1,null,authors1);
+        Book book1 = new Book("1", "book1",new SimpleDateFormat( "dd.MM.yyyy" ).parse( "11.11.2011" ),new Publication(1,"publication1"),1,null,authors1);
         User user1 = new User("user1","asd", PasswordHashGenerator.hash("password"),new Role("reader"),new UserStatus( "active"), "Ostap", "Patso", null);
         ActiveBook activeBook1 = new ActiveBook(1,book1,user1,new SubscriptionStatus(1),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "20.11.2022" ),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "15.12.2022" ),null);
         return Stream.of(
@@ -114,7 +114,7 @@ class ActiveBookDAOTest {
         Set<Author> authors1 = new HashSet<>();
         authors1.add(new Author(1,"author1"));
         authors1.add(new Author(2,"author2"));
-        Book book1 = new Book(1, "book1",new SimpleDateFormat( "dd.MM.yyyy" ).parse( "11.11.2011" ),new Publication(1,"publication1"),1,null,authors1);
+        Book book1 = new Book("1", "book1",new SimpleDateFormat( "dd.MM.yyyy" ).parse( "11.11.2011" ),new Publication(1,"publication1"),1,null,authors1);
         User user1 = new User("user1","asd", PasswordHashGenerator.hash("password"),new Role("reader"),new UserStatus( "active"), "Ostap", "Patso", null);
         ActiveBook activeBook1 = new ActiveBook(book1,user1,new SubscriptionStatus(1),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "20.11.2022" ),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "15.12.2022" ),null);
         return Stream.of(
@@ -131,7 +131,7 @@ class ActiveBookDAOTest {
         Set<Author> authors1 = new HashSet<>();
         authors1.add(new Author(1,"author1"));
         authors1.add(new Author(2,"author2"));
-        Book book1 = new Book(1, "book1",new SimpleDateFormat( "dd.MM.yyyy" ).parse( "11.11.2011" ),new Publication(1,"publication1"),1,null,authors1);
+        Book book1 = new Book("1", "book1",new SimpleDateFormat( "dd.MM.yyyy" ).parse( "11.11.2011" ),new Publication(1,"publication1"),1,null,authors1);
         User user1 = new User("user1","asd", PasswordHashGenerator.hash("password"),new Role("reader"),new UserStatus( "active"), "Ostap", "Patso", null);
         ActiveBook activeBook1 = new ActiveBook(1,book1,user1,new SubscriptionStatus(1),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "20.11.2022" ),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "15.12.2022" ),null);
         ActiveBook activeBook2 = new ActiveBook(book1,new User(),new SubscriptionStatus(1),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "20.11.2022" ),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "15.12.2022" ),null);
@@ -163,7 +163,7 @@ class ActiveBookDAOTest {
         Set<Author> authors1 = new HashSet<>();
         authors1.add(new Author(1,"author1"));
         authors1.add(new Author(2,"author2"));
-        Book book1 = new Book(1, "book1",new SimpleDateFormat( "dd.MM.yyyy" ).parse( "11.11.2011" ),new Publication(1,"publication1"),1,null,authors1);
+        Book book1 = new Book("1", "book1",new SimpleDateFormat( "dd.MM.yyyy" ).parse( "11.11.2011" ),new Publication(1,"publication1"),1,null,authors1);
         User user1 = new User("userLibr2","asd", PasswordHashGenerator.hash("password"),new Role(1),new UserStatus( 1), "lib", "miy", null);
         ActiveBook activeBook1 = new ActiveBook(3,book1,user1,new SubscriptionStatus(3),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "20.11.2022" ),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "15.12.2022" ),50.5);
         return Stream.of(
@@ -181,7 +181,7 @@ class ActiveBookDAOTest {
         Set<Author> authors1 = new HashSet<>();
         authors1.add(new Author(1,"author1"));
         authors1.add(new Author(2,"author2"));
-        Book book1 = new Book(1, "book1",new SimpleDateFormat( "dd.MM.yyyy" ).parse( "11.11.2011" ),new Publication(1,"publication1"),1,null,authors1);
+        Book book1 = new Book("1", "book1",new SimpleDateFormat( "dd.MM.yyyy" ).parse( "11.11.2011" ),new Publication(1,"publication1"),1,null,authors1);
         User user1 = new User("userLibr2","asd", PasswordHashGenerator.hash("password"),new Role(1),new UserStatus( 1), "lib", "miy", null);
         ActiveBook activeBook1 = new ActiveBook(3,book1,null,new SubscriptionStatus(3),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "20.11.2022" ),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "15.12.2022" ),50.5);
         ActiveBook activeBook2 = new ActiveBook(3,book1,new User(),new SubscriptionStatus(3),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "20.11.2022" ),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "15.12.2022" ),50.5);
@@ -203,7 +203,7 @@ class ActiveBookDAOTest {
         Set<Author> authors1 = new HashSet<>();
         authors1.add(new Author(1,"author1"));
         authors1.add(new Author(2,"author2"));
-        Book book1 = new Book(1, "book1",new SimpleDateFormat( "dd.MM.yyyy" ).parse( "11.11.2011" ),new Publication(1,"publication1"),1,null,authors1);
+        Book book1 = new Book("1", "book1",new SimpleDateFormat( "dd.MM.yyyy" ).parse( "11.11.2011" ),new Publication(1,"publication1"),1,null,authors1);
         User user1 = new User("userLibr2","asd", PasswordHashGenerator.hash("password"),new Role(1),new UserStatus( 1), "lib", "miy", null);
         ActiveBook activeBook1 = new ActiveBook(123,book1,user1,new SubscriptionStatus(3),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "20.11.2022" ),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "15.12.2022" ),50.5);
         return Stream.of(
@@ -222,7 +222,7 @@ class ActiveBookDAOTest {
         Set<Author> authors1 = new HashSet<>();
         authors1.add(new Author(1,"author1"));
         authors1.add(new Author(2,"author2"));
-        Book book1 = new Book(1, "book1",new SimpleDateFormat( "dd.MM.yyyy" ).parse( "11.11.2011" ),new Publication(1,"publication1"),1,null,authors1);
+        Book book1 = new Book("1", "book1",new SimpleDateFormat( "dd.MM.yyyy" ).parse( "11.11.2011" ),new Publication(1,"publication1"),1,null,authors1);
         User user1 = new User("userLibr2","asd", PasswordHashGenerator.hash("password"),new Role(1),new UserStatus( 1), "lib", "miy", null);
         ActiveBook activeBook1 = new ActiveBook(4,book1,user1,new SubscriptionStatus(3),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "20.11.2022" ),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "15.12.2022" ),50.5);
         return Stream.of(
@@ -239,7 +239,7 @@ class ActiveBookDAOTest {
         Set<Author> authors1 = new HashSet<>();
         authors1.add(new Author(1,"author1"));
         authors1.add(new Author(2,"author2"));
-        Book book1 = new Book(1, "book1",new SimpleDateFormat( "dd.MM.yyyy" ).parse( "11.11.2011" ),new Publication(1,"publication1"),1,null,authors1);
+        Book book1 = new Book("1", "book1",new SimpleDateFormat( "dd.MM.yyyy" ).parse( "11.11.2011" ),new Publication(1,"publication1"),1,null,authors1);
         User user1 = new User("userLibr2","asd", PasswordHashGenerator.hash("password"),new Role(1),new UserStatus( 1), "lib", "miy", null);
         ActiveBook activeBook1 = new ActiveBook(312,book1,user1,new SubscriptionStatus(3),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "20.11.2022" ),new SimpleDateFormat( "dd.MM.yyyy" ).parse( "15.12.2022" ),50.5);
         return Stream.of(

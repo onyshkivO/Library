@@ -25,7 +25,7 @@
 
 <%--</div>--%>
 <div class="container-fluid mt-3 mx-5 ps-5 "  style="width: 500px;">
-    <c:if test="${sessionScope.user.userStatus.userStatusId==2}"><h2 class="text-danger"> Your account are blocked!</h2></c:if>
+    <c:if test="${sessionScope.user.userStatus.userStatusId==2}"><h2 class="text-danger"> Your account is blocked!</h2></c:if>
     <p class="fs-4 fw-semibold">Login:</p>
     <p class="fs-5">${sessionScope.user.login}</p>
     <p class="fs-4 fw-semibold">Email:</p>

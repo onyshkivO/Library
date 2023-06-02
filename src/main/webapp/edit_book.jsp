@@ -49,7 +49,7 @@
                                         multiple required>
                                     <c:forEach var="author" items="${authors}">
                                         <option value="${author.authorId}" <c:if
-                                                test="${book.authors.contains(String.valueOf(author.authorId))}"> selected</c:if>>${author.name}
+                                                test="${book.authors.contains(author)}"> selected</c:if>>${author.name}
 
                                         </option>
                                     </c:forEach>
@@ -85,6 +85,6 @@
     </div>
 </div>
 
-
+<script></script>
 </body>
 </html>

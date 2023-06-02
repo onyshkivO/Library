@@ -124,36 +124,39 @@
         </c:choose>
 
     </div>
-    <nav aria-label="..." class="ms-5 ps-5" >
-        <ul class="pagination">
-            <li class="page-item <c:if test="${page == 1}">disabled</c:if>">
-                <a class="page-link"
-                   href="controller?action=bookPage&page=${page - 1}&search_option=${search_option}&sort_option=${sort_option}&sort_option_order=${sort_option_order}&name=${name}"
-                   tabindex="-1">Previous</a>
-            </li>
-            <c:forEach begin="1" end="${noOfPages}" var="i">
-                <c:choose>
-                    <c:when test="${page eq i}">
-                        <li class="page-item active">
+    <c:if test="${books.isEmpty()!=true}">
+        <nav aria-label="..." class="ms-5 ps-5" >
+            <ul class="pagination">
+                <li class="page-item <c:if test="${page == 1}">disabled</c:if>">
+                    <a class="page-link"
+                       href="controller?action=bookPage&page=${page - 1}&search_option=${search_option}&sort_option=${sort_option}&sort_option_order=${sort_option_order}&name=${name}"
+                       tabindex="-1">Previous</a>
+                </li>
+                <c:forEach begin="1" end="${noOfPages}" var="i">
+                    <c:choose>
+                        <c:when test="${page eq i}">
+                            <li class="page-item active">
                         <span class="page-link">
                                 ${i}
                         </span>
-                        </li>
+                            </li>
 
-                    </c:when>
-                    <c:otherwise>
-                        <li class="page-item"><a class="page-link"
-                                                 href="controller?action=bookPage&page=${i}&search_option=${search_option}&sort_option=${sort_option}&sort_option_order=${sort_option_order}&name=${name}">${i}</a>
-                        </li>
-                    </c:otherwise>
-                </c:choose>
-            </c:forEach>
-            <li class="page-item <c:if test="${page == noOfPages}">disabled</c:if> ">
-                <a class="page-link"
-                   href="controller?action=bookPage&page=${page + 1}&search_option=${search_option}&sort_option=${sort_option}&sort_option_order=${sort_option_order}&name=${name}">Next</a>
-            </li>
-        </ul>
-    </nav>
+                        </c:when>
+                        <c:otherwise>
+                            <li class="page-item"><a class="page-link"
+                                                     href="controller?action=bookPage&page=${i}&search_option=${search_option}&sort_option=${sort_option}&sort_option_order=${sort_option_order}&name=${name}">${i}</a>
+                            </li>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+                <li class="page-item <c:if test="${page == noOfPages}">disabled</c:if> ">
+                    <a class="page-link"
+                       href="controller?action=bookPage&page=${page + 1}&search_option=${search_option}&sort_option=${sort_option}&sort_option_order=${sort_option_order}&name=${name}">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </c:if>
+
 
 </div>
 
