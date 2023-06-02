@@ -7,7 +7,9 @@
 <%@ include file="header.jsp" %>
 
 <%--<div class="container"><a class="btn btn-outline-primary active mt-3 " href="controller?action=AddBookPage"  role="button">Go back</a></div>--%>
-<div class="container"><a class="btn btn-outline-primary active mt-3 " onclick="goBack()"  role="button">Go back</a></div>
+<%--<div class="container"><a class="btn btn-outline-primary active mt-3 " onclick="goBack()"  role="button">Go back</a></div>--%>
+<div class="container"><a class="btn btn-outline-primary active mt-3 " href="controller?action=AddBookPage"  role="button">Add book page</a></div>
+<div class="container"><a class="btn btn-outline-primary active mt-3 " href="controller?action=bookPage&page=1"  role="button">Books page</a></div>
 <div class="container text-center mt-4">
     <div class="row">
 
@@ -155,7 +157,7 @@
 
     <script>
         function goBack() {
-            window.history.back();
+            window.history.back(3);
         }
     </script>
 </body>
