@@ -1,5 +1,6 @@
 package com.onyshkiv.service;
 
+import com.onyshkiv.DAO.DAOException;
 import com.onyshkiv.entity.Book;
 
 import java.util.List;
@@ -11,6 +12,7 @@ public interface IBookService {
     List<Book> findAllVailableBooksByAuthorName(String name, String sortOption, String orderOption,Integer booksPerPage,Integer offset) throws ServiceException;
     List<Book> findAllBooksByName(String name, String sortOption, String orderOption,Integer booksPerPage,Integer offset) throws ServiceException;
     List<Book> findAllBooksByAuthorName(String name, String sortOption, String orderOption,Integer booksPerPage,Integer offset) throws ServiceException;
+    Optional<Book> findEntityByIdAll(String id) throws ServiceException;
 
 
 

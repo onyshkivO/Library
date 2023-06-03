@@ -95,7 +95,7 @@ public class CreateBookCommand implements Command {
             }
 
 
-            if (bookService.findBookById(isbn).isPresent()) {
+            if (bookService.findEntityByIdAll(isbn).isPresent()) {
                 logger.info("ISBN already exist");
                 session.setAttribute("already_exist_isbn", true);
                 return new CommandResult("/controller?action=AddBookPage", true);

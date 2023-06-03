@@ -66,7 +66,7 @@
                             <label for="year_of_publication" class="text-info text-black">Year of
                                 publication:</label><br>
                             <input type="date" name="year_of_publication" id="year_of_publication"
-                                   class="form-control" min="1945-01-01" max="2099-01-01"
+                                   class="form-control" min="1945-01-01" max="${requestScope.date}"
                                    value="${book.dateOfPublication}" required>
                         </div>
                         <div class="form-group">

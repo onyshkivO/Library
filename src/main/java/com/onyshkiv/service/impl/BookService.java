@@ -52,6 +52,20 @@ public class BookService implements IBookService {
         }
         return optional;
     }
+    @Override
+    public Optional<Book> findEntityByIdAll(String id) throws ServiceException {
+        Optional<Book> optional;
+        entityTransaction.init(bookDAO);
+        try {
+            optional = bookDAO.findEntityByIdAll(id);
+        } catch (DAOException e) {
+            //log
+            throw new ServiceException(e);
+        } finally {
+            entityTransaction.end(bookDAO);
+        }
+        return optional;
+    }
 
     @Override
     public List<Book> findAllVailableBooksByName(String name, String sortOption, String orderOption,Integer booksPerPage,Integer offset) throws ServiceException {

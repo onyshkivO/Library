@@ -136,7 +136,7 @@ public class ActiveBookDAO extends AbstractDAO<Integer, ActiveBook> {
                 ActiveBook activeBook = map(resultSet);
                 BookDAO bookDAO = BookDAO.getInstance();
                 bookDAO.setConnection(con);
-                activeBook.setBook(bookDAO.findEntityById(activeBook.getBook().getIsbn()).orElse(null));
+                activeBook.setBook(bookDAO.findEntityByIdAll(activeBook.getBook().getIsbn()).orElse(null));
 
                 UserDAO userDAO = UserDAO.getInstance();
                 userDAO.setConnection(con);

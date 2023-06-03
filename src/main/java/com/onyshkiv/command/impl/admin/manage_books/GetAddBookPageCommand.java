@@ -15,7 +15,9 @@ import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class GetAddBookPageCommand implements Command {
@@ -33,6 +35,7 @@ public class GetAddBookPageCommand implements Command {
             authors = authorService.findAllAuthors();
             req.setAttribute("publications", publications);
             req.setAttribute("authors", authors);
+            req.setAttribute("date", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
         } catch (ServiceException e) {
             logger.error("Problem with authors/publication service occurred!(#GetAddBookPageCommand)", e);
             return new CommandResult("/", true); //todo another redirect

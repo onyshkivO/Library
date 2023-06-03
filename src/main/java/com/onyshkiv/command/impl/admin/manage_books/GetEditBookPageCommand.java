@@ -14,6 +14,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,7 +43,7 @@ public class GetEditBookPageCommand implements Command {
             req.setAttribute("book", book);
             req.setAttribute("publications", publications);
             req.setAttribute("authors", authors);
-
+            req.setAttribute("date", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
         } catch (ServiceException e) {
             logger.error("Problem with book, publication or author service occurred!", e);
             return new CommandResult("/", true);

@@ -85,33 +85,34 @@
                         <div class="card-body row">
                             <div class="col-3 align-self-center">
                                 <h6 class="card-title">isbn: ${book.isbn}</h6>
-                                <h6 class="card-text">Authors: <c:forEach var="author" items="${book.authors}">
-                                    ${author.name}
+                                <h6 class="card-text">Authors: <c:forEach var="author" items="${book.authors}"
+                                                                          varStatus="status">
+                                    ${author.name}<c:if test="${!status.last}">, </c:if>
                                 </c:forEach></h6>
                                 <h6 class="card-text">publications : ${book.publication.name}</h6>
                                 <h6 class="card-text">Date of Publication : ${book.dateOfPublication}</h6>
                             </div>
                             <div class="col-8 align-self-center">
-                                <c:if test="${book.details!=null}">
+                                <c:if test="${book.details!=null && !book.details.isBlank() }">
                                     <h5 class="card-title">Details</h5>
                                     <p class="card-text">${book.details}</p></c:if>
 
                             </div>
                             <div class="col-1 align-self-center">
                                 <c:if test="${sessionScope.exist_user == true&&sessionScope.user_role==1}">
-                                    <form class="<c:if test="${sessionScope.user.userStatus.userStatusId==2}">disabled</c:if>" action="controller?action=addBook" method="post">
+                                    <form action="controller?action=addBook" method="post">
                                         <input type="hidden" name="isbn" value="${book.isbn}">
-                                        <input  type="submit" class="btn btn-primary mb-1 " value="Order">
+                                        <input type="submit" class="btn btn-primary mb-1"
+                                               <c:if test="${sessionScope.user.userStatus.userStatusId==2}">disabled</c:if>
+                                               value="Order">
                                     </form>
-<%--                                    <a href="controller?action=addBook&isbn=${book.isbn}"--%>
-<%--                                       class="btn btn-primary <c:if test="${sessionScope.user.userStatus.userStatusId==2}">disabled</c:if>">Order</a>--%>
                                 </c:if>
                                 <c:if test="${sessionScope.exist_user == true&&sessionScope.user_role==3}">
                                     <a href="controller?action=editBookPage&isbn=${book.isbn}"
                                        class="btn btn-primary mb-1 ">Edit</a><br>
                                     <form action="controller?action=deleteBook" method="post">
                                         <input type="hidden" name="isbn" value="${book.isbn}">
-                                        <input  type="submit" class="btn btn-primary mb-1 " value="Delete">
+                                        <input type="submit" class="btn btn-primary mb-1 " value="Delete">
                                     </form>
                                 </c:if>
                             </div>
@@ -125,7 +126,7 @@
 
     </div>
     <c:if test="${books.isEmpty()!=true}">
-        <nav aria-label="..." class="ms-5 ps-5" >
+        <nav aria-label="..." class="ms-5 ps-5">
             <ul class="pagination">
                 <li class="page-item <c:if test="${page == 1}">disabled</c:if>">
                     <a class="page-link"
@@ -160,6 +161,6 @@
 
 </div>
 
-<script charset="UTF-8"  src="js/window.js"></script>
+<script charset="UTF-8" src="js/window.js"></script>
 </body>
 </html>

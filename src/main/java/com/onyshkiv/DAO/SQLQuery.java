@@ -86,7 +86,10 @@ public abstract class SQLQuery {
         public static final String FIND_BOOK_BY_ISBN = "SELECT isbn, name,date_of_publication, publication_id, quantity, details\n" +
                 "FROM book\n" +
                 "WHERE isbn =? AND is_active = true";
-        public static final String INSERT_BOOK = "INSERT INTO book(isbn,name,date_of_publication,publication_id,quantity,details) VALUES(?,?,?,?,?,?)";
+        public static final String FIND_BOOK_BY_ISBN_ALL = "SELECT isbn, name,date_of_publication, publication_id, quantity, details\n" +
+                "FROM book\n" +
+                "WHERE isbn =?";
+        public static final String INSERT_BOOK = "INSERT INTO book(isbn,name,date_of_publication,publication_id,quantity,details,is_active) VALUES(?,?,?,?,?,?,true)";
         public static final String UPDATE_BOOK = "UPDATE book SET name=?,date_of_publication=?,publication_id=?,quantity=?,details=? WHERE isbn=?";
         public static final String DELETE_BOOK = "DELETE FROM book WHERE isbn = ?";
         public static final String HIDE_BOOK = "UPDATE book SET is_active = false WHERE isbn = ?";

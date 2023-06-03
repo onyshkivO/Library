@@ -166,6 +166,31 @@ public class BookDAO extends AbstractDAO<String, Book> {
         }
         return bookOptional;
     }
+    public Optional<Book> findEntityByIdAll(String id) throws DAOException {
+        Book result = null;
+        Optional<Book> bookOptional;
+        try (
+                PreparedStatement statement = prepareStatement(con, SQLQuery.BookQuery.FIND_BOOK_BY_ISBN_ALL, false, id);
+                ResultSet resultSet = statement.executeQuery()
+        ) {
+            if (resultSet.next()) {
+                result = map(resultSet);
+
+                PublicationDAO publicationDAO = PublicationDAO.getInstance();
+                publicationDAO.setConnection(con);
+                result.setPublication(publicationDAO.findEntityById(result.getPublication().getPublicationId()).orElse(null));
+
+                AuthorDAO authorDAO = AuthorDAO.getInstance();
+                authorDAO.setConnection(con);
+                result.setAuthors(authorDAO.getAllAuthorByBookISBN(id));
+            }
+            bookOptional = Optional.ofNullable(result);
+        } catch (SQLException e) {
+            //log
+            throw new DAOException(e);
+        }
+        return bookOptional;
+    }
 
     //++++++++++++++++++++++
     @Override

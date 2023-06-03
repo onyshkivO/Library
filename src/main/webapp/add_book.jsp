@@ -66,9 +66,6 @@
                                     </c:forEach>
                                 </select>
                             </div>
-                            <%--                            <input type="text" name="author_name" id="author_name" class="form-control"--%>
-                            <%--                                   value="${author_name}">--%>
-                            <%--                            todo додавання нових авторів--%>
                         </div>
                         <div class="form-group">
                             <label for="quantity" class="text-info text-black">Quantity:</label><br>
@@ -80,8 +77,8 @@
                             <label for="year_of_publication" class="text-info text-black">Year of
                                 publication:</label><br>
                             <input type="date" name="year_of_publication" id="year_of_publication"
-                                   class="form-control" min="1945-01-01" max="2099-01-01"
-                                   value="${requestScope.year_of_publication}" required>
+                                   class="form-control" min="1945-01-01"
+                                   value="${requestScope.year_of_publication}" max="${requestScope.date}" required>
                         </div>
                         <div class="form-group">
                             <label for="details" class="text-info text-black">Book descriptions:</label><br>
