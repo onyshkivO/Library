@@ -15,7 +15,7 @@
                 <div id="login-box" class="col-md-12">
                     <div class="d-flex justify-content-between my-4">
                         <a href="controller?action=bookPage" class="btn btn-primary " >Go back</a>
-                        <a href="controller?action=AuthAndPub" class="btn btn-primary " >Manage authors and publications</a> <%--todo якщо заходжу на цю сторінку, а потім нащад, то воно повертає на add book тому треба якось це відстежувати--%>
+                        <a href="controller?action=AuthAndPub" class="btn btn-primary " >Manage authors and publications</a>
                     </div>
                     <form id="login-form" class="form" action="controller?action=editBook" method="post">
 

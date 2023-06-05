@@ -25,7 +25,7 @@
                         <div class="form-group">
                             <label for="isbn" class="text-info text-black">Book isbn:</label><br>
                             <input type="text" name="isbn" id="isbn" class="form-control" value="${isbn}" required>
-                            <%--todo якщо щось не так, то виводити це користувачу--%>
+
 
                             <c:if test="${incorrect_isbn == true}">
                                 <p class="text-danger lh-1 ms-1">Incorrect Isbn</p>

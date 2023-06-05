@@ -28,7 +28,6 @@ public enum CommandType {
     CHANGEUSERSTATUSGET(new ChangeUserStatusCommand()), // admin
     GIVEBOOKBACKGET(new GiveBookBackCommand()),// librarian
     ADDBOOKPAGEGET(new GetAddBookPageCommand()),// admin
-//    ADDBOOKPAGEPOST(new GetAddBookPageCommand()), //todo якось треба переробити
     CREATEBOOKPOST(new CreateBookCommand()),// admin
     AUTHANDPUBGET(new GetAuthorsAndPublicationsCommand()),// admin
     CREATEAUTHORPOST(new CreateAuthorCommand()),//admin

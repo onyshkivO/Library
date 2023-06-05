@@ -38,7 +38,7 @@ public class GetAddBookPageCommand implements Command {
             req.setAttribute("date", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
         } catch (ServiceException e) {
             logger.error("Problem with authors/publication service occurred!(#GetAddBookPageCommand)", e);
-            return new CommandResult("/", true); //todo another redirect
+            return new CommandResult("/", true);
         }
         logger.info("Admin successfully get add book page");
         return new CommandResult("/add_book.jsp");

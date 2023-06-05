@@ -16,7 +16,6 @@ import org.apache.logging.log4j.Logger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-//todo переробити то на***
 import static com.onyshkiv.util.validation.Validation.*;
 
 public class CreateBookCommand implements Command {

@@ -23,7 +23,7 @@ public class GetLibrariansCommand implements Command {
             librarians = userService.findLibrarians();
         } catch (ServiceException e) {
             logger.error("Problem with user service occurred!", e);
-            return new CommandResult("/", true); //todo another redirect
+            return new CommandResult("/", true);
         }
         req.setAttribute("users", librarians);
         logger.info("Admin successfully get librarians page");

@@ -45,7 +45,7 @@ public class ChangePasswordCommand implements Command {
         } catch (ServiceException e) {
             e.printStackTrace();
             logger.error("Problem with user service occurred!(#ChangePasswordCommand)", e);
-            return new CommandResult("/change_password.jsp");//todo redirect ot error page
+            return new CommandResult("/change_password.jsp");
         }
         return new CommandResult("/edit_profile.jsp", true);
     }

@@ -101,7 +101,7 @@ public class RegistrationCommand implements Command {
             logger.info("User successfully registered(#RegistrationCommand)");
         } catch (ServiceException e) {
             logger.error("Problem with user service occurred!(#RegistrationCommand)", e);
-            return role.getRoleId() == 1 ? new CommandResult("/registration.jsp") : new CommandResult("/register_librarian.jsp");//todo error page redirect
+            return role.getRoleId() == 1 ? new CommandResult("/registration.jsp") : new CommandResult("/register_librarian.jsp");
         }
         return role.getRoleId() == 1 ? new CommandResult("/user_profile.jsp", true) : new CommandResult("/controller?action=getLibrarians", true);
     }

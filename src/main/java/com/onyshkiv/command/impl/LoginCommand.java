@@ -76,7 +76,7 @@ public class LoginCommand implements Command {
 
         } catch (ServiceException e) {
             logger.error("Problem with user service occurred!(#LoginCommand)", e);
-            return new CommandResult("/login.jsp", true);//todo можливо тут краще перенаправляти на помилковсу сторінку
+            return new CommandResult("/login.jsp", true);
         }
         return new CommandResult("/user_profile.jsp", true);
     }

@@ -23,7 +23,7 @@ public class GetReadersCommand implements Command {
             readers = userService.findReaders();
         } catch (ServiceException e) {
             logger.error("Problem with user service occurred!(#GetReadersCommand)", e);
-            return new CommandResult("/", true); //todo another redirect
+            return new CommandResult("/", true);
         }
         req.setAttribute("users", readers);
         logger.info("Admin successfully get readers page");

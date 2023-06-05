@@ -150,7 +150,6 @@ public class ActiveBookDAO extends AbstractDAO<Integer, ActiveBook> {
         return activeBooks;
     }
 
-    //todo можливо спростити, щоб не виводилося все
     public Optional<ActiveBook> findActiveBookByUserAndBook(String login,String isbn) throws DAOException {
         ActiveBook activeBook = null;
         Optional<ActiveBook> activeBookOptional;

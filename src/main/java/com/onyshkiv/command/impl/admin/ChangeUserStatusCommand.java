@@ -32,7 +32,7 @@ public class ChangeUserStatusCommand implements Command {
             userService.updateUser(user);
         } catch (ServiceException e) {
             logger.error("Problem with user service occurred!", e);
-            return new CommandResult("/", true); //todo another redirect
+            return new CommandResult("/", true);
         }
         logger.info(String.format("User %s status was successfully changed", login));
         return new CommandResult("/controller?action=getReaders", true);

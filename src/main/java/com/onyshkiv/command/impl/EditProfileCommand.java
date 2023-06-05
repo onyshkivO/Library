@@ -90,7 +90,7 @@ public class EditProfileCommand implements Command {
         } catch (ServiceException e) {
             e.printStackTrace();
             logger.error("Problem with user service occurred!(#EditProfileCommand)", e);
-            return new CommandResult("/edit_profile.jsp");//todo redirect error maybe
+            return new CommandResult("/edit_profile.jsp");
         }
         return new CommandResult("/user_profile.jsp", true);
     }
