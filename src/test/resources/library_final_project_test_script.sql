@@ -248,12 +248,22 @@ Insert Into active_book values
 (default,'2','userLibr2',1,'11-11-11','12-11-11',null);
 
 
+
 SET FOREIGN_KEY_CHECKS=1;
 
 
 
 
-
+CREATE EVENT IF NOT EXISTS library_final_project_test.delete_book
+ON SCHEDULE EVERY 4 WEEK
+DO
+  Delete From books where is_active=false AND isbn not in(select distinct book_isbn from active_book where subscription_status_id <> 3);
+  
+CREATE EVENT IF NOT EXISTS library_final_project_test.update_subscription_status
+ON SCHEDULE EVERY 1 DAY
+STARTS '2023-06-05 11:00:00'
+DO
+UPDATE active_book SET subscription_status_id = 3 WHERE subscription_status_id = 1 AND end_date < NOW();
 
 
 
