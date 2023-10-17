@@ -60,7 +60,7 @@ public class BooksPageCommand implements Command {
                     noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
                     books = bookService.findAllVailableBooksByName(name, sortOption, sortOptionOrder, recordsPerPage, offset);
                 }
-                logger.info(String.format("Admin user successfully get books page(Search by %s,Order by %s %s)(#BooksPageCommand)",searchOption,sortOption,sortOptionOrder));
+                logger.info(String.format("Admin user successfully get books page(Search by %s,Order by %s %s)(#BooksPageCommand)", searchOption, sortOption, sortOptionOrder));
             } else {
                 if (user != null && user.getRole().getRoleId() == 3) {
                     int noOfRecords = bookService.findNumberOfAllBooksByAuthorName(name);
@@ -71,7 +71,7 @@ public class BooksPageCommand implements Command {
                     noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
                     books = bookService.findAllVailableBooksByAuthorName(name, sortOption, sortOptionOrder, recordsPerPage, offset);
                 }
-                logger.info(String.format("Reader user successfully get books page(Search by %s,Order by %s %s)(#BooksPageCommand)",searchOption,sortOption,sortOptionOrder));
+                logger.info(String.format("Reader user successfully get books page(Search by %s,Order by %s %s)(#BooksPageCommand)", searchOption, sortOption, sortOptionOrder));
             }
         } catch (ServiceException e) {
             logger.error("Problem with Book service occurred!(#BooksPageCommand)", e);
